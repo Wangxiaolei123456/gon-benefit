@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/components/HelloWorld.vue";
+import Home from "@/components/index.vue";
 
 Vue.use(VueRouter);
 //解决编程式路由往同一地址跳转时会报错的情况

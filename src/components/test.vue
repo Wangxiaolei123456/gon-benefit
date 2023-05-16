@@ -1,14 +1,36 @@
 <template>
   <div class="test">
-    <div class="text">text </div>
+   
+    <!-- <div class="text d-flex flex-column">
+    
+    </div> -->
+    <div class="cardlist d-flex flex-wrap" >
+      <div class="listItem" v-for="(item,index) in Marketlist" :key="index">
+          <Card :src ='item.src' />
+      </div>
+
+    </div>
 
   </div>
 </template>
 
 <script>
 import {initWallet  } from "../keplr/index";
+import Card from "./workCard/card";
 export default {
   name: 'MyTest',
+  components:{Card},
+  data(){
+    return{
+      Marketlist:[
+        {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
+        {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
+        {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
+        {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'}
+
+      ]
+    }
+  }
 }
 
 </script>

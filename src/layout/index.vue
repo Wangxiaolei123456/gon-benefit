@@ -36,9 +36,9 @@
 </script>
 
 <style lang="scss" scoped>
-.main{
-    background-image: url('../assets/image_bg.jpg');
-}
+// .main{
+//     background-image: url('../assets/image_bg.jpg');
+// }
    
 .content{
     width: 500px;

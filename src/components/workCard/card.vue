@@ -1,0 +1,92 @@
+<template>
+<v-card style="width:150px">
+      <div class="work d-flex  flex-column">
+    <img
+     class="mainImg"
+      :src="src"
+      :contain="contain"
+      :aspect-ratio="aspectRatio === -1 ? undefined : aspectRatio"
+      @click="imgClick"
+      style="cursor: pointer;border-radius: 5px 5px 0px 0px;width:150px;height:150px"
+    >
+  </div>
+   <div class="content">
+        <div class="name">nihao</div>
+    </div>
+</v-card>
+
+</template>
+
+<script>
+
+
+
+const WORK_KEY = "WORK";
+
+export default {
+  name: "Work",
+  inheritAttrs: false,
+  props: {
+      src:String
+   
+  },
+  data: () => ({
+   
+   
+    
+  }),
+  watch: {
+    // hash: {
+    //   handler: async function (hash) {
+    //     if (!hash) {
+    //      hash = "QmPcXBirGiUSyjb8i2FQUpNDTtPHBsgo7tviwwm4YQeJ6p"
+    //     }
+    //      this.src = await getFileSrc(WORK_KEY, hash);
+          
+    //   },
+    //   immediate: true,
+    // },
+  },
+  mounted(){
+    
+   
+  },
+  methods: {
+     imgClick() {
+      this.$emit("imgClick");
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.work {
+ width: 150px;
+        height: 150px;
+.mainImg{
+     transition: all .5s ease .1s;
+    
+  }
+  
+  overflow: hidden;
+  .mainImg:hover{
+    transform: scale(1.1);
+    // transform: translate(0px, 0px) scale(2) rotate(0deg);  
+  }
+   
+  .video{
+    .icons{
+       position: absolute;
+      left: 10px;
+      bottom: 5px;
+    }
+   
+  }
+  
+  
+}
+ .content{
+        width: 150px;
+        height: 100px;
+    }
+</style>
