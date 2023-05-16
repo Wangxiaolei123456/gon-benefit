@@ -50,7 +50,7 @@ background-attachment:fixed;
 }
 .header{
     margin: auto;
-      margin-top: 100px;
+      margin-top: 50px;
       margin-bottom: 30px;
       align-items: center;
       .title{
@@ -64,13 +64,14 @@ background-attachment:fixed;
    
 .content{
     width: 380px;
-    height: 820px;
+    height: 90%;
     box-shadow: 0px 7px 35px 6px 
 		rgba(25, 0, 133, 0.72);
 	border-radius: 10px;
     padding: 0px !important;
     position: relative;
     background: #00043a;
+    margin-bottom: 50px;
 
 }
 
