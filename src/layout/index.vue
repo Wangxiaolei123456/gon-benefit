@@ -58,10 +58,9 @@
 }
    
 .content{
-    width: 500px;
-    height: 600px;
+    width: 380px;
+    height: 820px;
     border: 1px solid red;
-  
     padding: 0px !important;
     position: relative;
 
