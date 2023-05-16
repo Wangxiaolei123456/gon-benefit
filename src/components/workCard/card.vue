@@ -5,13 +5,13 @@
      class="mainImg"
       :src="src"
       :contain="contain"
-      :aspect-ratio="aspectRatio === -1 ? undefined : aspectRatio"
       @click="imgClick"
       style="cursor: pointer;border-radius: 5px 5px 0px 0px;width:150px;height:150px"
     >
   </div>
    <div class="content">
         <div class="name">nihao</div>
+        <div class="bold">sssss</div>
     </div>
 </v-card>
 
@@ -88,5 +88,11 @@ export default {
  .content{
         width: 150px;
         height: 100px;
+        .name{
+            font-family: "AmpleSoft";
+        }
+        .bold{
+             font-family: "AmpleSoft-Bold";
+        }
     }
 </style>

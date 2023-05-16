@@ -1,6 +1,10 @@
 <template>
     <v-app>
-      
+        <div class="header d-flex flex-rw">
+            <img  class="logo" src="@/assets/logo.png" alt="">
+             <div class="title ml-4">Equity Nft</div>
+        </div>
+       
         <v-main class="main">
             <v-container :id="containerId" class="content" >
                 <router-view :key="key"></router-view>
@@ -39,12 +43,25 @@
 // .main{
 //     background-image: url('../assets/image_bg.jpg');
 // }
+.header{
+    margin: auto;
+      margin-top: 100px;
+      margin-bottom: 30px;
+      align-items: center;
+      .title{
+          font-family: "AmpleSoft-Bold" !important;
+      }
+      .logo{
+          width: 20px;
+          height: 20px;
+      }
+}
    
 .content{
     width: 500px;
     height: 600px;
     border: 1px solid red;
-    margin-top: 50px;
+  
     padding: 0px !important;
     position: relative;
 

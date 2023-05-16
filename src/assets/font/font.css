@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "AmpleSoft";
+    src: url('@/assets/font/AmpleSoft.otf');   
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "AmpleSoft-Bold";
+    src: url('@/assets/font/AmpleSoftBold.otf');   
+    font-weight: normal;
+    font-style: normal;
+}
