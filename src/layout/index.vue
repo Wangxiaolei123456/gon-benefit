@@ -40,13 +40,12 @@
 </script>
 
 <style lang="scss" scoped>
-.top{
-
+.top{           
     background-image: url('../assets/image_bg.jpg');
     background-repeat: no-repeat;
     background-size:150px 80px;
     background-size:100% 100%;
-background-attachment:fixed;
+    background-attachment:fixed;
 }
 .header{
     margin: auto;
@@ -55,16 +54,19 @@ background-attachment:fixed;
       align-items: center;
       .title{
           font-family: "AmpleSoft-Bold" !important;
+        color: #ffffff;
+        font-size: 47px !important;
       }
       .logo{
-          width: 20px;
-          height: 20px;
+          width: 59px;
+          height: 59px;
       }
 }
    
 .content{
     width: 380px;
-    height: 90%;
+    // height: 90%;
+    height: 820px;
     box-shadow: 0px 7px 35px 6px 
 		rgba(25, 0, 133, 0.72);
 	border-radius: 10px;

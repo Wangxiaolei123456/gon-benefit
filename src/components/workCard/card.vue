@@ -1,12 +1,11 @@
 <template>
-<v-card style="width:150px">
+<v-card >
       <div class="work d-flex  flex-column">
     <img
      class="mainImg"
       :src="src"
-      :contain="contain"
       @click="imgClick"
-      style="cursor: pointer;border-radius: 5px 5px 0px 0px;width:150px;height:150px"
+      style="cursor: pointer;border-radius: 5px 5px 0px 0px;height:180px"
     >
   </div>
    <div class="content">
@@ -61,10 +60,10 @@ export default {
 
 <style lang="scss" scoped>
 .work {
- width: 150px;
-        height: 150px;
+ height: 180px;
 .mainImg{
      transition: all .5s ease .1s;
+     object-fit: cover;
     
   }
   
