@@ -4,9 +4,12 @@
       <button class="btn"></button>
       <div class="title">Create NFT</div>
     </div>
-    <div class="scrollable">
-      <div class="create">
-        <button class="addButton"></button>
+    <!-- <div class="scrollable">
+
+    </div> -->
+    <div class="create">
+        <input type="file" ref="fileInput" style="display:none" @change="uploadFile">
+        <button class="addButton" @click="chooseFile"></button>
         <div class="suggestedTitle">Suggested proportion 2:1 ( jpg/png/gif )</div>
       </div>
       <div class="name" style="padding-top: 35px;">
@@ -24,7 +27,6 @@
       <div style="width: 100%;">
         <button class="subBtn">Submit</button>
       </div>
-    </div>
   </div>
 </template>
   
@@ -34,13 +36,34 @@ export default {
   data() {
     return {
       inputNameText: '',// 初始化输入框的值为空
-      inputEditionsText: ''
+      inputEditionsText: '',
+      message: ''
     }
   },
   methods: {
     submitText() {
       // 在这里处理输入框的提交操作
       console.log(this.inputText)
+    },
+    chooseFile() {
+      this.$refs.fileInput.click()
+    },
+    uploadFile(event) {
+      console.log(event)
+      const file = event.target.files[0]
+      console.log(file)
+      const formData = new FormData()
+      formData.append('file', file)
+
+      // axios.post('/api/upload', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // }).then(response => {
+      //   console.log(response.data)
+      // }).catch(error => {
+      //   console.log(error)
+      // })
     }
   }
 }
