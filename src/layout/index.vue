@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app class="top">
         <div class="header d-flex flex-rw">
             <img  class="logo" src="@/assets/logo.png" alt="">
              <div class="title ml-4">Equity Nft</div>
@@ -40,9 +40,14 @@
 </script>
 
 <style lang="scss" scoped>
-// .main{
-//     background-image: url('../assets/image_bg.jpg');
-// }
+.top{
+
+    background-image: url('../assets/image_bg.jpg');
+    background-repeat: no-repeat;
+    background-size:150px 80px;
+    background-size:100% 100%;
+background-attachment:fixed;
+}
 .header{
     margin: auto;
       margin-top: 100px;
@@ -60,9 +65,12 @@
 .content{
     width: 380px;
     height: 820px;
-    border: 1px solid red;
+    box-shadow: 0px 7px 35px 6px 
+		rgba(25, 0, 133, 0.72);
+	border-radius: 10px;
     padding: 0px !important;
     position: relative;
+    background: #00043a;
 
 }
 

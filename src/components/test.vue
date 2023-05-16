@@ -39,8 +39,6 @@ export default {
 <style  lang='scss' scoped>
     .test{
        height: 600px;
-       border: 1px solid greenyellow;
-
        .text{
            width: 100%;
            height: 100px;
