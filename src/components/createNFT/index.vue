@@ -8,7 +8,7 @@
 
     </div> -->
     <div class="create">
-        <input type="file" ref="fileInput" style="display:none" @change="uploadFile">
+        <input type="file" accept="image/*" ref="fileInput" style="display:none" @change="uploadFile">
         <button class="addButton" @click="chooseFile"></button>
         <div class="suggestedTitle">Suggested proportion 2:1 ( jpg/png/gif )</div>
       </div>
