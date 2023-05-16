@@ -34,6 +34,11 @@ const routes = [
       name: "Test",
       component: () => import("@/components/test"),
    },
+   {
+      path: "/createNFT/index",
+      name: "createNFT",
+      component: () => import("@/components/createNFT/index"),
+   },
      
 ];
 
