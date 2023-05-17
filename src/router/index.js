@@ -60,6 +60,11 @@ const routes = [
       name: "crossChain",
       component: () => import("@/components/crossChain/index"),
    },
+   {
+      path: "/receiveCode",
+      name: "receiveCode",
+      component: () => import("@/components/receiveCode/index"),
+   },
    
 
 ];
