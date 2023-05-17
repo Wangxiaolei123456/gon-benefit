@@ -50,6 +50,11 @@ const routes = [
       name: "Profile",
       component: () => import("@/components/profile/index"),
    },
+   {
+      path: "/cardDetail",
+      name: "cardDetail",
+      component: () => import("@/components/cardDetail/index"),
+   },
 
 ];
 

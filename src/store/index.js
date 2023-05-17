@@ -4,21 +4,23 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate"
 
 Vue.use(Vuex);
-
-
-
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
    
-    did:'',
+    IrisAddress:'',
+    UptickAddress:''
 	
   },
   mutations: {
     
     SET_DID(state, did) {
-      state.did = did
+      state.IrisAddress = did
     },
+    SET_UPTICK_DID(state, did) {
+      state.UptickAddress = did
+    },
+    
   
   },
   actions: {

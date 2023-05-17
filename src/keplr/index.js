@@ -147,13 +147,42 @@ if (! await window.getOfflineSigner || ! await window.keplr) {
    }
 }
 }
-export const getkeplaWeb3 = async () => {
+export const getkeplrIrisAddress = async () => {
 	var web3;
 	if (window.keplr) {
 		// Modern dapp browsers
 		try {
 
 			const chainId = "gon-irishub-1";
+			await window.keplr.enable(chainId);
+			web3 = await window.getOfflineSigner(chainId);
+
+			//xxl TODO tochange the keystore
+			window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+			
+		} catch (error) {
+			console.log('denied');
+		}
+	} else {
+		this.$Message.error('请连接kepla钱包！');
+	}
+	 let account = await web3.getAccounts();
+	 console.log(account)
+	 
+	//  var balance = web3.eth.getBalance("iaa1xhhf3a80n7zamu32dyku77lactynx9sgs0vvz4");
+
+	//  console.log("accountBalance -----")
+	//  console.log(balance)
+
+	 return account[0].address
+};
+export const getkeplrUptickAddress = async () => {
+	var web3;
+	if (window.keplr) {
+		// Modern dapp browsers
+		try {
+
+			const chainId = "uptick_7000-2";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 

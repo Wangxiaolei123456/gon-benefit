@@ -11,7 +11,7 @@
 </template>
 <script>
 
-import { getkeplaWeb3 } from "../../keplr/index";
+import { getkeplrIrisAddress,getkeplrUptickAddress } from "../../keplr/index";
 
 export default {
   name: "Work",
@@ -29,17 +29,19 @@ export default {
    
   },
   mounted(){
-       console.log("ssssss",this.$store.state,this.$store.state.did);
+       console.log("ssssss",this.$store.state.UptickAddress,this.$store.state.IrisAddress);
     
-   
   },
   methods: {
      async connectWallet(){
-         let account = await getkeplaWeb3();
-         console.log("account",account,this);
-      
+         // Iris Address
+         let account = await getkeplrIrisAddress();
           this.$store.commit("SET_DID", account.toLowerCase());
-         
+          
+         // uptick Address
+        let uptickAccount = await getkeplrUptickAddress();
+         this.$store.commit("SET_UPTICK_DID", uptickAccount.toLowerCase());
+
       }
     
   },
