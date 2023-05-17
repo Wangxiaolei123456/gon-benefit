@@ -25,13 +25,13 @@
         <input class="textInput" type="text" v-model="inputEditionsText">
       </div>
       <div style="width: 100%;">
-        <button class="subBtn">Submit</button>
+        <button class="subBtn" @click="submitButton">Submit</button>
       </div>
   </div>
 </template>
   
 <script>
-// import {uploadImage} from "../api/image"
+import {getMyBalance} from "/src/keplr/iris/wallet"
 export default {
   name: 'HelloWorld',
   data() {
@@ -42,9 +42,11 @@ export default {
     }
   },
   methods: {
-    submitText() {
+    submitButton() {
       // 在这里处理输入框的提交操作
       console.log(this.inputText)
+      getMyBalance()
+
     },
     chooseFile() {
       this.$refs.fileInput.click()
