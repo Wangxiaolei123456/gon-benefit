@@ -36,6 +36,9 @@ export default {
             this.checkInput()
         }
     },
+    mounted(){
+       console.log('sssssssss',window.keplr);
+  },
     methods: {
         submitButton() {
             // 在这里处理输入框的提交操作

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home d-flex flex-column align-center">
     <div class="top">
       <v-img
         class="img"
@@ -27,6 +27,15 @@
         it's a time-honored brand. Feel free to eat and drink"
       </div>
     </div>
+    <button class="Transfer mt-8"> Transfer</button>
+     <button class="CrossChain mt-8"> Cross-chain transfer 
+        <img
+          class="icon"
+          src="@/assets/uptick network_icon.png"
+       
+          alt=""
+        /> 
+     </button>
   </div>
 </template>
 
@@ -80,5 +89,40 @@ export default {
 	letter-spacing: 0px;
 	color: #ffffff;
   }
+}
+.Transfer{
+    width: 326px;
+	height: 40px;
+	background-color: #611ecd;
+    border-radius: 20px;
+    font-family: "AmpleSoft-Bold";
+	font-size: 15px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 15px;
+	letter-spacing: 0px;
+	color: #fb599b;
+}
+.CrossChain{
+    position: relative;
+     width: 326px;
+	height: 40px;
+	background-color: #fb599b;
+    border-radius: 20px;
+    font-family: "AmpleSoft-Bold";
+	font-size: 15px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 15px;
+	letter-spacing: 0px;
+    color: #ffffff;
+    .icon{
+        position: absolute;
+        right: 14px;
+        top: 7px;
+        width: 26px;
+        height: 26px;
+    }
+
 }
 </style>

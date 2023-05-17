@@ -55,6 +55,12 @@ const routes = [
       name: "cardDetail",
       component: () => import("@/components/cardDetail/index"),
    },
+   {
+      path: "/crossChain",
+      name: "crossChain",
+      component: () => import("@/components/crossChain/index"),
+   },
+   
 
 ];
 

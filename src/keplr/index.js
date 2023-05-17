@@ -1,5 +1,7 @@
+   
+   
    async function addIRISNetwork() { 
-    if (! await window.getOfflineSigner || ! await window.keplr) {
+    if (!window.getOfflineSigner || ! window.keplr) {
         console.log('Please install keplr extension');
     } else {
         if (window.keplr.experimentalSuggestChain) {
@@ -70,7 +72,7 @@
 
 async function addUptickNetwork() { 
   
-if (! await window.getOfflineSigner || ! await window.keplr) {
+if (!window.getOfflineSigner || !window.keplr) {
    console.log('Please install keplr extension');
 } else {
    if (window.keplr.experimentalSuggestChain) {

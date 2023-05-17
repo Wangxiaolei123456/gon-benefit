@@ -100,7 +100,9 @@ export default {
     }
 
   },
-  mounted(){
+    mounted(){
+    console.log('sssssssss', window.keplr);
+    debugger
       window.addEventListener("scroll", this.scrolling);
       initWallet();
        
