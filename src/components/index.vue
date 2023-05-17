@@ -4,10 +4,10 @@
       <div class="title pt-7">Equity NFT</div>
       <div class="infos d-flex flex-row align-center ml-6">
         <div class="avata">
-          <v-avatar  size="75">
+          <!-- <v-avatar  size="75">
               <img class="img"  :src="src" alt="avatar" />
-          </v-avatar>
-          
+          </v-avatar> -->
+             <img class="img"  :src="src" alt="avatar" />
         </div>
         <div class="ml-4">
           <div class="name">Sina</div>
@@ -38,14 +38,12 @@
          
         </div>
       </div>
-      <div class="Cardlist mt-5">
+      <div class="Cardlist mt-5 ml-6 mr-6">
       <div class="listitem mb-5" v-for="(item,index) in Marketlist" :key="index"   >
        <Card :src ='item.src'/>
     </div>
       </div>
   
-
-     
   </div>
 </template>
 
@@ -53,6 +51,7 @@
 import {initWallet  } from "../keplr/index";
 import Card from "./workCard/card";
 import {uploadImage} from "../api/image"
+
 export default {
   name: 'Home',
   components:{Card},
@@ -63,7 +62,7 @@ export default {
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
-          {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
+        {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
@@ -191,8 +190,14 @@ export default {
     .avata{
      
      .img{
-     
+     width: 75px;
+     height: 75px;
       border-radius: 50%;
+      border: 5px solid #9e00ff;
+      object-fit: cover;
+//       border-image: linear-gradient(to right, #ff7700, #ff0099);
+// border-image-slice: 1;
+
        
      }
     }
@@ -321,7 +326,7 @@ export default {
   }
   }
   .Cardlist{
-    height: 574px;
+    height: 545px;
     overflow-y: auto;
   }
 </style>
