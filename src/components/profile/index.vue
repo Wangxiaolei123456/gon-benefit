@@ -133,7 +133,7 @@ export default {
     .addButton {
         height: 110px;
         width: 110px;
-        background-image: url('/src/assets/20230517-100933.jpeg');
+        background-image: url('/src/assets/icon_profile.png');
         border-radius: 55px;
         background-size: cover;
         background-position: center;
