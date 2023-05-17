@@ -1,5 +1,5 @@
 <template>
-<v-card >
+<v-card style="background-color:#00043a">
       <div class="work d-flex  flex-column">
     <img
      class="mainImg"
@@ -9,8 +9,8 @@
     >
   </div>
    <div class="content">
-        <div class="name">nihao</div>
-        <div class="bold">sssss</div>
+        <div class="name">Macaron membership card - Macaronhome</div>
+
     </div>
 </v-card>
 
@@ -85,10 +85,15 @@ export default {
   
 }
  .content{
-        width: 150px;
-        height: 100px;
+        height: 45px;
         .name{
             font-family: "AmpleSoft";
+            font-size: 15px !important;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 70px;
+            letter-spacing: 0px;
+            color: #ffffff;
         }
         .bold{
              font-family: "AmpleSoft-Bold";

@@ -144,6 +144,7 @@ export default {
     .addButton {
         height: 110px;
         width: 110px;
+        // background-image: url('/src/assets/icon_profile.png');
         border-radius: 55px;
         background-size: cover;
         background-position: center;
