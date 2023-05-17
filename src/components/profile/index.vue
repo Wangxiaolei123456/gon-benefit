@@ -7,53 +7,64 @@
         <div class="profile">
             <div class="profileBorder">
                 <input type="file" accept="image/*" ref="fileInput" style="display:none" @change="uploadFile">
-                <button class="addButton" @click="chooseFile"></button>
+                <img class="addButton" :src="loadeProfileImageUrl()" @click="chooseFile">
             </div>
         </div>
         <div class="name" style="padding-top: 35px;">
             <div class="title" style="text-align: left;">Username</div>
-            <input class="textInput" type="text" v-model="inputNameText">
+            <input class="textInput" type="text" v-model="inputNameText" @input="checkInput">
         </div>
         <div style="width: 100%;">
-            <button class="subBtn">Submit</button>
+            <button class="subBtn" @click="submitButton" :disabled="isInputEmpty">Submit</button>
         </div>
     </div>
 </template>
     
 <script>
+import { uploadImage, getNftImg } from "/src/api/image"
 export default {
     name: 'HelloWorld',
     data() {
         return {
             inputNameText: '',// 初始化输入框的值为空
-            inputEditionsText: '',
-            message: ''
+            uploadedProfileHash: 'Qme2yTuaJXxKgXrjnwU8SgjGq5Vxpf1PPBVKLxVxAAETkH',//头像的默认hash
+            isInputEmpty: true
+        }
+    },
+    watch: {
+        inputNameText() {
+            this.checkInput()
         }
     },
     methods: {
-        submitText() {
+        submitButton() {
             // 在这里处理输入框的提交操作
-            console.log(this.inputText)
+            console.log(this.uploadedProfileHash)
+            console.log(this.inputNameText)
+
         },
         chooseFile() {
             this.$refs.fileInput.click()
         },
-        uploadFile(event) {
+        async uploadFile(event) {
             console.log(event)
             const file = event.target.files[0]
             console.log(file)
             const formData = new FormData()
             formData.append('file', file)
-
-            // axios.post('/api/upload', formData, {
-            //   headers: {
-            //     'Content-Type': 'multipart/form-data'
-            //   }
-            // }).then(response => {
-            //   console.log(response.data)
-            // }).catch(error => {
-            //   console.log(error)
-            // })
+            try {
+                const value = await uploadImage(file);
+                console.log(value.data.data);
+                this.uploadedProfileHash = value.data.data
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        loadeProfileImageUrl() {
+            return getNftImg(this.uploadedProfileHash)
+        },
+        checkInput() {
+            this.isInputEmpty = this.inputNameText.trim() === ''
         }
     }
 }
@@ -133,7 +144,6 @@ export default {
     .addButton {
         height: 110px;
         width: 110px;
-        background-image: url('/src/assets/20230517-100933.jpeg');
         border-radius: 55px;
         background-size: cover;
         background-position: center;
@@ -205,6 +215,11 @@ export default {
     font-stretch: normal;
     letter-spacing: 0px;
     color: #ffffff;
+
+}
+
+.subBtn:disabled {
+    background-color: gray;
 }
 </style>
     
