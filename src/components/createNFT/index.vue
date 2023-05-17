@@ -31,6 +31,7 @@
 </template>
   
 <script>
+// import {uploadImage} from "../api/image"
 export default {
   name: 'HelloWorld',
   data() {
