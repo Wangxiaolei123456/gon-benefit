@@ -6,14 +6,12 @@
         <div class="icon">
             <img src="@/assets/icon_wallet.png" alt="icon">
         </div>
-        <button class="btn">Connect Wallet </button>
+        <button class="btn" @click="connectWallet">Connect Wallet </button>
     </div>
 </template>
 <script>
 
-
-
-const WORK_KEY = "WORK";
+import { getkeplaWeb3 } from "../../keplr/index";
 
 export default {
   name: "Work",
@@ -31,10 +29,18 @@ export default {
    
   },
   mounted(){
+       console.log("ssssss",this.$store.state,this.$store.state.did);
     
    
   },
   methods: {
+     async connectWallet(){
+         let account = await getkeplaWeb3();
+         console.log("account",account,this);
+      
+          this.$store.commit("SET_DID", account.toLowerCase());
+         
+      }
     
   },
 };

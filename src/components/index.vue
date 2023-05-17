@@ -102,6 +102,8 @@ export default {
   },
   mounted(){
       window.addEventListener("scroll", this.scrolling);
+      initWallet();
+       
   },
   methods:{
 

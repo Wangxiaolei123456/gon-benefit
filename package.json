@@ -15,7 +15,9 @@
     "md5": "^2.3.0",
     "stream-browserify": "^3.0.0",
     "vue": "^2.6.14",
-    "vuetify": "^2.4.0"
+    "vuetify": "^2.4.0",
+    "vuex": "^3.4.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
