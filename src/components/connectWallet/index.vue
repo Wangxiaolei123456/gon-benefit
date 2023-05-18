@@ -13,7 +13,8 @@
 </template>
 <script>
 
-import { getkeplrIrisAddress,getkeplrUptickAddress } from "../../keplr/index";
+import { getkeplrIrisAddress,getkeplrUptickAddress,initWallet } from "../../keplr/index";
+
 
 export default {
   name: "Work",
@@ -30,12 +31,13 @@ export default {
   watch: {
    
   },
-  mounted(){
-       console.log("ssssss",this.$store.state.UptickAddress,this.$store.state.IrisAddress);
-    //    let info = localStorage.getItem('userInfo')
-    // if(info){
-    //      this.$router.push({name:'Home'})
-    // }
+ async mounted(){
+   await  initWallet();
+    console.log("ssssss",this.$store.state.UptickAddress,this.$store.state.IrisAddress);
+    let info = localStorage.getItem('userInfo')
+    if(info){
+        this.$router.push({name:'Home'})
+    }
     
   },
   methods: {

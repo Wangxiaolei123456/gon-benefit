@@ -27,7 +27,7 @@
         it's a time-honored brand. Feel free to eat and drink"
       </div>
     </div>
-    <button class="Transfer mt-8"> Transfer</button>
+    <button class="Transfer mt-8" @click="toTransfer"> Transfer</button>
      <button class="CrossChain mt-8" @click="toCross"> Cross-chain transfer 
         <img
           class="icon"
@@ -53,6 +53,9 @@ export default {
     },
     toCross(){
       this.$router.push({name:'crossChain'})
+    },
+    toTransfer(){
+      this.$router.push({name:'transfer'})
     }
   },
 };
