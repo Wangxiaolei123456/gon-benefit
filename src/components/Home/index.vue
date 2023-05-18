@@ -11,7 +11,7 @@
         </div>
         <div class="ml-4">
           <div class="name" @click="EditInfo">{{userName}}</div>
-          <div class="address"  >{{userAddress | namefilter}}</div>
+          <div class="address">{{userAddress | namefilter}}</div>
         </div>
         <div class="qrcode" >
           <img src="@/assets/qrcode.png" alt=""  @click="clickCode">
@@ -38,26 +38,29 @@
         </div>
       </div>
       <div class="Cardlist mt-5 ml-6 mr-6">
-      <div class="listitem mb-5" v-for="(item,index) in Marketlist" :key="index"   >
-       <Card :src ='item.src'/>
+      <div class="listitem mb-5" v-for="(item,index) in list" :key="index"   >
+       <Card :imgUrl ='item.imgUrl' :name='item.name'/>
     </div>
-      </div>
+     <loading :isShowLoading="isShowLoading"></loading>
+</div>
   
   </div>
 </template>
 
 <script>
-import {initWallet  } from "../../keplr/index";
+
 import Card from "../workCard/card";
 import {uploadImage} from "../../api/image"
- import { getIirsAccoutInfo } from "/src/keplr/iris/wallet"
-
+import { getIirsAccoutInfo } from "/src/keplr/iris/wallet"
+import {getMyCardList} from "@/api/home";
+import Loading from "@/components/loading.vue";
 
 export default {
   name: 'Home',
-  components:{Card},
+  components:{Card,Loading},
   data(){
     return{
+        isShowLoading:true,
        Marketlist:[
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
@@ -99,7 +102,8 @@ export default {
       isShowFilterList:false,
       src:'https://d3i65oqeoaoxhj.cloudfront.net/QmdoDytxTDqse9JCAzkdBmtLfEwG8vbPUaUueVhWpQrs4E/small',
       userName:'',
-      userAddress:""
+      userAddress:"",
+      list:[]
     }
 
   },
@@ -116,7 +120,7 @@ export default {
 
     console.log('sssssssss', window.keplr);
     window.addEventListener("scroll", this.scrolling);
-    await initWallet();
+
 
     let info = localStorage.getItem('userInfo')
     if(info){
@@ -131,6 +135,9 @@ export default {
     this.userAddress =  accountInfo.address
     localStorage.setItem('userInfo',JSON.stringify(accountInfo))
     }
+
+    // 获取列表
+    await this.getMyList(this.chainList[0].text)
   
       
        
@@ -142,6 +149,17 @@ export default {
     clickCode(){
       this.$router.push({name:'receiveCode'})
     },
+    async getMyList(chainName){
+        let params = {
+            //this.$store.state.uptickAddress,this.$store.state.IrisAddress
+            owner:chainName == 'Uptick Network' ?this.$store.state.UptickAddress:this.$store.state.IrisAddress,
+            chainType:chainName == 'Uptick Network' ?'uptick_7000-1':'gon-irishub-1'
+        }
+        let listInfo =  await getMyCardList(params)
+        let list = listInfo.data.list
+        this.list = this.list.concat(list)
+        console.log('ssss',this.list);
+    },
 
     scrolling() {
       // 滚动条距文档顶部的距离
@@ -151,7 +169,7 @@ export default {
         document.body.scrollTop;
       // 滚动条滚动的距离
       let scrollStep = scrollTop - this.oldScrollTop;
-      console.log("header 滚动距离 ", scrollTop);
+
       // 更新——滚动前，滚动条距文档顶部的距离
       this.oldScrollTop = scrollTop;
 
@@ -180,13 +198,12 @@ export default {
   Create(){
     this.$router.push({name:'createNFT'})
   },
-    addnetwork(){
-      initWallet();
-      this.$router.push({name:'Test'})
-    },
+
     clickChain(index){
       this.chainIndex = index;
       this.isShowChainList = false;
+      this.list = []
+     this.getMyList(this.chainList[index].text)
     },
     clickFilter(index){
       this.filterIndex = index

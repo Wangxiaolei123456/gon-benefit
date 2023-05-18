@@ -26,14 +26,13 @@ export function uploadJsonData(params) {
 }
 
 export function requestCreateNFT(params) {
-    return service.post('/gonapi/nft', 
+    return service.post('/gonapi', 
         transObjToParamStr(params)
     )
 }
 export function getMyCardList(params) {
-    return service.post('/gonapi/searchPage', 
-        transObjToParamStr(params)
-    )
+   
+    return service.post('/gonapi/searchPage', transObjToParamStr(params))
 }
 
 function transObjToParamStr(object) {
