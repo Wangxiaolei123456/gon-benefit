@@ -20,14 +20,20 @@
       </div>
       <input class="textInput" type="text" v-model="nameValue" maxlength="80">
     </div>
-    <div class="description" style="padding-top: 25px;">
+    <div class="description" style="padding-top: 15px;">
       <div style="display: flex; justify-content: space-around;">
         <div class="title" style="text-align: left;">Description</div>
         <div class="title" style="text-align: right;">{{ descriptionValue.length }}/800</div>
       </div>
       <textarea class="descriptionText" v-model="descriptionValue" maxlength="800"></textarea>
     </div>
-    <div class="name" style="padding-top: 25px;">
+    <div class="name" style="padding-top: 15px;">
+      <div class="title" style="text-align: left;">Chain</div>
+      <select v-model="selected" style="width: 100%; background-color: white; border-radius: 5px;">
+        <option v-for="option in options" :value="option.value" :key="option.value">{{ option.label }}</option>
+      </select>
+    </div>
+    <div class="name" style="padding-top: 15px;">
       <div class="title" style="text-align: left;">Editions</div>
       <input class="textInput" type="text" v-model="amountValue">
     </div>
@@ -63,7 +69,12 @@ export default {
       flag: true,
       isShowLoading: false,
       sender: '',
-      metadataUrl: ''
+      metadataUrl: '',
+      options: [
+        { value: 'gon-irishub-1', label: 'IRIS' },
+        { value: 'uptick_7000-1', label: 'UPTICK' },
+      ],
+      selected: 'gon-irishub-1'
     }
   },
   created() {
@@ -122,24 +133,28 @@ export default {
         this.metadataUrl = uri
 
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
-        // let txResult = await issueDenomAndMint(
-        //   name,
-        //   sender,
-        //   sender,
-        //   uri,
-        //   data,
-        //   amount,
-        // );
-        let txResult = await issueUptickDenomAndMint(
-          name,
-          sender,
-          sender,
-          uri,
-          data,
-          amount,
-        );
-        
-        console.log(txResult)
+
+        if (this.selected == "gon-irishub-1") {
+          let txResult = await issueDenomAndMint(
+            name,
+            sender,
+            sender,
+            uri,
+            data,
+            amount,
+          );
+          console.log(txResult)
+        } else {
+          let txResult = await issueUptickDenomAndMint(
+            name,
+            sender,
+            sender,
+            uri,
+            data,
+            amount,
+          );
+        }
+
         await this.waitForTxConfirmation(txResult.txInfo.hash);
 
         await this.requestCreateSuccess(txResult)
@@ -164,7 +179,7 @@ export default {
     async waitForTxConfirmation(txHash) {
       this.flag = true;
       while (this.flag) {
-        
+
         if (!this.isShowLoading) {
           this.isShowLoading = true
         }
@@ -353,7 +368,7 @@ export default {
 }
 
 .subBtn {
-  margin-top: 35px;
+  margin-top: 25px;
   // margin-bottom: 20px;
   width: 100%;
   height: 41px;

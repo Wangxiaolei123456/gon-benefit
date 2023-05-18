@@ -16,30 +16,6 @@ const irisChainId = "gon-irishub-1";
 const uptickUrl = "http://localhost:8080/uptick";
 const irisUrl = "http://localhost:8080/iris";
 
-let config = {
-    node: uptickUrl,
-    chainNetwork: "uptickUrl",
-    chainId: "uptick_7000-1",
-    //gas: process.env.VUE_APP_IRIS_BASE_GAS,
-    gas: '10000000',
-    fee: {
-        denom: 'auptick',
-        amount: '75000'
-    },
-};
-
-// irisnet sdk 初始化
-const client = iris
-    .newClient(config)
-    .withKeyDAO({
-        write: () => { },
-        read: () => {
-            return '';
-        }
-    })
-    .withRpcConfig({
-        timeout: 50000
-    });
 
 export async function iris2Uptick(typeUrl, port, channel, classId, tokenIdsList, sender, receiver, memo) {
 
@@ -169,57 +145,11 @@ export async function getAccountInfo(pChainId = "uptick_7000-1") {
         await window.keplr.enable(pChainId);
         // get account
         const account = await window.keplr.getKey(pChainId);
-        debugger
         return account;
     } catch (error) {
         console.log(error)
     }
 }
-
-// export async function getAccountInfo() {
-
-// 	try {
-// 		await window.keplr.enable(chainId);
-// 		// get accountInfo
-// 		const accountKeplr = await window.keplr.getKey(chainId);
-// 		console.log("xxl accountKeplr 000------");
-// 		console.log(accountKeplr);
-
-// 		const offlineSigner = window.getOfflineSigner(chainId);
-// 		// const offlineSigner = window.getOfflineSignerOnlyAmino(chainId);
-// 		const accounts = await offlineSigner.getAccounts();
-
-// 		console.log("xxl accounts 011------");
-// 		console.log(accounts);
-
-// 		let accountIris = await client.auth.queryAccount(accountKeplr.bech32Address);
-
-// 		console.log("xxl accountIris 111------");
-// 		let accountNumber = accountIris["accountNumber"]
-// 		let sequence = accountIris["sequence"]
-// 		console.log(accountIris);
-// 		if(accountNumber == undefined){
-// 			accountNumber = accountIris["account"].value.accountNumber;
-// 		}
-// 		if(sequence == undefined){
-// 			sequence = accountIris["account"].value.sequence;
-// 		}
-
-// 		return {
-// 			address: accountKeplr["address"],
-// 			bech32Address: accountKeplr["bech32Address"],
-// 			pubKey: accountKeplr["pubKey"],
-// 			accountNumber: accountNumber,
-// 			sequence: sequence,
-// 			isNanoLedger: accountKeplr["isNanoLedger"],
-// 			name:accountKeplr['name']
-// 		}
-// 	} catch (error) {
-// 		console.log(error);
-// 		console.log('denied getAccountInfo');
-// 	}
-
-// }
 
 async function sendMsgsTx(address, msgs, amount, data, isIris = false) {
 
@@ -281,45 +211,44 @@ export async function issueUptickDenomAndMint(
     let name = getDenomName(orgName, accountInfo.bech32Address);
     let id = getDenomId(name)
 
-    let value = {
+    let value = [
         id,
         name,
-        schema: getDenomSchema(),
-        sender
-    }
+        getDenomSchema(),
+        sender,
+        id
+    ]
     let msg = {
-        type: "/uptick.collection.v1.Msg/IssueDenom",
+        typeUrl: "/uptick.collection.v1.MsgIssueDenom",
         value
     }
     msgs.push(msg);
 // debugger
-//     for (var i = 0; i < amount; i++) {
+    for (var i = 0; i < amount; i++) {
 
-//         let nftID = getNftId();
-//         msg = {
-//             type: "/uptick.collection.v1.Msg/MintNFT",
-//             value: {
-//                 id: nftID,
-//                 denomId: id,
-//                 name: name,
-//                 uri: uri,
-//                 data: data,
-//                 sender: accountInfo.bech32Address,
-//                 recipient: recipient
-//             }
-//         }
-//         msgs.push(msg);
-
-//     }
+        let nftID = getNftId();
+        msg = {
+            typeUrl: "/uptick.collection.v1.MsgMintNFT",
+            value: [
+                nftID,
+                id,
+                name,
+                uri,
+                data,
+                accountInfo.bech32Address,
+                recipient
+            ]
+        }
+        msgs.push(msg);
+    }
 
     console.log("xxl --- msgs");
     console.log(msgs);
-    debugger
-    // let txInfo = await signAndBroadcastTx(accountInfo, msgs);
-    const result = await sendMsgsTx(accountInfo.bech32Address, [msg], 1000000, "0x1234");
+    const result = await sendMsgsTx(accountInfo.bech32Address, msgs, 1000000, "0x1234");
     if (result.code == 0) {
         alert("successful ! ");
     }
+    console.log(result)
     return result;
 
     // console.log("https://gon.ping.pub/iris/tx/" + txInfo.hash)
@@ -359,163 +288,4 @@ function getNftId() {
 
 }
 
-function addSendMsg(msgs, fromAddress, adminAddres, fee, denom) {
 
-    let retMsgs = msgs;
-    let bigFee = BigNumber(NumberMul(fee, 1000000))
-    let iconDenom;
-    if (denom == null) {
-        iconDenom = process.env.VUE_APP_IRIS_DENOM
-    } else {
-        iconDenom = denom
-    }
-
-    const amount = [{
-        denom: iconDenom,
-        amount: bigFee.toString()
-    }];
-
-    let feeMsg = {
-        type: 'iris.types.TxType.MsgSend',
-        value: {
-            from_address: fromAddress,
-            to_address: adminAddres,
-            amount
-        }
-    }
-    retMsgs.push(feeMsg)
-
-    return retMsgs;
-
-}
-
-function NumberMul(arg1, arg2) {
-    var m = 0;
-    var s1 = arg1.toString();
-    var s2 = arg2.toString();
-    try {
-        m += s1.split(".")[1].length;
-    } catch (e) {
-        console.log(e)
-    }
-    try {
-        m += s2.split(".")[1].length;
-    } catch (e) {
-        console.log(e)
-    }
-
-    return (
-        (Number(s1.replace(".", "")) * Number(s2.replace(".", ""))) /
-        Math.pow(10, m)
-    );
-}
-
-async function signAndBroadcastTx(accountInfo, msgs, memo = ' ') {
-    try {
-        console.log("0");
-        //set fee
-        let txLen = msgs.length;
-
-        let pulsFee = BigNumber(process.env.VUE_APP_IRIS_STEP_GAS)
-            .multiply(txLen - 1)
-        let baseGas = process.env.VUE_APP_IRIS_BASE_GAS
-        if (txLen == 1) {
-            baseGas = 150000
-        }
-        let totalGas = BigNumber(baseGas)
-            .plus(pulsFee)
-            .toString();
-
-        console.log("xxl totalGas 0....");
-        console.log(totalGas);
-        console.log("xxl totalGas 1....");
-
-        client.withGas(totalGas);
-        let totalFeeAmount = BigNumber(totalGas).divide(10).multiply(3).toString()
-        let newFee = {
-            denom: process.env.VUE_APP_IRIS_DENOM,
-            amount: totalFeeAmount
-        };
-
-
-        client.withFee(newFee);
-
-        client.auth.defaultStdFee = {
-            "amount": [newFee],
-            "gasLimit": totalGas
-        }
-        //
-
-
-        // 构建 sdk base Tx
-        let bTx = {};
-        bTx.account_number = accountInfo.accountNumber;
-        // xxl 0107 fix sequence is 0 bug
-        //bTx.sequence = accountInfo.sequence == 0 ? 1:accountInfo.sequence;
-        bTx.sequence = accountInfo.sequence + "";
-        bTx.memo = memo;
-
-        console.log(1);
-        // 构建 sdk 离线签名结构
-        console.log("xxl msgs 0....");
-        console.log(msgs);
-        console.log("xxl msgs 1....");
-        debugger
-        let tx_o = client.tx.buildTx(msgs, bTx);
-        // console.log(Buffer.from(accountInfo.pubKey).toString('hex'));
-        tx_o.setPubKey(Buffer.from(accountInfo.pubKey).toString('hex'));
-
-        console.log(1.2);
-        console.log(bTx);
-        let signDoc = tx_o.getSignDoc(bTx.account_number, chainId);
-        console.log(2);
-        // 构建 keplr 离线签名结构
-
-        debugger
-
-        // keplr 签名
-        let s;
-        // let s = await window.keplr.signDirect(keplr_signDoc_obj.chainId, accountInfo.bech32Address,
-        // 		keplr_signDoc_obj);
-
-
-        let keplr_signDoc_obj = {
-            bodyBytes: signDoc.getBodyBytes(),
-            authInfoBytes: signDoc.getAuthInfoBytes(),
-            chainId: chainId,
-            accountNumber: new long(signDoc.getAccountNumber())
-        };
-        s = await window.keplr.signDirect(keplr_signDoc_obj.chainId, accountInfo.bech32Address,
-            keplr_signDoc_obj);
-
-
-
-        console.log("keplr_sign_____", JSON.stringify(s));
-        console.log(4);
-
-        // 将 keplr 签名整合到 sdk 离线签名结构
-        tx_o.addSignature(s.signature.signature);
-        // 更新gas相关签名，防止修改GAS 导致失败
-        tx_o.authInfo = iris.types.tx_tx_pb.AuthInfo.deserializeBinary(s.signed.authInfoBytes);
-        // 更新gas相关签名，防止修改 导致失败
-        tx_o.body = iris.types.tx_tx_pb.TxBody.deserializeBinary(s.signed.bodyBytes);
-
-
-        console.log(5);
-        console.log(tx_o);
-        // tx_o.txData.msgs[0].type = 'cosmos-sdk/MsgSend'
-
-debugger
-        // sdk broadcast tx
-        //let res = await client.tx.broadcast(tx_o, iris.types.BroadcastMode.Commit);
-        let res = await client.tx.broadcast(tx_o, iris.types.BroadcastMode.Sync);
-        console.log('res:', res);
-
-        return res;
-
-    } catch (error) {
-
-        console.log(error);
-        console.log('signAndBroadcastTx error');
-    }
-}
