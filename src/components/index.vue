@@ -7,20 +7,19 @@
           <!-- <v-avatar  size="75">
               <img class="img"  :src="src" alt="avatar" />
           </v-avatar> -->
-             <img class="img"  :src="src" alt="avatar" />
+             <img class="img"  :src="src" alt="avatar" @click="EditInfo" />
         </div>
         <div class="ml-4">
-          <div class="name">Sina</div>
-          <div class="address">uptick7209…der768rw56</div>
+          <div class="name" @click="EditInfo">{{userName}}</div>
+          <div class="address"  >{{userAddress | namefilter}}</div>
         </div>
-        <div class="qrcode">
-          <img src="@/assets/qrcode.png" alt="">
+        <div class="qrcode" >
+          <img src="@/assets/qrcode.png" alt=""  @click="clickCode">
         </div>
       </div>
      
     </div>
      <div class="select d-flex flex-row mt-5 ml-6">
-        <!-- <div class="chain">Uptick Network</div> -->
         <button class="chain" @click="showChain">{{chainList[chainIndex].text}}</button>
          <button class="Filter ml-3" @click="showFilter" >{{filterList[filterIndex].text}}</button>
          <button class="create ml-8" @click="Create">Create</button>
@@ -51,6 +50,8 @@
 import {initWallet  } from "../keplr/index";
 import Card from "./workCard/card";
 import {uploadImage} from "../api/image"
+ import { getIirsAccoutInfo } from "/src/keplr/iris/wallet"
+ import { creatNft } from "@/api/home";
 
 export default {
   name: 'Home',
@@ -96,18 +97,63 @@ export default {
       filterIndex:0,
       isShowChainList:false,
       isShowFilterList:false,
-      src:'https://d3i65oqeoaoxhj.cloudfront.net/QmdoDytxTDqse9JCAzkdBmtLfEwG8vbPUaUueVhWpQrs4E/small'
+      src:'https://d3i65oqeoaoxhj.cloudfront.net/QmdoDytxTDqse9JCAzkdBmtLfEwG8vbPUaUueVhWpQrs4E/small',
+      userName:'',
+      userAddress:""
     }
 
   },
-    mounted(){
+  filters: {
+  	namefilter: function(value) {
+		if(value && value.length > 12) {
+			return value.substr(0,12)+"..."+value.substr(-12);
+		} else {
+			return value;
+		}
+  	}
+  },
+  async  mounted(){
+    let params = {
+       "chainType":"iris",
+    "name":"busnft4",
+    "nftAddress":"bus",
+    "nftId":"bus0002",
+    "description":"这是个大海",
+    "creator":"iaap30c",
+    "owner":"iaailnvd",
+    "imgUrl":"http://www.baidu.com",
+    "metadataUrl":"http://www.google.cn"
+    }
+    creatNft(params);
+  
     console.log('sssssssss', window.keplr);
+    window.addEventListener("scroll", this.scrolling);
+    await initWallet();
+
+    let info = localStorage.getItem('userInfo')
+    if(info){
+         this.userName = JSON.parse(info).name
+    this.userAddress = JSON.parse(info).address
+    }else{
+        //获取用户信息
+    let accountInfo =  await getIirsAccoutInfo();
+    console.log("sssss",accountInfo);
     debugger
-      window.addEventListener("scroll", this.scrolling);
-      initWallet();
+    this.userName = accountInfo.name
+    this.userAddress =  accountInfo.address
+    localStorage.setItem('userInfo',JSON.stringify(accountInfo))
+    }
+  
+      
        
   },
   methods:{
+    EditInfo(){
+      this.$router.push({name:"Profile",params:{name: this.userName}})
+    },
+    clickCode(){
+      this.$router.push({name:'receiveCode'})
+    },
 
     scrolling() {
       // 滚动条距文档顶部的距离
@@ -171,7 +217,6 @@ export default {
 }
 
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
 .top{
@@ -194,11 +239,12 @@ export default {
     .avata{
      
      .img{
-     width: 75px;
-     height: 75px;
-      border-radius: 50%;
-      border: 5px solid #9e00ff;
-      object-fit: cover;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        border: 5px solid #9e00ff;
+        object-fit: cover;
+        cursor: pointer;
 //       border-image: linear-gradient(to right, #ff7700, #ff0099);
 // border-image-slice: 1;
 
@@ -206,6 +252,7 @@ export default {
      }
     }
     .name{
+      cursor: pointer;
       font-family: "AmpleSoft-Bold" !important;
       font-size: 25px !important;
       font-weight: normal;
@@ -215,6 +262,7 @@ export default {
       color: #ffffff;
     }
     .address{
+      cursor: pointer;
       font-family: "AmpleSoft" !important;
 	font-size: 15px !important;
 	font-weight: normal;

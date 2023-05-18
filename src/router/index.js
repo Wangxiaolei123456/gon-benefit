@@ -46,7 +46,7 @@ const routes = [
       component: () => import("@/components/connectWallet/index"),
    },
    {
-      path: "/profile/index",
+      path: "/profile",
       name: "Profile",
       component: () => import("@/components/profile/index"),
    },
@@ -64,6 +64,11 @@ const routes = [
       path: "/receiveCode",
       name: "receiveCode",
       component: () => import("@/components/receiveCode/index"),
+   },
+   {
+      path: "/transfer",
+      name: "transfer",
+      component: () => import("@/components/transfer/index"),
    },
    
 

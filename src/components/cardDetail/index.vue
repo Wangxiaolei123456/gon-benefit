@@ -28,7 +28,7 @@
       </div>
     </div>
     <button class="Transfer mt-8"> Transfer</button>
-     <button class="CrossChain mt-8"> Cross-chain transfer 
+     <button class="CrossChain mt-8" @click="toCross"> Cross-chain transfer 
         <img
           class="icon"
           src="@/assets/uptick network_icon.png"
@@ -51,6 +51,9 @@ export default {
     backPage() {
       this.$router.go(-1);
     },
+    toCross(){
+      this.$router.push({name:'crossChain'})
+    }
   },
 };
 </script>

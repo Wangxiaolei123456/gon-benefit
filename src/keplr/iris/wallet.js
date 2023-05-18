@@ -22,6 +22,7 @@ let config = {
 	},
 };
 
+
 // irisnet sdk 初始化
 const client = iris
 	.newClient(config)
@@ -374,7 +375,7 @@ function addSendMsg(msgs, fromAddress, adminAddres, fee, denom) {
 
 }
 
-async function getAccountInfo() {
+ export async function getAccountInfo() {
 
 	try {
 		await window.keplr.enable(chainId);
@@ -409,7 +410,8 @@ async function getAccountInfo() {
 			pubKey: accountKeplr["pubKey"],
 			accountNumber: accountNumber,
 			sequence: sequence,
-			isNanoLedger: accountKeplr["isNanoLedger"]
+			isNanoLedger: accountKeplr["isNanoLedger"],
+			name:accountKeplr['name']
 		}
 	} catch (error) {
 		console.log(error);
@@ -605,7 +607,10 @@ export async function ibcTransferFromIris(
 		console.log('denied getAccountInfo');
 	}
 }
-
+export async function getIirsAccoutInfo(params) {
+	let accountInfo = 	await getAccountInfo();
+	return {name:accountInfo.name,address:accountInfo.bech32Address}
+}
 
 export async function queryTokenFromIris() {
 

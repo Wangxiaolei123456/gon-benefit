@@ -1,7 +1,7 @@
 <template>
     <div class="container d-flex align-center">
         <div class="topView">
-            <button class="btn"></button>
+            <button class="btn" @click="backPage"></button>
             <div class="title">Receiving Code</div>
         </div>
        <div class="qrcode">
@@ -31,6 +31,9 @@ export default {
     this.generateQRCode(link)
   },
     methods: {
+        backPage(){
+           this.$router.go(-1);
+        },
     // 生成二维码的方法
     	generateQRCode(content) {
       	this.$nextTick(() => {

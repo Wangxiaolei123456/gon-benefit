@@ -9,9 +9,7 @@ import messageTip from "./components/MessageTip"
 messageTip(Vue);
 // import {initWallet  } from "./wallet/index";
 // initWallet();
-global.Buffer = global.Buffer || require('buffer').Buffer;
 
-Vue.config.productionTip = false
 
 new Vue({
   vuetify,

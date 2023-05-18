@@ -52,7 +52,7 @@ export default {
   },
   methods: {
      imgClick() {
-      this.$emit("imgClick");
+       this.$router.push({name:'cardDetail'})
     },
   },
 };

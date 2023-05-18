@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="topView">
-            <button class="btn"></button>
+            <button class="btn" @click="backPage"></button>
             <div class="title">Profile</div>
         </div>
         <div class="profile">
@@ -37,9 +37,15 @@ export default {
         }
     },
     mounted(){
-       console.log('sssssssss',window.keplr);
+
+       if(this.$route.params.name){
+           this.inputNameText = this.$route.params.name
+       }
   },
     methods: {
+        backPage(){
+            this.$router.go(-1)
+        },
         submitButton() {
             // 在这里处理输入框的提交操作
             console.log(this.uploadedProfileHash)
@@ -173,6 +179,7 @@ export default {
 
     .textInput {
         width: 100%;
+        padding-left: 10px;
         height: 44px;
         background-image: linear-gradient(#e8daff,
                 #e8daff),

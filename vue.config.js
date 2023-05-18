@@ -34,6 +34,15 @@ module.exports = defineConfig({
           "^/upVideo": "/",
         },
       },
+      "/nft": {
+        target: "http://192.168.111.81:3000/nft",
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          "^/upVideo": "/",
+        },
+      },
+     
 
     }
   
