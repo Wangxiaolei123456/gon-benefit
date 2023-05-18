@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/components/index.vue";
+import WalletConnect from "@/components/connectWallet/index.vue";
 
 Vue.use(VueRouter);
 //解决编程式路由往同一地址跳转时会报错的情况
@@ -26,8 +26,8 @@ const routes = [
    },
    {
       path: "/index",
-      name: "Home",
-      component: Home,
+      name: "WalletConnect",
+      component: WalletConnect,
    },
    {
       path: "/test",
@@ -41,9 +41,9 @@ const routes = [
    },
    {
 
-      path: "/connectWallet",
-      name: "connectWallet",
-      component: () => import("@/components/connectWallet/index"),
+      path: "/Home",
+      name: "Home",
+      component: () => import("@/components/Home/index"),
    },
    {
       path: "/profile",

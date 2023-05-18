@@ -7,7 +7,9 @@
             <img src="@/assets/icon_wallet.png" alt="icon">
         </div>
         <button class="btn" @click="connectWallet">Connect Wallet </button>
-    </div>
+     
+        </div>
+    
 </template>
 <script>
 
@@ -30,17 +32,25 @@ export default {
   },
   mounted(){
        console.log("ssssss",this.$store.state.UptickAddress,this.$store.state.IrisAddress);
+    //    let info = localStorage.getItem('userInfo')
+    // if(info){
+    //      this.$router.push({name:'Home'})
+    // }
     
   },
   methods: {
      async connectWallet(){
          // Iris Address
          let account = await getkeplrIrisAddress();
-          this.$store.commit("SET_DID", account.toLowerCase());
+        this.$store.commit("SET_DID", account.toLowerCase());
           
          // uptick Address
-        let uptickAccount = await getkeplrUptickAddress();
+         let uptickAccount = await getkeplrUptickAddress();
          this.$store.commit("SET_UPTICK_DID", uptickAccount.toLowerCase());
+         if(account && uptickAccount){
+             
+             this.$router.push({name:'Home'})
+         }
 
       }
     

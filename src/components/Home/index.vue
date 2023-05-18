@@ -47,11 +47,11 @@
 </template>
 
 <script>
-import {initWallet  } from "../keplr/index";
-import Card from "./workCard/card";
-import {uploadImage} from "../api/image"
-import { getIirsAccoutInfo } from "/src/keplr/iris/wallet"
-import { creatNft } from "@/api/home";
+import {initWallet  } from "../../keplr/index";
+import Card from "../workCard/card";
+import {uploadImage} from "../../api/image"
+ import { getIirsAccoutInfo } from "/src/keplr/iris/wallet"
+
 
 export default {
   name: 'Home',
