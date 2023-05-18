@@ -34,16 +34,23 @@ module.exports = defineConfig({
           "^/upVideo": "/",
         },
       },
-      "/nft": {
-        target: "http://192.168.111.81:3000/nft",
+      '/upJson': {
+        target: 'http://file.upticknft.com/file/upload/json/',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          "^/upVideo": "/",
-        },
+          '^/upJson': '/'
+        }
       },
-     
-
+      '/gonapi': {
+        target: 'http://192.168.111.81:3000',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/gonapi': '/'
+        }
+      }
+      
     }
   
   },

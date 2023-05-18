@@ -40,6 +40,7 @@
   
 <script>
 import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/iris/wallet"
+import { uploadJsonData, requestCreateNFT } from "/src/api/home"
 import { uploadImage, getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 
@@ -48,17 +49,19 @@ export default {
   components: { Loading },
   data() {
     return {
-      nameValue: '',// 初始化输入框的值为空
-      descriptionValue: '',
-      amountValue: '',
-      uploadedImageHash: 'QmPuuSpLdzV4Hz4aJtPUVzxsgnLKPYiqKdYtdTGyLF6Pn5',//默认的图片,
-      // nameValue: 'fantest',// 初始化输入框的值为空
-      // descriptionValue: 'fantest',
+      // nameValue: '',// 初始化输入框的值为空
+      // descriptionValue: '',
       // amountValue: '',
-      // uploadedImageHash: 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2',//默认的图片,
+      // uploadedImageHash: 'QmPuuSpLdzV4Hz4aJtPUVzxsgnLKPYiqKdYtdTGyLF6Pn5',//默认的图片,
+      nameValue: 'fantest',// 初始化输入框的值为空
+      descriptionValue: 'fantest',
+      amountValue: '',
+      uploadedImageHash: 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2',//默认的图片,
       isInputEmpty: true,
       flag: true,
       isShowLoading: false,
+      sender: 'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr',
+      metadataUrl: ''
     }
   },
   created() {
@@ -72,6 +75,34 @@ export default {
     amountValue: 'checkInput',
   },
   methods: {
+    async getMetaDataJson() {
+      var metaParams = {}
+      metaParams.name = this.nameValue
+      metaParams.description = this.descriptionValue
+      metaParams.image = this.loadeImageUrl(this.uploadedImageHash)
+      metaParams.minter = this.$store.state.IrisAddress
+
+      let result = await uploadJsonData(metaParams)
+      console.log(result)
+      // https://ipfs.upticknft.com/ipfs/QmR55vt4EVdtKyjHuepUgytGiVwTBPnVupDrnJx5gE38Di
+      return "https://ipfs.upticknft.com/ipfs/" + result.data.data
+    },
+    async requestCreateSuccess(txResult) {
+      var params = {}
+      params.name = this.nameValue
+      params.chainType = "gon-irishub-1"
+      params.nftAddress = txResult.denomInfo[0].value.id;
+      params.nftId = txResult.denomInfo[1].value.id
+      params.description = this.descriptionValue
+      params.creator = this.sender
+      params.owner = this.sender
+      params.imgUrl = this.loadeImageUrl(this.uploadedImageHash)
+      params.metadataUrl = this.metadataUrl
+      params.hash = txResult.txInfo.hash
+      let result = await requestCreateNFT(params)
+      console.log(result)
+      return result.data.data
+    },
     async submitButton() {
 
       try {
@@ -79,34 +110,40 @@ export default {
         this.isShowLoading = true
 
         let name = this.nameValue;
-        let sender = 'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr'
+        let sender = this.sender
+        // let sender = this.$store.state.IrisAddress
         let data = ""
         let amount = Number(this.amountValue)
-        let imageUrl = this.loadeImageUrl(this.uploadedImageHash)
-        console.log("wxl ---- mintNFT", name, sender, imageUrl, data, amount)
 
-        let txHash = await issueDenomAndMint(
+        let uri = await this.getMetaDataJson()
+        this.metadataUrl = uri
+
+        console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
+        debugger
+        let txResult = await issueDenomAndMint(
           name,
           sender,
           sender,
-          imageUrl,
+          uri,
           data,
           amount,
         );
-        console.log(txHash)
+        console.log(txResult)
+        await this.waitForTxConfirmation(txResult.txInfo.hash);
 
-        await this.waitForTxConfirmation(txHash.txInfo.hash);
+        await this.requestCreateSuccess(txResult)
+        debugger
 
         let title = "Create Success"
         this.$mtip({
           title: title,
         });
         this.isShowLoading = false
+
         this.pushHome()
 
       } catch (error) {
         console.log(error);
-        // let title = "Create Success"
         this.isShowLoading = false
         this.$mtip({
           title: error.message,
@@ -133,6 +170,7 @@ export default {
         }
       }
     },
+
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     },
