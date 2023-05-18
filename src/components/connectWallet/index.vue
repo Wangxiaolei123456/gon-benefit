@@ -33,7 +33,7 @@ export default {
   },
  async mounted(){
    await  initWallet();
-    console.log("ssssss",this.$store.state.UptickAddress,this.$store.state.IrisAddress);
+    console.log("ssssss",this.$store.state.uptickAddress,this.$store.state.IrisAddress);
     let info = localStorage.getItem('userInfo')
     if(info){
         this.$router.push({name:'Home'})

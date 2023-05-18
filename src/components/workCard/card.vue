@@ -3,13 +3,13 @@
       <div class="work d-flex  flex-column">
     <img
      class="mainImg"
-      :src="src"
+      :src="imgUrl"
       @click="imgClick"
       style="cursor: pointer;border-radius: 5px 5px 0px 0px;height:180px"
     >
   </div>
    <div class="content">
-        <div class="name">Macaron membership card - Macaronhome</div>
+        <div class="name">{{name}}</div>
 
     </div>
 </v-card>
@@ -19,35 +19,34 @@
 <script>
 
 
-
-const WORK_KEY = "WORK";
-
 export default {
   name: "Work",
   inheritAttrs: false,
   props: {
-      src:String
+      imgUrl:String,
+      name:String
    
   },
   data: () => ({
+
    
    
     
   }),
-  watch: {
-    // hash: {
-    //   handler: async function (hash) {
-    //     if (!hash) {
-    //      hash = "QmPcXBirGiUSyjb8i2FQUpNDTtPHBsgo7tviwwm4YQeJ6p"
-    //     }
-    //      this.src = await getFileSrc(WORK_KEY, hash);
+  // watch: {
+  //   hash: {
+  //     handler: async function (hash) {
+  //       if (!hash) {
+  //        hash = "98A323F388E1D9456F0B0AA25B75DCC54BC6836D8BBB565DF12192C50AF5C649"
+  //       }
+  //        this.src = await getNftImg( hash);
           
-    //   },
-    //   immediate: true,
-    // },
-  },
+  //     },
+  //     immediate: true,
+  //   },
+  // },
   mounted(){
-    
+
    
   },
   methods: {
