@@ -18,6 +18,19 @@ export function getInfoByAddress(params) {
         transObjToParamStr(params)
     )
 }
+
+export function uploadJsonData(params) {
+    return service.post('/upJson', 
+        transObjToParamStr(params)
+    )
+}
+
+export function requestCreateNFT(params) {
+    return service.post('/gonapi/getCrossChainListByAddress', 
+        transObjToParamStr(params)
+    )
+}
+
 function transObjToParamStr(object) {
    
 let arr=[]

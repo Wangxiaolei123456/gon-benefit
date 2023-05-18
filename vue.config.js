@@ -34,7 +34,23 @@ module.exports = defineConfig({
           "^/upVideo": "/",
         },
       },
-
+      '/upJson': {
+        target: 'http://file.upticknft.com/file/upload/json/',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/upJson': '/'
+        }
+      },
+      '/gonapi': {
+        target: 'http://file.upticknft.com/file/upload/json/',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/gonapi': '/'
+        }
+      }
+      
     }
   
   },

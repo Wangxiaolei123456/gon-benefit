@@ -95,8 +95,6 @@ export async function issueDenomAndMint(
 	for (var i = 0; i < amount; i++) {
 
 		let nftID = getNftId();
-		// https://serviceiris.upticknft.com/metadata/uptickf9edfa286f905de03053f83eb4575a59611164/upticka9181e073b514773bcd4447d682439b2.json
-		let uri = process.env.VUE_APP_API_URL + "/metadata/" + id + "/" + nftID + ".json"
 		msg = {
 			type: iris.types.TxType.MsgMintNFT,
 			value: {
@@ -109,6 +107,7 @@ export async function issueDenomAndMint(
 				recipient: recipient
 			}
 		}
+		debugger
 		msgs.push(msg);
 
 	}
@@ -119,6 +118,7 @@ export async function issueDenomAndMint(
 		msgs = addSendMsg(msgs, accountInfo.bech32Address, adminAddress, fee);
 	}
 	let txInfo = await signAndBroadcastTx(accountInfo, msgs);
+	console.log("https://gon.ping.pub/iris/tx/" + txInfo.hash)
 	return {
 		txInfo,
 		denomInfo: msgs
