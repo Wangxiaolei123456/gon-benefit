@@ -67,8 +67,9 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state.IrisAddress)//UptickAddress
-    this.sender = "uptick1e7v3fn2yxxlzpmlgy9232neykpe57gzupas6z6"
+    console.log(this.$store.state.IrisAddress)//IrisAddress
+    console.log(this.$store.state.UptickAddress)//UptickAddress
+    this.sender = this.$store.state.UptickAddress
     console.log(this.nameValue)
   },
   watch: {
