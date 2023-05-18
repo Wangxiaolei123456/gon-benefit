@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container align-center">
         <div class="topView">
             <button class="btn" @click="backPage"></button>
             <div class="title">Profile</div>
@@ -17,6 +17,7 @@
         <div style="width: 100%;">
             <button class="subBtn" @click="submitButton" :disabled="isInputEmpty">Submit</button>
         </div>
+        <div class="disconnect" @click="disconnect"> Disconnect </div>
     </div>
 </template>
     
@@ -43,6 +44,13 @@ export default {
        }
   },
     methods: {
+        disconnect(){
+        localStorage.clear();
+        this.$store.commit('SET_DID', "");
+        this.$store.commit('SET_UPTICK_DID', "");
+        this.$router.push({name:'WalletConnect'})
+
+        },
         backPage(){
             this.$router.go(-1)
         },
@@ -231,6 +239,16 @@ export default {
 
 .subBtn:disabled {
     background-color: gray;
+}
+.disconnect{
+    margin-top: 100px;
+    font-family: "AmpleSoft";
+	font-size: 15px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 20px;
+	letter-spacing: 0px;
+	color: #ff3333;
 }
 </style>
     

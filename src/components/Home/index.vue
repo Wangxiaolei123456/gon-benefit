@@ -164,18 +164,18 @@ export default {
 
       //滚动条到底部的条件
       if (scrollTop + windowHeight == scrollHeight) {
-        //你想做的事情
+     
         console.log("header  你已经到底部了");
       }
-      if (scrollStep < 0) {
-        console.log("header 滚动条向上滚动了！");
-      } else {
-        console.log("header  滚动条向下滚动了！");
-      }
-      // 判断是否到了最顶部
-      if (scrollTop <= 0) {
-        console.log("header 到了最顶部")
-      } 
+    //   if (scrollStep < 0) {
+    //     console.log("header 滚动条向上滚动了！");
+    //   } else {
+    //     console.log("header  滚动条向下滚动了！");
+    //   }
+    //   // 判断是否到了最顶部
+    //   if (scrollTop <= 0) {
+    //     console.log("header 到了最顶部")
+    //   } 
     },
   Create(){
     this.$router.push({name:'createNFT'})
