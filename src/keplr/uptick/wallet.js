@@ -27,7 +27,7 @@ let config = {
         amount: '75000'
     },
 };
-debugger
+
 // irisnet sdk 初始化
 const client = iris
     .newClient(config)
@@ -169,6 +169,7 @@ export async function getAccountInfo(pChainId = "uptick_7000-1") {
         await window.keplr.enable(pChainId);
         // get account
         const account = await window.keplr.getKey(pChainId);
+        debugger
         return account;
     } catch (error) {
         console.log(error)
@@ -291,25 +292,25 @@ export async function issueUptickDenomAndMint(
         value
     }
     msgs.push(msg);
+// debugger
+//     for (var i = 0; i < amount; i++) {
 
-    for (var i = 0; i < amount; i++) {
+//         let nftID = getNftId();
+//         msg = {
+//             type: "/uptick.collection.v1.Msg/MintNFT",
+//             value: {
+//                 id: nftID,
+//                 denomId: id,
+//                 name: name,
+//                 uri: uri,
+//                 data: data,
+//                 sender: accountInfo.bech32Address,
+//                 recipient: recipient
+//             }
+//         }
+//         msgs.push(msg);
 
-        let nftID = getNftId();
-        msg = {
-            type: "/uptick.collection.v1.Msg/MintNFT",
-            value: {
-                id: nftID,
-                denomId: id,
-                name: name,
-                uri: uri,
-                data: data,
-                sender: accountInfo.bech32Address,
-                recipient: recipient
-            }
-        }
-        msgs.push(msg);
-
-    }
+//     }
 
     console.log("xxl --- msgs");
     console.log(msgs);
