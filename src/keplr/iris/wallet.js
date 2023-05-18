@@ -108,7 +108,6 @@ export async function issueDenomAndMint(
 				recipient: recipient
 			}
 		}
-		debugger
 		msgs.push(msg);
 
 	}
@@ -124,8 +123,6 @@ export async function issueDenomAndMint(
 		txInfo,
 		denomInfo: msgs
 	}
-
-
 }
 
 export async function issueDenom(
@@ -471,7 +468,7 @@ async function signAndBroadcastTx(accountInfo, msgs, memo = ' ') {
 		console.log("xxl msgs 0....");
 		console.log(msgs);
 		console.log("xxl msgs 1....");
-		//
+		debugger
 		let tx_o = client.tx.buildTx(msgs, bTx);
 		// console.log(Buffer.from(accountInfo.pubKey).toString('hex'));
 		tx_o.setPubKey(Buffer.from(accountInfo.pubKey).toString('hex'));

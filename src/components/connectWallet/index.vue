@@ -41,6 +41,7 @@ export default {
   methods: {
      async connectWallet(){
          // Iris Address
+         debugger
          let account = await getkeplrIrisAddress();
         this.$store.commit("SET_DID", account.toLowerCase());
           
