@@ -40,6 +40,8 @@
   
 <script>
 import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/iris/wallet"
+import { getAccountInfo, issueUptickDenomAndMint } from "/src/keplr/uptick/wallet"
+
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
 import { uploadImage, getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
@@ -60,12 +62,14 @@ export default {
       isInputEmpty: true,
       flag: true,
       isShowLoading: false,
-      sender: 'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr',
+      sender: '',
       metadataUrl: ''
     }
   },
   created() {
-    console.log(this.$store.state.IrisAddress)
+    console.log(this.$store.state.IrisAddress)//IrisAddress
+    console.log(this.$store.state.UptickAddress)//UptickAddress
+    this.sender = this.$store.state.UptickAddress
     console.log(this.nameValue)
   },
   watch: {
@@ -111,7 +115,6 @@ export default {
 
         let name = this.nameValue;
         let sender = this.sender
-        // let sender = this.$store.state.IrisAddress
         let data = ""
         let amount = Number(this.amountValue)
 
@@ -119,8 +122,15 @@ export default {
         this.metadataUrl = uri
 
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
-        debugger
-        let txResult = await issueDenomAndMint(
+        // let txResult = await issueDenomAndMint(
+        //   name,
+        //   sender,
+        //   sender,
+        //   uri,
+        //   data,
+        //   amount,
+        // );
+        let txResult = await issueUptickDenomAndMint(
           name,
           sender,
           sender,
@@ -128,11 +138,11 @@ export default {
           data,
           amount,
         );
+        
         console.log(txResult)
         await this.waitForTxConfirmation(txResult.txInfo.hash);
 
         await this.requestCreateSuccess(txResult)
-        debugger
 
         let title = "Create Success"
         this.$mtip({
@@ -154,6 +164,10 @@ export default {
     async waitForTxConfirmation(txHash) {
       this.flag = true;
       while (this.flag) {
+        
+        if (!this.isShowLoading) {
+          this.isShowLoading = true
+        }
         console.log("wwwwww");
         await this.sleep(5000);
         let res = await quiryTx(txHash);
@@ -215,7 +229,7 @@ export default {
       this.amountValue = value
     },
     pushHome() {
-      this.$router.push('/')
+      this.$router.push('/home')
     }
   }
 }

@@ -84,12 +84,12 @@ if (!window.getOfflineSigner || !window.keplr) {
            // If the user rejects it or the suggested chain information doesn't include the required fields, it will throw an error.
            // If the same chain id is already registered, it will resolve and not require the user interactions.
            await window.keplr.experimentalSuggestChain({
-            "chainId": "uptick_7000-2",
-            "chainName": "Uptick GON",
-            "rpc": "https://rpc-gon-uptick.omniflix.io",
-            "rest": "https://api-gon-uptick.omniflix.io",
+            "chainId": "uptick_7000-1",
+            "chainName": "Uptick Testnet1",
+            "rpc": "http://52.74.190.214:8081/uptick",
+            "rest": "http://52.74.190.214:1317",
             "stakeCurrency": {
-              "coinDenom": "UPTICK",
+              "coinDenom": "uptick",
               "coinMinimalDenom": "auptick",
               "coinDecimals": 18,
               "coinGeckoId": "unknown"
@@ -154,7 +154,7 @@ export const getkeplrIrisAddress = async () => {
 	if (window.keplr) {
 		// Modern dapp browsers
 		try {
-
+debugger
 			const chainId = "gon-irishub-1";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
@@ -184,7 +184,7 @@ export const getkeplrUptickAddress = async () => {
 		// Modern dapp browsers
 		try {
 
-			const chainId = "uptick_7000-2";
+			const chainId = "uptick_7000-1";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 

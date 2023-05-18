@@ -49,7 +49,23 @@ module.exports = defineConfig({
         pathRewrite: {
           '^/gonapi': '/'
         }
-      }
+      },
+      '/uptick': {
+        target: 'http://52.74.190.214:26657/',
+        ws: false,
+        changeOrigin: true,
+        pathRewrite: {
+        '^/uptick':'/'
+        }
+    },
+    '/iris': {
+        target: 'http://34.80.93.133:26657/',
+        ws: false,
+        changeOrigin: true,
+        pathRewrite: {
+        '^/iris':'/'
+        }
+    }
       
     }
   
