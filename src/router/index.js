@@ -35,7 +35,7 @@ const routes = [
       component: () => import("@/components/test"),
    },
    {
-      path: "/createNFT/index",
+      path: "/createNFT",
       name: "createNFT",
       component: () => import("@/components/createNFT/index"),
    },
@@ -46,7 +46,7 @@ const routes = [
       component: () => import("@/components/connectWallet/index"),
    },
    {
-      path: "/profile/index",
+      path: "/profile",
       name: "Profile",
       component: () => import("@/components/profile/index"),
    },

@@ -41,7 +41,7 @@
 <script>
 import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/iris/wallet"
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
-import { uploadImage,getNftImg } from "/src/api/image"
+import { uploadImage, getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 
 export default {
@@ -60,6 +60,8 @@ export default {
       isInputEmpty: true,
       flag: true,
       isShowLoading: false,
+      sender: 'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr',
+      metadataUrl: ''
     }
   },
   created() {
@@ -74,27 +76,32 @@ export default {
   },
   methods: {
     async getMetaDataJson() {
-        var metaParams = {}
-        metaParams.name = this.nameValue
-        metaParams.description = this.descriptionValue
-        metaParams.image = this.loadeImageUrl(this.uploadedImageHash)
-        metaParams.minter = this.$store.state.IrisAddress
+      var metaParams = {}
+      metaParams.name = this.nameValue
+      metaParams.description = this.descriptionValue
+      metaParams.image = this.loadeImageUrl(this.uploadedImageHash)
+      metaParams.minter = this.$store.state.IrisAddress
 
-        let result = await uploadJsonData(metaParams)
-        console.log(result)
-        // https://ipfs.upticknft.com/ipfs/QmR55vt4EVdtKyjHuepUgytGiVwTBPnVupDrnJx5gE38Di
-        return "https://ipfs.upticknft.com/ipfs/" + result.data.data
+      let result = await uploadJsonData(metaParams)
+      console.log(result)
+      // https://ipfs.upticknft.com/ipfs/QmR55vt4EVdtKyjHuepUgytGiVwTBPnVupDrnJx5gE38Di
+      return "https://ipfs.upticknft.com/ipfs/" + result.data.data
     },
-    async requestCreateSuccess() {
-        var metaParams = {}
-        metaParams.name = this.nameValue
-        metaParams.description = this.descriptionValue
-        metaParams.image = this.loadeImageUrl(this.uploadedImageHash)
-        metaParams.minter = this.$store.state.IrisAddress
-
-        let result = await requestCreateNFT(metaParams)
-        console.log(result)
-        return result.data.data
+    async requestCreateSuccess(txResult) {
+      var params = {}
+      params.name = this.nameValue
+      params.chainType = "gon-irishub-1"
+      params.nftAddress = txResult.denomInfo[0].value.id;
+      params.nftId = txResult.denomInfo[1].value.id
+      params.description = this.descriptionValue
+      params.creator = this.sender
+      params.owner = this.sender
+      params.imgUrl = this.loadeImageUrl(this.uploadedImageHash)
+      params.metadataUrl = this.metadataUrl
+      params.hash = txResult.txInfo.hash
+      let result = await requestCreateNFT(params)
+      console.log(result)
+      return result.data.data
     },
     async submitButton() {
 
@@ -103,15 +110,17 @@ export default {
         this.isShowLoading = true
 
         let name = this.nameValue;
-        let sender = 'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr'
+        let sender = this.sender
         // let sender = this.$store.state.IrisAddress
         let data = ""
         let amount = Number(this.amountValue)
 
         let uri = await this.getMetaDataJson()
+        this.metadataUrl = uri
+
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
         debugger
-        let txHash = await issueDenomAndMint(
+        let txResult = await issueDenomAndMint(
           name,
           sender,
           sender,
@@ -119,11 +128,12 @@ export default {
           data,
           amount,
         );
-        console.log(txHash)
+        console.log(txResult)
+        await this.waitForTxConfirmation(txResult.txInfo.hash);
 
-        await this.waitForTxConfirmation(txHash.txInfo.hash);
+        await this.requestCreateSuccess(txResult)
+        debugger
 
-        await this.requestCreateSuccess()
         let title = "Create Success"
         this.$mtip({
           title: title,

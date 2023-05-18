@@ -26,7 +26,7 @@ export function uploadJsonData(params) {
 }
 
 export function requestCreateNFT(params) {
-    return service.post('/gonapi/getCrossChainListByAddress', 
+    return service.post('/gonapi/nft', 
         transObjToParamStr(params)
     )
 }
