@@ -623,8 +623,13 @@ export async function ibcTransferFromIris(
 	}
 }
 export async function getIirsAccoutInfo(params) {
-	let accountInfo = await getAccountInfo();
-	return { name: accountInfo.name, address: accountInfo.bech32Address }
+	// let accountInfo = 	await getAccountInfo();
+	await window.keplr.enable(chainId);
+		// get accountInfo
+		const accountKeplr = await window.keplr.getKey(chainId);
+		console.log("xxl accountKeplr 000------");
+		console.log(accountKeplr);
+	return {name:accountKeplr.name,address:accountKeplr.bech32Address}
 }
 
 export async function queryTokenFromIris() {

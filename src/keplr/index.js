@@ -1,4 +1,5 @@
-   
+import store from "../store/index.js"
+import { getIirsAccoutInfo } from "./iris/wallet";
    
    async function addIRISNetwork() { 
     if (!window.getOfflineSigner || ! window.keplr) {
@@ -154,7 +155,6 @@ export const getkeplrIrisAddress = async () => {
 	if (window.keplr) {
 		// Modern dapp browsers
 		try {
-debugger
 			const chainId = "gon-irishub-1";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
@@ -208,6 +208,19 @@ export const getkeplrUptickAddress = async () => {
 	 return account[0].address
 };
 export const keplrKeystoreChange = async () => {
+  console.log('keplrKeystoreChange');
+  window.removeEventListener("keplr_keystorechange", keplrKeystoreChange);
+  let account = await getkeplrIrisAddress();
+  store.commit("SET_DID", account.toLowerCase());
+          
+         // uptick Address
+    let uptickAccount = await getkeplrUptickAddress();
+  store.commit("SET_UPTICK_DID", uptickAccount.toLowerCase());
+  let accountInfo =  await getIirsAccoutInfo();
+  localStorage.setItem('userInfo',JSON.stringify(accountInfo))
+  location.reload();
+
+
   
 }
 export async function initWallet() {

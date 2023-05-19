@@ -136,6 +136,36 @@ export async function uptick2Iris(typeUrl, port, channel, classId, tokenIdsList,
 
 }
 
+export async function uptickTransfer(id, denomId, name, recipient) {
+    try {
+        let account = await getAccountInfo();
+        console.log("uptick2Iris 02 ", account.bech32Address);
+
+        let msg = {
+            typeUrl: "/uptick.collection.v1.MsgTransferNFT",
+            value: [
+                id,
+                denomId,
+                name,
+                '',
+                '',
+                account.bech32Address,
+                recipient
+            ]
+        }
+debugger
+        const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
+        if (result.code == 0) {
+            alert("successful ! ");
+        }
+        return result;
+    } catch (error) {
+        console.log(error)
+        throw new Error(error)
+    }
+
+}
+
 
 export async function getAccountInfo(pChainId = "uptick_7000-1") {
 
@@ -187,11 +217,17 @@ async function sendMsgsTx(address, msgs, amount, data, isIris = false) {
         )
 
     }
-debugger
-    console.log("###xxl sendMsgsTx", [address, msgs, fee, data]);
-    const result = await client.sendMsgsTx(address, msgs, fee, data);
-    console.log("###xxl result", result);
-    return result;
+    debugger
+    try {
+        console.log("###xxl sendMsgsTx", [address, msgs, fee, data]);
+        const result = await client.sendMsgsTx(address, msgs, fee, data);
+        console.log("###xxl result", result);
+        return result;
+    } catch (error) {
+        console.log(error)
+        throw new Error(error)
+    }
+
 
 
 
@@ -252,9 +288,9 @@ export async function issueUptickDenomAndMint(
     if (result.code == 0) {
         console.log("xxl --- successful");
         return {
-            tokenId:id,
-            nftIds:nftIds.join(','),
-            hash:result.transactionHash
+            tokenId: id,
+            nftIds: nftIds.join(','),
+            hash: result.transactionHash
         }
     }
     console.log(result)

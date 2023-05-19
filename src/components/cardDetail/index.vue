@@ -34,6 +34,7 @@
 
 <script>
 import { cardDetail } from "../../api/home";
+import { keplrKeystoreChange } from "../../keplr/index";
 export default {
   name: "cardDetail",
   components: {},
@@ -41,12 +42,14 @@ export default {
     return {
       desValue:'',
       name:'',
-      Src:''
+      Src:'',
+      resResult: {},
     };
   },
   mounted(){
     console.log("wxl -- 222",this.$route.query.nftAddress,this.$route.query.nftId,this.$route.query.owner);
     this.cardDetail();
+      window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
   },
   methods: {
     // 获取卡详情
@@ -59,6 +62,7 @@ export default {
         owner:this.$route.query.owner
       }
      let res = await cardDetail(params)
+     this.resResult = res.data.obj
      this.name = res.data.obj.name
      this.desValue = res.data.obj.description
      this.Src = res.data.obj.imgUrl
@@ -72,7 +76,12 @@ export default {
       this.$router.push({name:'crossChain'})
     },
     toTransfer(){
-      this.$router.push({name:'transfer'})
+      // this.$router.push({name:'transfer'})
+      this.$router.push({ name: 'transfer', params: this.resResult });
+
+    },
+    keplrKeystoreChange(){
+        keplrKeystoreChange();
     },
 
   },

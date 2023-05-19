@@ -9,13 +9,15 @@
        </div>
         <div class="address">{{this.$store.state.IrisAddress}}</div>
         <div style="width: 100%;">
-            <button class="subBtn">Copy</button>
+            <button class="subBtn" @click="copyAddress">Copy</button>
         </div>
+        <uComponents  ref="ucom"></uComponents>  
     </div>
 </template>
     
 <script>
 import qrcode from "qrcode";
+import { keplrKeystoreChange } from "../../keplr/index";
 export default {
     name: 'receiveCode',
     data() {
@@ -29,8 +31,21 @@ export default {
     mounted(){
     let link= `{"address":"${this.$store.state.IrisAddress}"}`;
     this.generateQRCode(link)
+    window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
   },
     methods: {
+         keplrKeystoreChange(){
+        keplrKeystoreChange();
+    },
+        copyAddress(){
+            	var input = document.createElement('input')
+			input.value =this.$store.state.IrisAddress;
+			document.body.appendChild(input);
+			input.select();
+			document.execCommand('copy');
+            document.body.removeChild(input);
+            this.$toast("success", 'Copy Success')
+        },
         backPage(){
            this.$router.go(-1);
         },
