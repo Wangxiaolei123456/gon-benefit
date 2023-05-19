@@ -7,7 +7,9 @@
           <!-- <v-avatar  size="75">
               <img class="img"  :src="src" alt="avatar" />
           </v-avatar> -->
-          <img class="img" :src="src" alt="avatar" @click="EditInfo" />
+          <div class="profileBorder">
+            <img class="img" :src="src" alt="avatar" @click="EditInfo" />
+          </div>
         </div>
         <div class="ml-4">
           <div class="name" @click="EditInfo">{{ userName }}</div>
@@ -305,6 +307,7 @@ export default {
   height: 200px;
   background-color: #fb599b;
   border-radius: 0px 0px 0px 45px;
+
   .title {
     text-align: center;
     font-family: "AmpleSoft-Bold" !important;
@@ -315,20 +318,36 @@ export default {
     letter-spacing: 0px;
     color: #ffffff;
   }
+
   .infos {
     margin-top: 30px;
+
     .avata {
       .img {
         width: 75px;
         height: 75px;
         border-radius: 50%;
-        border: 5px solid #9e00ff;
+        // border: 5px solid #9e00ff;
         object-fit: cover;
         cursor: pointer;
         //       border-image: linear-gradient(to right, #ff7700, #ff0099);
         // border-image-slice: 1;
       }
     }
+
+
+  .profileBorder {
+    // margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85px;
+    height: 85px;
+    background: linear-gradient(141deg, #ff37b6 0%, #9e00ff 100%);
+    border-radius: 50%;
+  }
+
+
     .name {
       cursor: pointer;
       font-family: "AmpleSoft-Bold" !important;
@@ -339,6 +358,7 @@ export default {
       letter-spacing: 0px;
       color: #ffffff;
     }
+
     .address {
       cursor: pointer;
       font-family: "AmpleSoft" !important;
@@ -349,6 +369,7 @@ export default {
       letter-spacing: 0px;
       color: #ffffff;
     }
+
     .qrcode {
       img {
         width: 20px;
@@ -359,8 +380,10 @@ export default {
     }
   }
 }
+
 .select {
   position: relative;
+
   .chain {
     width: 135px;
     height: 26px;
@@ -375,6 +398,7 @@ export default {
     letter-spacing: 0px;
     color: #fb599b;
   }
+
   .chainList {
     position: absolute;
     top: 28px;
@@ -383,6 +407,7 @@ export default {
     background-color: #611ecd;
     border-radius: 5px;
     z-index: 200;
+
     .list {
       margin: 30px 0px 33px 20px;
 
@@ -398,6 +423,7 @@ export default {
       }
     }
   }
+
   .Filter {
     min-width: 75px;
     padding-left: 8px;
@@ -414,6 +440,7 @@ export default {
     letter-spacing: 0px;
     color: #fb599b;
   }
+
   .FilterList {
     position: absolute;
     top: 28px;
@@ -423,8 +450,10 @@ export default {
     background-color: #611ecd;
     border-radius: 5px;
     z-index: 200;
+
     .list {
       margin: 30px 0px 33px 20px;
+
       .name {
         cursor: pointer;
         font-family: "AmpleSoft" !important;
@@ -437,6 +466,7 @@ export default {
       }
     }
   }
+
   .create {
     width: 76px;
     height: 26px;
@@ -451,10 +481,12 @@ export default {
     color: #ffffff;
   }
 }
+
 .Cardlist {
   height: 545px;
   overflow-y: auto;
 }
+
 .empty {
   height: 545px;
   display: flex;
@@ -462,5 +494,4 @@ export default {
   justify-content: center;
   font-family: "AmpleSoft" !important;
   color: #ffffff;
-}
-</style>
+}</style>
