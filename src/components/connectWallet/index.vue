@@ -14,8 +14,6 @@
 <script>
 
 import { getkeplrIrisAddress,getkeplrUptickAddress,initWallet } from "../../keplr/index";
-
-
 export default {
   name: "Work",
   inheritAttrs: false,
@@ -33,6 +31,7 @@ export default {
   },
  async mounted(){
    await  initWallet();
+  
     console.log("ssssss",this.$store.state.uptickAddress,this.$store.state.IrisAddress);
     let info = localStorage.getItem('userInfo')
     if(info){
@@ -42,6 +41,7 @@ export default {
     
   },
   methods: {
+    
      async connectWallet(){
          // Iris Address
          debugger

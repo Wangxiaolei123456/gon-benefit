@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { keplrKeystoreChange } from "../../keplr/index";
 export default {
   name: "cardDetail",
   components: {},
@@ -42,9 +43,13 @@ export default {
         }
     },
   mounted() {
+      window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
       console.log('33333',this.$store.state.IrisAddress,this.$store.state.UptickAddress);
   },
   methods: {
+     keplrKeystoreChange(){
+        keplrKeystoreChange();
+    },
     backPage() {
       this.$router.go(-1);
     },

@@ -34,6 +34,7 @@
 
 <script>
 import { cardDetail } from "../../api/home";
+import { keplrKeystoreChange } from "../../keplr/index";
 export default {
   name: "cardDetail",
   components: {},
@@ -47,6 +48,7 @@ export default {
   mounted(){
     console.log("wxl -- 222",this.$route.query.nftAddress,this.$route.query.nftId,this.$route.query.owner);
     this.cardDetail();
+      window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
   },
   methods: {
     // 获取卡详情
@@ -73,6 +75,9 @@ export default {
     },
     toTransfer(){
       this.$router.push({name:'transfer'})
+    },
+    keplrKeystoreChange(){
+        keplrKeystoreChange();
     },
 
   },

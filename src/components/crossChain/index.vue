@@ -44,14 +44,20 @@
 </template>
 
 <script>
+import { keplrKeystoreChange } from "../../keplr/index";
 export default {
   name: "cardDetail",
   components: {},
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+  },
   methods: {
+       keplrKeystoreChange(){
+        keplrKeystoreChange();
+    },
     backPage() {
       this.$router.go(-1);
     },

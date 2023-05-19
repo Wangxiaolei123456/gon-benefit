@@ -51,6 +51,7 @@ import { getAccountInfo, issueUptickDenomAndMint, uptick2Iris } from "/src/keplr
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
 import { uploadImage, getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
+import { keplrKeystoreChange } from "../../keplr/index";
 
 export default {
   name: 'HelloWorld',
@@ -82,6 +83,7 @@ export default {
     console.log(this.$store.state.UptickAddress)//UptickAddress
     this.sender = this.$store.state.UptickAddress
     console.log(this.nameValue)
+    window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
   },
   watch: {
     uploadedImageHash: 'checkInput',
@@ -100,6 +102,9 @@ export default {
     }
   },
   methods: {
+       keplrKeystoreChange(){
+        keplrKeystoreChange();
+    },
     async getMetaDataJson() {
       var metaParams = {}
       metaParams.name = this.nameValue

@@ -54,9 +54,12 @@
 
 import Card from "../workCard/card";
 import {uploadImage} from "../../api/image"
-import { getIirsAccoutInfo } from "/src/keplr/iris/wallet"
+import { getIirsAccoutInfo, } from "/src/keplr/iris/wallet"
 import {getMyCardList,createInfo,getUserInfo} from "@/api/home";
 import Loading from "@/components/loading.vue";
+import { keplrKeystoreChange } from "../../keplr/index";
+import { getNftImg } from "/src/api/image"
+
 
 export default {
   name: 'Home',
@@ -120,7 +123,7 @@ export default {
   	}
   },
   async  mounted(){
-
+       window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
     console.log('sssssssss', window.keplr);
     window.addEventListener("scroll", this.scrolling);
 
@@ -145,10 +148,10 @@ export default {
     }
     
    let infoResult = await getUserInfo(InfoParams)
-   this.src = infoResult.data.obj.photo
+  
    console.log('sssss',infoResult);
    debugger
-   if(!infoResult.data){
+   if(infoResult.data.code == 1){
         // 注册账户
     let createParams = {
             name: this.userName,
@@ -157,8 +160,15 @@ export default {
             photo: '',
     }
    let result =  await createInfo(createParams)
+   this.src = getNftImg('Qme2yTuaJXxKgXrjnwU8SgjGq5Vxpf1PPBVKLxVxAAETkH')
    }else{
         this.userName = infoResult.data.obj.name
+        if(infoResult.data.obj.photo){
+              this.src = infoResult.data.obj.photo
+        }else{
+  this.src = getNftImg('Qme2yTuaJXxKgXrjnwU8SgjGq5Vxpf1PPBVKLxVxAAETkH')
+        }
+       
    }
 
    
@@ -175,6 +185,9 @@ export default {
     },
     clickCode(){
       this.$router.push({name:'receiveCode'})
+    },
+    keplrKeystoreChange(){
+        keplrKeystoreChange();
     },
     async getMyList(chainName){
         this.isShowLoading =true

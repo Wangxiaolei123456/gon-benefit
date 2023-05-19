@@ -26,6 +26,7 @@
 <script>
 import { uploadImage, getNftImg } from "/src/api/image"
 import { editUserInfo,getUserInfo } from "../../api/home";
+import { keplrKeystoreChange } from "../../keplr/index";
 export default {
     name: 'HelloWorld',
     data() {
@@ -42,7 +43,7 @@ export default {
         }
     },
    async mounted(){
-
+       window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
     //    if(this.$route.params.name){
     //        this.inputNameText = this.$route.params.name
     //    }
@@ -64,6 +65,9 @@ export default {
    }
   },
     methods: {
+           keplrKeystoreChange(){
+        keplrKeystoreChange();
+    },
         disconnect(){
         localStorage.clear();
         this.$store.commit('SET_DID', "");
