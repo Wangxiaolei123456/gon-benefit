@@ -29,7 +29,7 @@
     </div>
     <div class="name" style="padding-top: 15px;">
       <div class="title" style="text-align: left;">Chain</div>
-      <select v-model="selected" style="width: 100%; background-color: white; border-radius: 5px;">
+      <select v-model="selected" class="chainSelected">
         <option v-for="option in options" :value="option.value" :key="option.value">{{ option.label }}</option>
       </select>
     </div>
@@ -74,7 +74,7 @@ export default {
         { value: 'gon-irishub-1', label: 'IRIS' },
         { value: 'uptick_7000-1', label: 'UPTICK' },
       ],
-      selected: 'gon-irishub-1'
+      selected: 'uptick_7000-1'
     }
   },
   created() {
@@ -134,8 +134,9 @@ export default {
 
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
+        let txResult;
         if (this.selected == "gon-irishub-1") {
-          let txResult = await issueDenomAndMint(
+          txResult = await issueDenomAndMint(
             name,
             sender,
             sender,
@@ -145,7 +146,7 @@ export default {
           );
           console.log(txResult)
         } else {
-          let txResult = await issueUptickDenomAndMint(
+          txResult = await issueUptickDenomAndMint(
             name,
             sender,
             sender,
@@ -385,6 +386,14 @@ export default {
 
 .subBtn:disabled {
   background-color: gray;
+}
+
+.chainSelected {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  background-image: linear-gradient(#e8daff, #e8daff), linear-gradient(#a17ae0, #a17ae0);
+  height: 44px;
 }
 </style>
   
