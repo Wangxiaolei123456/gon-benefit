@@ -17,6 +17,7 @@
     <div class="content">
       <div class="name">Macaron membership card｜- Macaronhome</div>
       <div class="title">Transfer</div>
+
      
         <div class="receive mt-5" style="text-align: left;">Receive</div>
         <input class="textInput mt-2" type="text" v-model="inputNameText" @input="checkInput">
@@ -24,6 +25,7 @@
    
     <button class="Submit mt-8" @click="submitButton"> Submit</button>
     <uComponents  ref="ucom"></uComponents>
+
   </div>
 </template>
 
@@ -38,32 +40,36 @@ export default {
   components: {},
   data() {
     return {
-        inputNameText:'iaa1fu5xru6umtfqthe588z6zk37gdknulr55ee5qf'
+        inputNameText:''
     };
   },
-    watch: {
-        inputNameText() {
-            this.checkInput()
-        }
+  watch: {
+    inputNameText() {
+      this.checkInput();
     },
+  },
   mounted() {
+
       window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
       console.log('33333',this.$store.state.IrisAddress,this.$store.state.UptickAddress);
       console.log(this.$route.params)
+
   },
   methods: {
-     keplrKeystoreChange(){
-        keplrKeystoreChange();
+    keplrKeystoreChange() {
+      keplrKeystoreChange();
     },
     backPage() {
       this.$router.go(-1);
     },
     checkInput() {
-            this.isInputEmpty = this.inputNameText.trim() === ''
+      this.isInputEmpty = this.inputNameText.trim() === "";
     },
-    toCross(){
-      this.$router.push({name:'crossChain'})
+    toCross() {
+      this.$router.push({ name: "crossChain" });
     },
+
+
     submitButton() {
       let nftId = this.$route.params.nftId
       let denomId = this.$route.params.nftAddress
@@ -135,6 +141,7 @@ export default {
         this.$toast("error", error.message)
       }
     }
+
   },
 };
 </script>
@@ -164,49 +171,45 @@ export default {
     letter-spacing: 0px;
     color: #ffffff;
   }
-    .title{
-        font-family:" AmpleSoft-Bold" !important;
-        font-size: 25px !important;
-        font-weight: normal;
-        font-stretch: normal;
-        line-height: 25px;
-        letter-spacing: 0px;
-        color: #fb599b;
-    }
-    .receive{
-          text-align: center;
+  .title {
+    font-family: " AmpleSoft-Bold" !important;
+    font-size: 25px !important;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 25px;
+    letter-spacing: 0px;
+    color: #fb599b;
+  }
+  .receive {
+    text-align: center;
     width: 100%;
     font-family: "AmpleSoft-Bold" !important;
     font-size: 15px !important;
     font-weight: normal;
     font-stretch: normal;
     color: #ffffff;
-    }
-     .textInput {
-        width: 100%;
-        padding-left: 10px;
-        height: 44px;
-        background-image: linear-gradient(#e8daff,
-                #e8daff),
-            linear-gradient(#a17ae0,
-                #a17ae0);
-        background-blend-mode: normal,
-            normal;
-        border-radius: 5px;
-    }
+  }
+  .textInput {
+    width: 100%;
+    padding-left: 10px;
+    height: 44px;
+    background-image: linear-gradient(#e8daff, #e8daff),
+      linear-gradient(#a17ae0, #a17ae0);
+    background-blend-mode: normal, normal;
+    border-radius: 5px;
+  }
 }
-.Submit{
-    width: 326px;
-	height: 40px;
-	background-color: #611ecd;
-    border-radius: 20px;
-    font-family: "AmpleSoft-Bold";
-	font-size: 15px;
-	font-weight: normal;
-	font-stretch: normal;
-	line-height: 15px;
-	letter-spacing: 0px;
-	color: #ffffff;
+.Submit {
+  width: 326px;
+  height: 40px;
+  background-color: #611ecd;
+  border-radius: 20px;
+  font-family: "AmpleSoft-Bold";
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 15px;
+  letter-spacing: 0px;
+  color: #ffffff;
 }
-
 </style>

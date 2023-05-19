@@ -1,5 +1,5 @@
 <template>
-  <div class="home d-flex flex-column ">
+  <div class="home d-flex flex-column">
     <div class="top">
       <v-img class="img" src="https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small"
         alt="">
@@ -121,7 +121,6 @@ export default {
     letter-spacing: 0px;
     color: #ffffff;
   }
-
   .title {
     font-family: "AmpleSoft-Bold";
     font-size: 25px;
