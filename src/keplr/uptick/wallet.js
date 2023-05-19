@@ -5,6 +5,7 @@ const long = require('long');
 
 import {
     SigningStargateClient,
+    StargateClient
 } from '@uptsmart/stargate'
 
 import {
@@ -256,6 +257,40 @@ export async function issueUptickDenomAndMint(
     // 	txInfo,
     // 	denomInfo: msgs
     // }
+}
+
+export async function quiryUptickTx(tx) {
+
+	console.log("xxl ....");
+	try {
+        const offlineSigner = await window.getOfflineSigner(chainId);
+
+        let client = await StargateClient.connectWithSigner(
+            uptickUrl,
+            offlineSigner
+        )
+		let result = await client.searchTx(tx);
+		console.log(result);
+		if (result.tx_result != null && result.tx_result.code == 0) {
+			return {
+				code: "0",
+				log: ""
+			}
+		} else if (result.tx_result != null && result.tx_result.code != 0) {
+			return {
+				code: "-1",
+				log: result.tx_result.log
+			}
+		} else {
+			return {
+				code: "-2",
+				log: "cannot get log"
+			}
+		}
+	} catch (e) {
+		return [-3, e.toString()];
+	}
+
 }
 
 function getDenomName(name, address) {
