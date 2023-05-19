@@ -7,7 +7,7 @@
        <div class="qrcode">
             <canvas id="qrcode" ref="qrcode" width="165"  height="165"></canvas>
        </div>
-        <div class="address">uptick1n2lkja0ej74zg3tzntl0arag46vjytaz9cyhp8</div>
+        <div class="address">{{this.$store.state.IrisAddress}}</div>
         <div style="width: 100%;">
             <button class="subBtn">Copy</button>
         </div>
@@ -27,7 +27,7 @@ export default {
        
     },
     mounted(){
-    let link= `{"source":"web","target":"buyFree","nftAddress":"jjahbsha","nftId":"dwdwew","owner":"wewewe"}`;
+    let link= `{"address":"${this.$store.state.IrisAddress}"}`;
     this.generateQRCode(link)
   },
     methods: {

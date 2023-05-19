@@ -3,7 +3,7 @@
     <div class="top">
       <v-img
         class="img"
-        src="https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small"
+        :src="Src"
         alt=""
       >
         <img
@@ -40,7 +40,8 @@ export default {
   data() {
     return {
       desValue:'',
-      name:''
+      name:'',
+      Src:''
     };
   },
   mounted(){
@@ -58,8 +59,9 @@ export default {
         owner:this.$route.query.owner
       }
      let res = await cardDetail(params)
-     this.name = res.data.name
-     this.desValue = res.data.description
+     this.name = res.data.obj.name
+     this.desValue = res.data.obj.description
+     this.Src = res.data.obj.imgUrl
 
 
     },

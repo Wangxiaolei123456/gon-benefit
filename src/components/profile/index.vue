@@ -7,7 +7,7 @@
         <div class="profile">
             <div class="profileBorder">
                 <input type="file" accept="image/*" ref="fileInput" style="display:none" @change="uploadFile">
-                <img class="addButton" :src="loadeProfileImageUrl()" @click="chooseFile">
+                <img class="addButton" :src="Src" @click="chooseFile">
             </div>
         </div>
         <div class="name" style="padding-top: 35px;">
@@ -18,19 +18,22 @@
             <button class="subBtn" @click="submitButton" :disabled="isInputEmpty">Submit</button>
         </div>
         <div class="disconnect" @click="disconnect"> Disconnect </div>
+        <uComponents  ref="ucom"></uComponents>  
     </div>
+    
 </template>
     
 <script>
 import { uploadImage, getNftImg } from "/src/api/image"
-import { editUserInfo } from "../../api/home";
+import { editUserInfo,getUserInfo } from "../../api/home";
 export default {
     name: 'HelloWorld',
     data() {
         return {
             inputNameText: '',// 初始化输入框的值为空
             uploadedProfileHash: 'Qme2yTuaJXxKgXrjnwU8SgjGq5Vxpf1PPBVKLxVxAAETkH',//头像的默认hash
-            isInputEmpty: true
+            isInputEmpty: true,
+            Src:''
         }
     },
     watch: {
@@ -38,11 +41,27 @@ export default {
             this.checkInput()
         }
     },
-    mounted(){
+   async mounted(){
 
-       if(this.$route.params.name){
-           this.inputNameText = this.$route.params.name
-       }
+    //    if(this.$route.params.name){
+    //        this.inputNameText = this.$route.params.name
+    //    }
+
+        // 查询用户信息
+    let InfoParams = {
+         address: this.$store.state.IrisAddress,
+    }
+    
+   let infoResult = await getUserInfo(InfoParams)
+   if(infoResult.data.code == 0){
+        this.inputNameText = infoResult.data.obj.name
+        if(infoResult.data.obj.photo){
+            this.Src = infoResult.data.obj.photo
+            
+        }else{
+            this.Src = this.loadeProfileImageUrl()
+        }
+   }
   },
     methods: {
         disconnect(){
@@ -61,10 +80,17 @@ export default {
                name: this.inputNameText,
             address: this.$store.state.IrisAddress,
             uptickAddress: this.$store.state.UptickAddress,
-            photo:this.uploadedProfileHash 
+            photo: getNftImg(this.uploadedProfileHash)
           }
             let res =   await editUserInfo(infoParams);
-          console.log('res',res);
+            if(res.data.code == 0){
+                 this.$toast("success", 'Edit success').then(()=>{
+                    this.$router.push({name:'Home'})
+                 })
+            }else{
+                  this.$toast("error", 'Edit faild')
+            }
+            
 
         },
         chooseFile() {
@@ -80,6 +106,8 @@ export default {
                 const value = await uploadImage(file);
                 console.log(value.data.data);
                 this.uploadedProfileHash = value.data.data
+                 this.Src = getNftImg(this.uploadedProfileHash)
+                 console.log("sssss", this.Src);
             } catch (error) {
                 console.error(error);
             }

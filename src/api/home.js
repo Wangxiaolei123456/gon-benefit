@@ -26,9 +26,9 @@ export function requestCreateNFT(params) {
         transObjToParamStr(params)
     )
 }
-export function getMyCardList(params) {
+export function getMyCardList(params,type) {
    
-    return service.post('/gonapi/nft/searchPage', transObjToParamStr(params))
+    return service.post('/gonapi/nft/searchPage?type='+type, transObjToParamStr(params))
 }
 // 修改个人信息
 export function editUserInfo(params) {

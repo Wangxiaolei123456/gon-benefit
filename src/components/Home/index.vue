@@ -103,7 +103,7 @@ export default {
       filterIndex:0,
       isShowChainList:false,
       isShowFilterList:false,
-      src:'https://d3i65oqeoaoxhj.cloudfront.net/QmdoDytxTDqse9JCAzkdBmtLfEwG8vbPUaUueVhWpQrs4E/small',
+      src:'',
       userName:'',
       userAddress:"",
       list:[]
@@ -127,7 +127,7 @@ export default {
 
     let info = localStorage.getItem('userInfo')
     if(info){
-         this.userName = JSON.parse(info).name
+    this.userName = JSON.parse(info).name
     this.userAddress = JSON.parse(info).address
     }else{
         //获取用户信息
@@ -145,6 +145,7 @@ export default {
     }
     
    let infoResult = await getUserInfo(InfoParams)
+   this.src = infoResult.data.obj.photo
    console.log('sssss',infoResult);
    debugger
    if(!infoResult.data){
@@ -157,7 +158,7 @@ export default {
     }
    let result =  await createInfo(createParams)
    }else{
-        this.userName = infoResult.data.name
+        this.userName = infoResult.data.obj.name
    }
 
    
@@ -181,9 +182,10 @@ export default {
             //this.$store.state.uptickAddress,this.$store.state.IrisAddress
             owner:chainName == 'Uptick Network' ?this.$store.state.UptickAddress:this.$store.state.IrisAddress,
             chainType:chainName == 'Uptick Network' ?'uptick_7000-1':'gon-irishub-1',
-            type:this.filterList[this.filterIndex].id
+            // type:this.filterList[this.filterIndex].id
         }
-        let listInfo =  await getMyCardList(params)
+        
+        let listInfo =  await getMyCardList(params,this.filterList[this.filterIndex].id)
         let list = listInfo.data.list
         this.list = this.list.concat(list)
         this.isShowLoading =false
@@ -235,10 +237,10 @@ export default {
      this.getMyList(this.chainList[index].text)
     },
     clickFilter(index){
+        this.list = []
         this.filterIndex = index
         this.isShowFilterList =false
-        this.getMyList(this.chainList[this.chainIndex].text)
-       
+        this.getMyList(this.chainList[this.chainIndex].text) 
     },
     showChain(){
       this.isShowChainList = !this.isShowChainList 
