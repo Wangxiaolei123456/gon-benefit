@@ -28,7 +28,7 @@ export function requestCreateNFT(params) {
 }
 
 export function requestTranserNFT(params) {
-    return service.post('/gonapi/nft', 
+    return service.post('/gonapi/nft/edit', 
         transObjToParamStr(params)
     )
 }

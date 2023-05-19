@@ -73,7 +73,9 @@ export default {
       this.$router.go(-1);
     },
     toCross(){
-      this.$router.push({name:'crossChain'})
+      // this.$router.push({name:'crossChain'})
+      this.$router.push({ name: 'crossChain', params: this.resResult });
+
     },
     toTransfer(){
       // this.$router.push({name:'transfer'})

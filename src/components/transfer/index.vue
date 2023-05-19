@@ -30,13 +30,15 @@
 <script>
 import { keplrKeystoreChange } from "../../keplr/index";
 import { uptickTransfer } from "/src/keplr/uptick/wallet"
+import { transferNft } from "/src/keplr/iris/wallet"
+import { requestTranserNFT } from "/src/api/home"
 
 export default {
   name: "cardDetail",
   components: {},
   data() {
     return {
-        inputNameText:'uptick1p0rjmkfefpsn0skrjas2zr2p6uzvkr68dh0v7y'
+        inputNameText:'iaa1fu5xru6umtfqthe588z6zk37gdknulr55ee5qf'
     };
   },
     watch: {
@@ -63,27 +65,75 @@ export default {
       this.$router.push({name:'crossChain'})
     },
     submitButton() {
-      this.requestUptickTransfer()
-    },
-    async requestUptickTransfer() {
       let nftId = this.$route.params.nftId
-      let tokenId = this.$route.params.nftAddress
+      let denomId = this.$route.params.nftAddress
       let name = this.$route.params.name
       let recipient = this.inputNameText
       console.log(this.$route.params)
-      debugger
-      try {
-        await uptickTransfer(nftId,tokenId,name,recipient)
-        //链上转送完成，调用接口
 
+      if (this.$store.state.chainType == "uptick_7000-1") {
+        this.requestUptickTransfer(nftId,denomId,name,recipient)
+      }
+
+      if (this.$store.state.chainType == "gon-irishub-1") {
+        this.requestIrisTransfer(nftId,denomId,name,recipient)
+      }
+    },
+
+    async requestUptickTransfer(nftId,denomId,name,recipient) {
+       
+      try {
+        await uptickTransfer(nftId,denomId,name,recipient)
+       
+        //链上转送完成，调用接口
+        let params = {}
+        params.nftAddress = denomId
+        params.nftId = nftId
+        params.owner = recipient
+        let transferResult = await requestTranserNFT(params)
+        //链上转送完成，调用接口
+        console.log(transferResult)
+        this.$toast("success", "Transfer Success")
+        this.$router.push('/home')
 
       } catch (error) {
         console.log(error)
         this.$toast("error", error.message)
       }
     },
-    irisTransfer() {
+    async requestIrisTransfer(nftId,denomId,name,recipient) {
+      
+      try {
 
+        let sender = this.$store.state.IrisAddress;
+        let recipient = this.inputNameText;
+        let tokenId = nftId;
+        let fee = 0;
+        let adminAddress = "";
+        let nftIds = [];
+        nftIds.push(tokenId);
+        let result = await transferNft(
+          nftIds,
+          denomId,
+          sender,
+          recipient,
+          fee,
+          adminAddress
+        );
+        console.log(result)
+        let params = {}
+        params.nftAddress = denomId
+        params.nftId = nftId
+        params.owner = recipient
+        let transferResult = await requestTranserNFT(params)
+        //链上转送完成，调用接口
+        console.log(transferResult)
+        this.$router.push('/home')
+
+      } catch (error) {
+        console.log(error)
+        this.$toast("error", error.message)
+      }
     }
   },
 };

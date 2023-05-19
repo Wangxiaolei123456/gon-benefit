@@ -185,29 +185,37 @@ export async function tranferWithMemo(memo, amount, fee, adminAddress) {
 
 export async function transferNft(nftIds, denomId, sender, recipient, fee, adminAddress, memo) {
 
-	let accountInfo = await getAccountInfo()
-	let msgs = [];
-	let len = nftIds.length;
-	for (var i = 0; i < len; i++) {
-		let msg = {
-			type: iris.types.TxType.MsgTransferNFT,
-			value: {
-				id: nftIds[i],
-				denom_id: denomId,
-				sender,
-				recipient
+	try {
+		let accountInfo = await getAccountInfo()
+		let msgs = [];
+		let len = nftIds.length;
+		for (var i = 0; i < len; i++) {
+			let msg = {
+				type: iris.types.TxType.MsgTransferNFT,
+				value: {
+					id: nftIds[i],
+					denom_id: denomId,
+					sender,
+					recipient
+				}
 			}
+			msgs.push(msg)
 		}
-		msgs.push(msg)
+		if (fee > 0)
+			msgs = addSendMsg(msgs, accountInfo.bech32Address, adminAddress, fee);
+	
+		//xxl transferNft
+		console.log("xxl transferNft msgs");
+		console.log(msgs);
+		let txInfo = await signAndBroadcastTx(accountInfo, msgs, memo);
+		
+		await waitForTxConfirmation(txInfo.hash);
+		debugger
+		return txInfo
+	} catch (error) {
+		throw new Error(error)
 	}
-	if (fee > 0)
-		msgs = addSendMsg(msgs, accountInfo.bech32Address, adminAddress, fee);
 
-	//xxl transferNft
-	console.log("xxl transferNft msgs");
-	console.log(msgs);
-
-	return await signAndBroadcastTx(accountInfo, msgs, memo);
 
 }
 
@@ -519,6 +527,7 @@ async function signAndBroadcastTx(accountInfo, msgs, memo = ' ') {
 
 		console.log(error);
 		console.log('signAndBroadcastTx error');
+		throw new Error(error)
 	}
 }
 

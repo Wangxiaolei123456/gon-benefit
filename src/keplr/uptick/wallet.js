@@ -17,30 +17,6 @@ const uptickUrl = "http://localhost:8080/uptick";
 const irisUrl = "http://localhost:8080/iris";
 
 
-export async function iris2Uptick(typeUrl, port, channel, classId, tokenIdsList, sender, receiver, memo) {
-
-    //
-    let account = await getAccountInfo("gon-irishub-1");
-    console.log("account address is : ", account.bech32Address);
-
-    let timespan = (Date.now() + 60000) * 1000000;
-    let msg = {
-        typeUrl: typeUrl,
-        value: [
-            port, channel, classId, tokenIdsList, sender, receiver, [0, 0], timespan, memo
-        ]
-    }
-
-    console.log(msg);
-
-    const result = await sendMsgsTx(sender, [msg], 1000000, "0x1234", true);
-    if (result.code == 0) {
-        alert("successful ! ");
-    }
-    return result;
-
-}
-
 
 export async function convertCosmosNFT2ERC(typeUrl, classId, nftId, sender, receiver, contractAddress, tokenId) {
 
@@ -106,34 +82,90 @@ export async function convertERC2CosmosNFT(typeUrl, classId, nftId, sender, rece
 
 }
 
-export async function uptick2Iris(typeUrl, port, channel, classId, tokenIdsList, sender, receiver, memo) {
 
-    let account = await getAccountInfo();
-    console.log("uptick2Iris 02 ", account.bech32Address);
+export async function iris2Uptick(denomId, nftId) {
 
-    // sourcePort: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    // sourceChannel: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    // classId: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    // tokenIdsList: (f = jspb.Message.getRepeatedField(msg, 4)) == null ? undefined : f,
-    // sender: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    // receiver: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    // timeoutHeight: (f = msg.getTimeoutHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f),
-    // timeoutTimestamp: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    // memo: jspb.Message.getFieldWithDefault(msg, 9, ""
-    let timespan = (Date.now() + 60000) * 1000000;
-    let msg = {
-        typeUrl: typeUrl,
-        value: [
-            port, channel, classId, tokenIdsList, sender, receiver, [0, 0], timespan, memo
-        ]
+    try {
+        let irisAccount = await getAccountInfo(irisChainId);
+        let uptickAccount = await getAccountInfo();
+
+        console.log("iris2Uptick uptickAddress ", uptickAccount.bech32Address);
+        console.log("iris2Uptick irisAddress ", irisAccount.bech32Address);
+
+        let timespan = (Date.now() + 60000) * 1000000;
+        let msg = {
+            typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
+            value: [
+                "nft-transfer",
+                "channel-7",
+                denomId,
+                [nftId],
+                irisAccount.bech32Address,
+                uptickAccount.bech32Address,
+                [0, 0],
+                timespan,
+                "iris to uptick"
+            ]
+        }
+
+        console.log(msg);
+
+        const result = await sendMsgsTx(irisAccount.bech32Address, [msg], 1000000, "0x1234", true);
+        console.log(result)
+        if (result.code == 0) {
+            // alert("successful ! ");
+            return result;
+        }
+    } catch (error) {
+        console.log(error)
+        throw new Error(error)
     }
 
-    const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
-    if (result.code == 0) {
-        alert("successful ! ");
-    }
-    return result;
+}
 
+export async function uptick2Iris(denomId, nftId) {
+    try {
+
+        let uptickAccount = await getAccountInfo();
+        let irisAccount = await getAccountInfo(irisChainId);
+
+        console.log("uptick2Iris uptickAddress ", uptickAccount.bech32Address);
+        console.log("uptick2Iris irisAddress ", irisAccount.bech32Address);
+
+        // sourcePort: jspb.Message.getFieldWithDefault(msg, 1, ""),
+        // sourceChannel: jspb.Message.getFieldWithDefault(msg, 2, ""),
+        // classId: jspb.Message.getFieldWithDefault(msg, 3, ""),
+        // tokenIdsList: (f = jspb.Message.getRepeatedField(msg, 4)) == null ? undefined : f,
+        // sender: jspb.Message.getFieldWithDefault(msg, 5, ""),
+        // receiver: jspb.Message.getFieldWithDefault(msg, 6, ""),
+        // timeoutHeight: (f = msg.getTimeoutHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f),
+        // timeoutTimestamp: jspb.Message.getFieldWithDefault(msg, 8, 0),
+        // memo: jspb.Message.getFieldWithDefault(msg, 9, ""
+        let timespan = (Date.now() + 60000) * 1000000;
+        let msg = {
+            typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
+            value: [
+                "nft-transfer",
+                "channel-7",
+                denomId,
+                [nftId],
+                uptickAccount.bech32Address,
+                irisAccount.bech32Address,
+                [0, 0],
+                timespan,
+                "uptick to iris"
+            ]
+        }
+        const result = await sendMsgsTx(uptickAccount.bech32Address, [msg], 1000000, "0x1234");
+        console.log(result)
+        if (result.code == 0) {
+            // alert("successful ! ");
+            return result;
+        }
+    } catch (error) {
+        console.log(error)
+        throw new Error(error)
+    }
 }
 
 export async function uptickTransfer(id, denomId, name, recipient) {
@@ -153,12 +185,13 @@ export async function uptickTransfer(id, denomId, name, recipient) {
                 recipient
             ]
         }
-debugger
+        debugger
         const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
+        console.log(result)
         if (result.code == 0) {
-            alert("successful ! ");
+            // alert("successful ! ");
+            return result;
         }
-        return result;
     } catch (error) {
         console.log(error)
         throw new Error(error)
@@ -274,7 +307,7 @@ export async function issueUptickDenomAndMint(
                 uri,
                 data,
                 accountInfo.bech32Address,
-                recipient
+                accountInfo.bech32Address
             ]
         }
         msgs.push(msg);

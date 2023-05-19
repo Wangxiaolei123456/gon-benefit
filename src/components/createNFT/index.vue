@@ -28,12 +28,6 @@
       <textarea class="descriptionText" v-model="descriptionValue" maxlength="800"></textarea>
     </div>
     <div class="name" style="padding-top: 15px;">
-      <div class="title" style="text-align: left;">Chain</div>
-      <select v-model="selected" class="chainSelected">
-        <option v-for="option in options" :value="option.value" :key="option.value">{{ option.label }}</option>
-      </select>
-    </div>
-    <div class="name" style="padding-top: 15px;">
       <div class="title" style="text-align: left;">Editions</div>
       <input class="textInput" type="text" v-model="amountValue">
     </div>
@@ -41,6 +35,7 @@
       <button class="subBtn" @click="submitButton" :disabled="isInputEmpty">Submit</button>
     </div>
     <loading :isShowLoading="isShowLoading"></loading>
+    <uComponents  ref="ucom"></uComponents>
   </div>
 </template>
   
@@ -58,30 +53,40 @@ export default {
   components: { Loading },
   data() {
     return {
-      // nameValue: '',// 初始化输入框的值为空
-      // descriptionValue: '',
-      // amountValue: '',
-      // uploadedImageHash: 'QmPuuSpLdzV4Hz4aJtPUVzxsgnLKPYiqKdYtdTGyLF6Pn5',//默认的图片,
-      nameValue: 'fantest',// 初始化输入框的值为空
-      descriptionValue: 'fantest',
+      nameValue: '',// 初始化输入框的值为空
+      descriptionValue: '',
       amountValue: '',
-      uploadedImageHash: 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2',//默认的图片,
+      uploadedImageHash: 'QmPuuSpLdzV4Hz4aJtPUVzxsgnLKPYiqKdYtdTGyLF6Pn5',//默认的图片,
       isInputEmpty: true,
       flag: true,
       isShowLoading: false,
       sender: '',
       metadataUrl: '',
-      options: [
-        { value: 'gon-irishub-1', label: 'IRIS' },
-        { value: 'uptick_7000-1', label: 'UPTICK' },
-      ],
-      selected: 'uptick_7000-1'
+      chainType: ''
     }
   },
   created() {
+
+
     console.log(this.$store.state.IrisAddress)//IrisAddress
     console.log(this.$store.state.UptickAddress)//UptickAddress
-    this.sender = this.$store.state.UptickAddress
+    console.log(this.$store.state.chainType)//chainType
+
+    this.chainType = this.$store.state.chainType
+  
+    if (this.chainType == "gon-irishub-1") {
+      this.sender = this.$store.state.IrisAddress
+    }
+
+    if (this.chainType == "uptick_7000-1") {
+      this.sender = this.$store.state.UptickAddress
+    }
+
+    const randomInt = new Date().getTime() % 100000 + 1;
+    this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
+    this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
+    this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
+
     console.log(this.nameValue)
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
   },
@@ -90,16 +95,6 @@ export default {
     nameValue: 'checkInput',
     descriptionValue: 'checkInput',
     amountValue: 'checkInput',
-
-    selected() {
-      debugger
-      if (this.selected == "gon-irishub-1") {
-        this.sender = this.$store.state.IrisAddress
-      }
-      if (this.selected == "uptick_7000-1") {
-        this.sender = this.$store.state.UptickAddress
-      }
-    }
   },
   methods: {
        keplrKeystoreChange(){
@@ -110,7 +105,7 @@ export default {
       metaParams.name = this.nameValue
       metaParams.description = this.descriptionValue
       metaParams.image = this.loadeImageUrl(this.uploadedImageHash)
-      metaParams.minter = this.$store.state.IrisAddress
+      metaParams.minter = this.sender
 
       let result = await uploadJsonData(metaParams)
       console.log(result)
@@ -123,7 +118,7 @@ export default {
       params.nftAddress = txResult.tokenId;
       params.nftId = txResult.nftIds
       params.hash = txResult.hash
-      params.chainType = this.selected
+      params.chainType = this.chainType
       params.name = this.nameValue
       params.description = this.descriptionValue
       params.creator = this.sender
@@ -132,7 +127,7 @@ export default {
       params.metadataUrl = this.metadataUrl
       let result = await requestCreateNFT(params)
       console.log(result)
-      if (result.status == 200 || result.status == 200) {
+      if (result.status == 201 || result.status == 200) {
         return result.data.data
       } else {
         // flag = false;
@@ -172,7 +167,7 @@ export default {
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
         let txResult;
-        if (this.selected == "gon-irishub-1") {
+        if (this.chainType == "gon-irishub-1") {
           txResult = await issueDenomAndMint(
             name,
             sender,
@@ -183,7 +178,7 @@ export default {
           );
           console.log(txResult)
         }
-        if (this.selected == "uptick_7000-1") {
+        if (this.chainType == "uptick_7000-1") {
           txResult = await issueUptickDenomAndMint(
             name,
             sender,
