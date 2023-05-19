@@ -37,12 +37,15 @@
          
         </div>
       </div>
-      <div class="Cardlist mt-5 ml-6 mr-6">
+      <div class="Cardlist mt-5 ml-6 mr-6" v-if="list.length >0">
       <div class="listitem mb-5" v-for="(item,index) in list" :key="index"   >
-       <Card :imgUrl ='item.imgUrl' :name='item.name'/>
+       <Card :imgUrl ='item.imgUrl' :name='item.name' :NFTInfo="item"/>
     </div>
-     <loading :isShowLoading="isShowLoading"></loading>
+     
 </div>
+<div v-else class="empty">Empty</div>
+<loading :isShowLoading="isShowLoading"></loading>
+   
   
   </div>
 </template>
@@ -52,7 +55,7 @@
 import Card from "../workCard/card";
 import {uploadImage} from "../../api/image"
 import { getIirsAccoutInfo } from "/src/keplr/iris/wallet"
-import {getMyCardList} from "@/api/home";
+import {getMyCardList,createInfo,getUserInfo} from "@/api/home";
 import Loading from "@/components/loading.vue";
 
 export default {
@@ -60,7 +63,7 @@ export default {
   components:{Card,Loading},
   data(){
     return{
-        isShowLoading:true,
+        isShowLoading:false,
        Marketlist:[
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
         {src:'https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small'},
@@ -136,6 +139,29 @@ export default {
     localStorage.setItem('userInfo',JSON.stringify(accountInfo))
     }
 
+    // 查询用户信息
+    let InfoParams = {
+         address: this.userAddress,
+    }
+    
+   let infoResult = await getUserInfo(InfoParams)
+   console.log('sssss',infoResult);
+   debugger
+   if(!infoResult.data){
+        // 注册账户
+    let createParams = {
+            name: this.userName,
+            address: this.userAddress,
+            uptickAddress: '',
+            photo: '',
+    }
+   let result =  await createInfo(createParams)
+   }else{
+        this.userName = infoResult.data.name
+   }
+
+   
+
     // 获取列表
     await this.getMyList(this.chainList[0].text)
   
@@ -150,14 +176,17 @@ export default {
       this.$router.push({name:'receiveCode'})
     },
     async getMyList(chainName){
+        this.isShowLoading =true
         let params = {
             //this.$store.state.uptickAddress,this.$store.state.IrisAddress
             owner:chainName == 'Uptick Network' ?this.$store.state.UptickAddress:this.$store.state.IrisAddress,
-            chainType:chainName == 'Uptick Network' ?'uptick_7000-1':'gon-irishub-1'
+            chainType:chainName == 'Uptick Network' ?'uptick_7000-1':'gon-irishub-1',
+            type:this.filterList[this.filterIndex].id
         }
         let listInfo =  await getMyCardList(params)
         let list = listInfo.data.list
         this.list = this.list.concat(list)
+        this.isShowLoading =false
         console.log('ssss',this.list);
     },
 
@@ -206,8 +235,10 @@ export default {
      this.getMyList(this.chainList[index].text)
     },
     clickFilter(index){
-      this.filterIndex = index
-       this.isShowFilterList =false
+        this.filterIndex = index
+        this.isShowFilterList =false
+        this.getMyList(this.chainList[this.chainIndex].text)
+       
     },
     showChain(){
       this.isShowChainList = !this.isShowChainList 
@@ -385,5 +416,13 @@ export default {
   .Cardlist{
     height: 545px;
     overflow-y: auto;
+  }
+  .empty{
+         height: 545px; 
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         font-family: "AmpleSoft" !important;
+         	color: #ffffff;
   }
 </style>

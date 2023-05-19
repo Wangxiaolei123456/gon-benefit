@@ -133,9 +133,9 @@ export default {
         this.metadataUrl = uri
 
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
-
+      let txResult
         if (this.selected == "gon-irishub-1") {
-          let txResult = await issueDenomAndMint(
+          txResult = await issueDenomAndMint(
             name,
             sender,
             sender,
@@ -145,7 +145,7 @@ export default {
           );
           console.log(txResult)
         } else {
-          let txResult = await issueUptickDenomAndMint(
+           txResult = await issueUptickDenomAndMint(
             name,
             sender,
             sender,
