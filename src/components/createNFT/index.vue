@@ -88,7 +88,7 @@ export default {
     nameValue: 'checkInput',
     descriptionValue: 'checkInput',
     amountValue: 'checkInput',
-  
+
     selected() {
       debugger
       if (this.selected == "gon-irishub-1") {
@@ -112,12 +112,12 @@ export default {
       // https://ipfs.upticknft.com/ipfs/QmR55vt4EVdtKyjHuepUgytGiVwTBPnVupDrnJx5gE38Di
       return "https://ipfs.upticknft.com/ipfs/" + result.data.data
     },
-    async requestCreateSuccess(nftAddress, nftIds, hash) {
+    async requestCreateSuccess(txResult) {
       var params = {}
 
-      params.nftAddress = nftAddress;
-      params.nftId = nftIds
-      params.hash = hash
+      params.nftAddress = txResult.tokenId;
+      params.nftId = txResult.nftIds
+      params.hash = txResult.hash
       params.chainType = this.selected
       params.name = this.nameValue
       params.description = this.descriptionValue
@@ -131,121 +131,104 @@ export default {
     },
     async submitButton() {
 
-    let tokenIdsList =[]
-    let typeUrl =  "/ibc.applications.nft_transfer.v1.MsgTransfer"
-    let port =  'nft-transfer'
-    let channel =  'channel-5'
+      // let tokenIdsList =[]
+      // let typeUrl =  "/ibc.applications.nft_transfer.v1.MsgTransfer"
+      // let port =  'nft-transfer'
+      // let channel =  'channel-7'
 
-    let classId =  'uptick932020a1e33fd792cb22e0a9a7c2315e'
-    let nftId =  'uptick52bb4fce161e6c2e'
-    let sender =  'uptick1e7v3fn2yxxlzpmlgy9232neykpe57gzupas6z6'
-    let receiver =  'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr'
-    let memo =  'uptick to iris'
-    tokenIdsList.push(nftId)
+      // let classId =  'uptick932020a1e33fd792cb22e0a9a7c2315e'
+      // let nftId =  'uptick52bb4fce161e6c2e'
+      // let sender =  'uptick1e7v3fn2yxxlzpmlgy9232neykpe57gzupas6z6'
+      // let receiver =  'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr'
+      // let memo =  'uptick to iris'
+      // tokenIdsList.push(nftId)
 
-    await uptick2Iris(typeUrl,port,channel,classId,tokenIdsList,sender,receiver,memo);   
-    console.log("xxl uptick2Iris 02");
+      // await uptick2Iris(typeUrl,port,channel,classId,tokenIdsList,sender,receiver,memo);   
+      // console.log("xxl uptick2Iris 02");
 
 
-//       try {
-//         console.log(this.nameValue)
-//         this.isShowLoading = true
+      try {
+        console.log(this.nameValue)
+        this.isShowLoading = true
 
-//         let name = this.nameValue;
-//         let sender = this.sender
-//         let data = ""
-//         let amount = Number(this.amountValue)
+        let name = this.nameValue;
+        let sender = this.sender
+        let data = ""
+        let amount = Number(this.amountValue)
 
-//         let uri = await this.getMetaDataJson()
-//         this.metadataUrl = uri
+        let uri = await this.getMetaDataJson()
+        this.metadataUrl = uri
 
-//         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
+        console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
-//         let txResult;
-//         let resultHash;
-//         if (this.selected == "gon-irishub-1") {
-//           txResult = await issueDenomAndMint(
-//             name,
-//             sender,
-//             sender,
-//             uri,
-//             data,
-//             amount,
-//           );
-//           resultHash = txResult.txInfo.hash
-//           console.log(txResult)
-//           for (let i = 0; i < 5; i++) {
-//   console.log(i);
-// }
-//           for (let item in txResult.denomInfo) {
-//             console.log(item)
-//             let nftAddress = txResult.denomInfo[0].value.id;
-
-//           }
-//           // let nftIds = txResult.denomInfo[1].value.id
-//           // let hash = txResult.txInfo.hash
-//           // debugger
-//           // await this.waitForTxConfirmation(nftAddress, nftIds, hash);
-//         }
-//         if (this.selected == "uptick_7000-1") {
-//           txResult = await issueUptickDenomAndMint(
-//             name,
-//             sender,
-//             sender,
-//             uri,
-//             data,
-//             amount,
-//           );
-//           //code 0代表成功 不用查询
-//           resultHash = txResult.transactionHash
-//           console.log(txResult.transactionHash)
-//         }
-//         await this.requestCreateSuccess(txResult)
-
-//         let title = "Create Success"
-//         this.$mtip({
-//           title: title,
-//         });
-//         this.isShowLoading = false
-
-//         // this.pushHome()
-
-//       } catch (error) {
-//         console.log(error);
-//         this.isShowLoading = false
-//         this.$mtip({
-//           title: error.message,
-//         });
-//       }
-    },
-
-    async waitForTxConfirmation(txHash) {
-      this.flag = true;
-      while (this.flag) {
-
-        if (!this.isShowLoading) {
-          this.isShowLoading = true
+        let txResult;
+        if (this.selected == "gon-irishub-1") {
+          txResult = await issueDenomAndMint(
+            name,
+            sender,
+            sender,
+            uri,
+            data,
+            amount,
+          );
+          console.log(txResult)
         }
-        console.log("wwwwww");
-        await this.sleep(5000);
-        let res = await quiryTx(txHash);
-        console.log("wxl -----  quiryTx");
-        console.log(res);
-        if (res.code == 0) {
-          this.flag = false;
-          return;
-        } else if (res.code == -1) {
-          this.flag = false;
-          throw new Error(res.log);
-        } else {
-          this.flag = true;
+        if (this.selected == "uptick_7000-1") {
+          txResult = await issueUptickDenomAndMint(
+            name,
+            sender,
+            sender,
+            uri,
+            data,
+            amount,
+          );
         }
+
+        await this.requestCreateSuccess(txResult)
+
+        let title = "Create Success"
+        this.$mtip({
+          title: title,
+        });
+        this.isShowLoading = false
+        this.pushHome()
+
+      } catch (error) {
+        console.log(error);
+        this.isShowLoading = false
+        this.$mtip({
+          title: error.message,
+        });
       }
     },
 
-    sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    },
+    // async waitForTxConfirmation(txHash) {
+    //   this.flag = true;
+    //   while (this.flag) {
+
+    //     if (!this.isShowLoading) {
+    //       this.isShowLoading = true
+    //     }
+    //     console.log("wwwwww");
+    //     await this.sleep(5000);
+    //     let res = await quiryTx(txHash);
+    //     console.log("wxl -----  quiryTx");
+    //     console.log(res);
+    //     if (res.code == 0) {
+    //       this.flag = false;
+    //       return;
+    //     } else if (res.code == -1) {
+    //       this.flag = false;
+    //       throw new Error(res.log);
+    //     } else {
+    //       this.flag = true;
+    //     }
+    //   }
+    // },
+
+    // sleep(ms) {
+    //   return new Promise(resolve => setTimeout(resolve, ms));
+    // },
     chooseFile() {
       this.$refs.fileInput.click()
     },

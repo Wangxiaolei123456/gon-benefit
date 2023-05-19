@@ -5,7 +5,6 @@ const long = require('long');
 
 import {
     SigningStargateClient,
-    StargateClient
 } from '@uptsmart/stargate'
 
 import {
@@ -224,10 +223,12 @@ export async function issueUptickDenomAndMint(
         value
     }
     msgs.push(msg);
-// debugger
+
+    let nftIds = []
     for (var i = 0; i < amount; i++) {
 
         let nftID = getNftId();
+        nftIds.push(nftID)
         msg = {
             typeUrl: "/uptick.collection.v1.MsgMintNFT",
             value: [
@@ -246,51 +247,18 @@ export async function issueUptickDenomAndMint(
     console.log("xxl --- msgs");
     console.log(msgs);
     const result = await sendMsgsTx(accountInfo.bech32Address, msgs, 1000000, "0x1234");
+
+    //code 0代表成功 不用查询
     if (result.code == 0) {
-        alert("successful ! ");
+        console.log("xxl --- successful");
+        return {
+            tokenId:id,
+            nftIds:nftIds.join(','),
+            hash:result.transactionHash
+        }
     }
     console.log(result)
-    return result;
-
-    // console.log("https://gon.ping.pub/iris/tx/" + txInfo.hash)
-    // return {
-    // 	txInfo,
-    // 	denomInfo: msgs
-    // }
-}
-
-export async function quiryUptickTx(tx) {
-
-	console.log("xxl ....");
-	try {
-        const offlineSigner = await window.getOfflineSigner(chainId);
-
-        let client = await StargateClient.connectWithSigner(
-            uptickUrl,
-            offlineSigner
-        )
-		let result = await client.searchTx(tx);
-		console.log(result);
-		if (result.tx_result != null && result.tx_result.code == 0) {
-			return {
-				code: "0",
-				log: ""
-			}
-		} else if (result.tx_result != null && result.tx_result.code != 0) {
-			return {
-				code: "-1",
-				log: result.tx_result.log
-			}
-		} else {
-			return {
-				code: "-2",
-				log: "cannot get log"
-			}
-		}
-	} catch (e) {
-		return [-3, e.toString()];
-	}
-
+    throw new Error(result.log);
 }
 
 function getDenomName(name, address) {
