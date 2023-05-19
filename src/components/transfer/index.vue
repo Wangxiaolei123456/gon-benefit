@@ -68,9 +68,7 @@ export default {
       this.$router.push({ name: "crossChain" });
     },
 
-    toCross(){
-      this.$router.push({name:'crossChain'})
-    },
+
     submitButton() {
       this.requestUptickTransfer()
     },
