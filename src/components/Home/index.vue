@@ -20,7 +20,7 @@
      
     </div>
      <div class="select d-flex flex-row mt-5 ml-6">
-        <button class="chain" @click="showChain">{{chainList[chainIndex].text}}</button>
+        <button class="chain" @click="showChain">{{selectChain}}</button>
          <button class="Filter ml-3" @click="showFilter" >{{filterList[filterIndex].text}}</button>
          <button class="create ml-8" @click="Create">Create</button>
         <div class="chainList" v-if="isShowChainList">
@@ -81,11 +81,13 @@ export default {
       chainList:[
         {
           text:'Uptick Network',
-          id:0
+          id:0,
+          chianId:'uptick_7000-1'
         },
          {
           text:'IRISnet',
-          id:1
+          id:1,
+          chianId:'gon-irishub-1'
         },
       ],
        filterList:[
@@ -109,7 +111,8 @@ export default {
       src:'',
       userName:'',
       userAddress:"",
-      list:[]
+      list:[],
+      selectChain:'uptick_7000-1'
     }
 
   },
@@ -123,8 +126,14 @@ export default {
   	}
   },
   async  mounted(){
-       window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
-    console.log('sssssssss', window.keplr);
+    let chainName =  localStorage.getItem('setChain')
+    if(!chainName){
+      localStorage.setItem('setChain',this.chainList[0].chianId)
+    }else{
+      this.selectChain = chainName
+    }
+      window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+    console.log('sssssssss', window.keplr,this.$store.state.chainType);
     window.addEventListener("scroll", this.scrolling);
 
 
@@ -194,7 +203,7 @@ export default {
         let params = {
             //this.$store.state.uptickAddress,this.$store.state.IrisAddress
             owner:chainName == 'Uptick Network' ?this.$store.state.UptickAddress:this.$store.state.IrisAddress,
-            chainType:chainName == 'Uptick Network' ?'uptick_7000-1':'gon-irishub-1',
+            chainType:this.selectChain,
             // type:this.filterList[this.filterIndex].id
         }
         
@@ -244,6 +253,9 @@ export default {
   },
 
     clickChain(index){
+       localStorage.setItem('setChain',this.chainList[index].chianId)
+       this.selectChain = this.chainList[index].chianId
+      this.$store.commit('SET_CHAIN',this.chainList[index].chianId)
       this.chainIndex = index;
       this.isShowChainList = false;
       this.list = []

@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
    
     IrisAddress:'',
-    UptickAddress:''
+    UptickAddress:'',
+    chainType:''
 	
   },
   mutations: {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     SET_UPTICK_DID(state, did) {
       state.UptickAddress = did
     },
+    SET_CHAIN(state,type){
+      state.chainType = type
+    }
     
   
   },
