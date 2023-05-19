@@ -127,7 +127,12 @@ export default {
       params.metadataUrl = this.metadataUrl
       let result = await requestCreateNFT(params)
       console.log(result)
-      return result.data.data
+      if (result.status == 200) {
+        return result.data.data
+      } else {
+        // flag = false;
+			  throw new Error("Request Creeate Falied");
+      }
     },
     async submitButton() {
 
@@ -195,6 +200,7 @@ export default {
 
       } catch (error) {
         console.log(error);
+        debugger
         this.isShowLoading = false
         this.$mtip({
           title: error.message,

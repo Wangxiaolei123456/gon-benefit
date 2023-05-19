@@ -54,17 +54,6 @@ export async function getMyBalance() {
 
 }
 
-// let tx = await issueDenomAndMint(
-//   orgName,
-//   sender,
-//   recipient,
-//   uri,
-//   data,
-//   amount,
-//   fee,
-//   addminAddress,
-// );
-
 export async function issueDenomAndMint(
 	orgName,
 	sender,
