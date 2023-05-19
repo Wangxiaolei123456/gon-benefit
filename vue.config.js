@@ -43,13 +43,14 @@ module.exports = defineConfig({
         }
       },
       '/gonapi': {
-        target: 'http://192.168.111.81:3000/nft',
+        target: 'http://192.168.111.81:3000',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
           '^/gonapi': '/'
         }
       },
+     
       '/uptick': {
         target: 'http://52.74.190.214:26657/',
         ws: false,

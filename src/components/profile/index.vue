@@ -23,6 +23,7 @@
     
 <script>
 import { uploadImage, getNftImg } from "/src/api/image"
+import { editUserInfo } from "../../api/home";
 export default {
     name: 'HelloWorld',
     data() {
@@ -54,10 +55,16 @@ export default {
         backPage(){
             this.$router.go(-1)
         },
-        submitButton() {
-            // 在这里处理输入框的提交操作
-            console.log(this.uploadedProfileHash)
-            console.log(this.inputNameText)
+      async  submitButton() {
+            // 在这里处理输入框的提交操作 this.$store.state.UptickAddress:this.$store.state.IrisAddress,
+          let infoParams = {
+               name: this.inputNameText,
+            address: this.$store.state.IrisAddress,
+            uptickAddress: this.$store.state.UptickAddress,
+            photo:this.uploadedProfileHash 
+          }
+            let res =   await editUserInfo(infoParams);
+          console.log('res',res);
 
         },
         chooseFile() {

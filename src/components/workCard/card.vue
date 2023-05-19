@@ -24,7 +24,8 @@ export default {
   inheritAttrs: false,
   props: {
       imgUrl:String,
-      name:String
+      name:String,
+      NFTInfo:Object
    
   },
   data: () => ({
@@ -51,7 +52,7 @@ export default {
   },
   methods: {
      imgClick() {
-       this.$router.push({name:'cardDetail'})
+       this.$router.push({name:'cardDetail',query:{nftAddress:this.NFTInfo.nftAddress,nftId:this.NFTInfo.nftId,owner:this.NFTInfo.owner}})
     },
   },
 };

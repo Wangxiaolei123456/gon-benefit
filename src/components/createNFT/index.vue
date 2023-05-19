@@ -46,7 +46,7 @@
   
 <script>
 import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/iris/wallet"
-import { getAccountInfo, issueUptickDenomAndMint } from "/src/keplr/uptick/wallet"
+import { getAccountInfo, issueUptickDenomAndMint, uptick2Iris } from "/src/keplr/uptick/wallet"
 
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
 import { uploadImage, getNftImg } from "/src/api/image"
@@ -88,6 +88,16 @@ export default {
     nameValue: 'checkInput',
     descriptionValue: 'checkInput',
     amountValue: 'checkInput',
+  
+    selected() {
+      debugger
+      if (this.selected == "gon-irishub-1") {
+        this.sender = this.$store.state.IrisAddress
+      }
+      if (this.selected == "uptick_7000-1") {
+        this.sender = this.$store.state.UptickAddress
+      }
+    }
   },
   methods: {
     async getMetaDataJson() {
@@ -102,79 +112,111 @@ export default {
       // https://ipfs.upticknft.com/ipfs/QmR55vt4EVdtKyjHuepUgytGiVwTBPnVupDrnJx5gE38Di
       return "https://ipfs.upticknft.com/ipfs/" + result.data.data
     },
-    async requestCreateSuccess(txResult) {
+    async requestCreateSuccess(nftAddress, nftIds, hash) {
       var params = {}
+
+      params.nftAddress = nftAddress;
+      params.nftId = nftIds
+      params.hash = hash
+      params.chainType = this.selected
       params.name = this.nameValue
-      params.chainType = "gon-irishub-1"
-      params.nftAddress = txResult.denomInfo[0].value.id;
-      params.nftId = txResult.denomInfo[1].value.id
       params.description = this.descriptionValue
       params.creator = this.sender
       params.owner = this.sender
       params.imgUrl = this.loadeImageUrl(this.uploadedImageHash)
       params.metadataUrl = this.metadataUrl
-      params.hash = txResult.txInfo.hash
       let result = await requestCreateNFT(params)
       console.log(result)
       return result.data.data
     },
     async submitButton() {
 
-      try {
-        console.log(this.nameValue)
-        this.isShowLoading = true
+    let tokenIdsList =[]
+    let typeUrl =  "/ibc.applications.nft_transfer.v1.MsgTransfer"
+    let port =  'nft-transfer'
+    let channel =  'channel-5'
 
-        let name = this.nameValue;
-        let sender = this.sender
-        let data = ""
-        let amount = Number(this.amountValue)
+    let classId =  'uptick932020a1e33fd792cb22e0a9a7c2315e'
+    let nftId =  'uptick52bb4fce161e6c2e'
+    let sender =  'uptick1e7v3fn2yxxlzpmlgy9232neykpe57gzupas6z6'
+    let receiver =  'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr'
+    let memo =  'uptick to iris'
+    tokenIdsList.push(nftId)
 
-        let uri = await this.getMetaDataJson()
-        this.metadataUrl = uri
+    await uptick2Iris(typeUrl,port,channel,classId,tokenIdsList,sender,receiver,memo);   
+    console.log("xxl uptick2Iris 02");
 
-        console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
-        let txResult;
-        if (this.selected == "gon-irishub-1") {
-          txResult = await issueDenomAndMint(
-            name,
-            sender,
-            sender,
-            uri,
-            data,
-            amount,
-          );
-          console.log(txResult)
-        } else {
-          txResult = await issueUptickDenomAndMint(
-            name,
-            sender,
-            sender,
-            uri,
-            data,
-            amount,
-          );
-        }
+//       try {
+//         console.log(this.nameValue)
+//         this.isShowLoading = true
 
-        await this.waitForTxConfirmation(txResult.txInfo.hash);
+//         let name = this.nameValue;
+//         let sender = this.sender
+//         let data = ""
+//         let amount = Number(this.amountValue)
 
-        await this.requestCreateSuccess(txResult)
+//         let uri = await this.getMetaDataJson()
+//         this.metadataUrl = uri
 
-        let title = "Create Success"
-        this.$mtip({
-          title: title,
-        });
-        this.isShowLoading = false
+//         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
-        this.pushHome()
+//         let txResult;
+//         let resultHash;
+//         if (this.selected == "gon-irishub-1") {
+//           txResult = await issueDenomAndMint(
+//             name,
+//             sender,
+//             sender,
+//             uri,
+//             data,
+//             amount,
+//           );
+//           resultHash = txResult.txInfo.hash
+//           console.log(txResult)
+//           for (let i = 0; i < 5; i++) {
+//   console.log(i);
+// }
+//           for (let item in txResult.denomInfo) {
+//             console.log(item)
+//             let nftAddress = txResult.denomInfo[0].value.id;
 
-      } catch (error) {
-        console.log(error);
-        this.isShowLoading = false
-        this.$mtip({
-          title: error.message,
-        });
-      }
+//           }
+//           // let nftIds = txResult.denomInfo[1].value.id
+//           // let hash = txResult.txInfo.hash
+//           // debugger
+//           // await this.waitForTxConfirmation(nftAddress, nftIds, hash);
+//         }
+//         if (this.selected == "uptick_7000-1") {
+//           txResult = await issueUptickDenomAndMint(
+//             name,
+//             sender,
+//             sender,
+//             uri,
+//             data,
+//             amount,
+//           );
+//           //code 0代表成功 不用查询
+//           resultHash = txResult.transactionHash
+//           console.log(txResult.transactionHash)
+//         }
+//         await this.requestCreateSuccess(txResult)
+
+//         let title = "Create Success"
+//         this.$mtip({
+//           title: title,
+//         });
+//         this.isShowLoading = false
+
+//         // this.pushHome()
+
+//       } catch (error) {
+//         console.log(error);
+//         this.isShowLoading = false
+//         this.$mtip({
+//           title: error.message,
+//         });
+//       }
     },
 
     async waitForTxConfirmation(txHash) {

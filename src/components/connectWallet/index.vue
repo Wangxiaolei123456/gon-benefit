@@ -37,6 +37,7 @@ export default {
     let info = localStorage.getItem('userInfo')
     if(info){
         this.$router.push({name:'Home'})
+        
     }
     
   },
