@@ -32,9 +32,12 @@ export default {
   components: {},
   data() {
     return {
-      desValue: "",
-      name: "",
-      Src: "",
+
+      desValue:'',
+      name:'',
+      Src:'',
+      resResult: {},
+
     };
   },
   mounted() {
@@ -49,6 +52,7 @@ export default {
   },
   methods: {
     // 获取卡详情
+
 
     async cardDetail() {
       let params = {
@@ -68,8 +72,11 @@ export default {
     toCross() {
       this.$router.push({ name: "crossChain" });
     },
-    toTransfer() {
-      this.$router.push({ name: "transfer" });
+
+    toTransfer(){
+      // this.$router.push({name:'transfer'})
+      this.$router.push({ name: 'transfer', params: this.resResult });
+
     },
     keplrKeystoreChange() {
       keplrKeystoreChange();

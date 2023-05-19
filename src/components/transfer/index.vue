@@ -18,27 +18,28 @@
       <div class="name">Macaron membership card｜- Macaronhome</div>
       <div class="title">Transfer</div>
 
-      <div class="receive mt-5" style="text-align: left">Receive</div>
-      <input
-        class="textInput mt-2"
-        type="text"
-        v-model="inputNameText"
-        @input="checkInput"
-      />
-    </div>
+     
+        <div class="receive mt-5" style="text-align: left;">Receive</div>
+        <input class="textInput mt-2" type="text" v-model="inputNameText" @input="checkInput">
+        </div>
+   
+    <button class="Submit mt-8" @click="submitButton"> Submit</button>
+    <uComponents  ref="ucom"></uComponents>
 
-    <button class="Submit mt-8">Submit</button>
   </div>
 </template>
 
 <script>
 import { keplrKeystoreChange } from "../../keplr/index";
+import { uptickTransfer } from "/src/keplr/uptick/wallet"
+
 export default {
   name: "cardDetail",
   components: {},
   data() {
     return {
-      inputNameText: "",
+        inputNameText:'uptick1p0rjmkfefpsn0skrjas2zr2p6uzvkr68dh0v7y'
+
     };
   },
   watch: {
@@ -47,12 +48,11 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
-    console.log(
-      "33333",
-      this.$store.state.IrisAddress,
-      this.$store.state.UptickAddress
-    );
+
+      window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+      console.log('33333',this.$store.state.IrisAddress,this.$store.state.UptickAddress);
+      console.log(this.$route.params)
+
   },
   methods: {
     keplrKeystoreChange() {
@@ -67,6 +67,34 @@ export default {
     toCross() {
       this.$router.push({ name: "crossChain" });
     },
+
+    toCross(){
+      this.$router.push({name:'crossChain'})
+    },
+    submitButton() {
+      this.requestUptickTransfer()
+    },
+    async requestUptickTransfer() {
+      let nftId = this.$route.params.nftId
+      let tokenId = this.$route.params.nftAddress
+      let name = this.$route.params.name
+      let recipient = this.inputNameText
+      console.log(this.$route.params)
+      debugger
+      try {
+        await uptickTransfer(nftId,tokenId,name,recipient)
+        //链上转送完成，调用接口
+
+
+      } catch (error) {
+        console.log(error)
+        this.$toast("error", error.message)
+      }
+    },
+    irisTransfer() {
+
+    }
+
   },
 };
 </script>

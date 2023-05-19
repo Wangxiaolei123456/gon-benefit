@@ -27,7 +27,7 @@ let config = {
 const client = iris
 	.newClient(config)
 	.withKeyDAO({
-		write: () => {},
+		write: () => { },
 		read: () => {
 			return '';
 		}
@@ -53,17 +53,6 @@ export async function getMyBalance() {
 
 
 }
-
-// let tx = await issueDenomAndMint(
-//   orgName,
-//   sender,
-//   recipient,
-//   uri,
-//   data,
-//   amount,
-//   fee,
-//   addminAddress,
-// );
 
 export async function issueDenomAndMint(
 	orgName,
@@ -93,9 +82,11 @@ export async function issueDenomAndMint(
 	}
 	msgs.push(msg);
 
+	let nftIds = []
 	for (var i = 0; i < amount; i++) {
 
 		let nftID = getNftId();
+		nftIds.push(nftID)
 		msg = {
 			type: iris.types.TxType.MsgMintNFT,
 			value: {
@@ -119,12 +110,14 @@ export async function issueDenomAndMint(
 	}
 	let txInfo = await signAndBroadcastTx(accountInfo, msgs);
 	console.log("https://gon.ping.pub/iris/tx/" + txInfo.hash)
+
+	await waitForTxConfirmation(txInfo.hash);
+
 	return {
-		txInfo,
-		denomInfo: msgs
+		tokenId: id,
+		nftIds: nftIds.join(','),
+		hash: txInfo.hash
 	}
-
-
 }
 
 export async function issueDenom(
@@ -374,7 +367,7 @@ function addSendMsg(msgs, fromAddress, adminAddres, fee, denom) {
 
 }
 
- export async function getAccountInfo() {
+export async function getAccountInfo() {
 
 	try {
 		await window.keplr.enable(chainId);
@@ -396,10 +389,10 @@ function addSendMsg(msgs, fromAddress, adminAddres, fee, denom) {
 		let accountNumber = accountIris["accountNumber"]
 		let sequence = accountIris["sequence"]
 		console.log(accountIris);
-		if(accountNumber == undefined){
+		if (accountNumber == undefined) {
 			accountNumber = accountIris["account"].value.accountNumber;
 		}
-		if(sequence == undefined){
+		if (sequence == undefined) {
 			sequence = accountIris["account"].value.sequence;
 		}
 
@@ -410,7 +403,7 @@ function addSendMsg(msgs, fromAddress, adminAddres, fee, denom) {
 			accountNumber: accountNumber,
 			sequence: sequence,
 			isNanoLedger: accountKeplr["isNanoLedger"],
-			name:accountKeplr['name']
+			name: accountKeplr['name']
 		}
 	} catch (error) {
 		console.log(error);
@@ -424,7 +417,7 @@ async function signAndBroadcastTx(accountInfo, msgs, memo = ' ') {
 		console.log("0");
 		//set fee
 		let txLen = msgs.length;
-		
+
 		let pulsFee = BigNumber(process.env.VUE_APP_IRIS_STEP_GAS)
 			.multiply(txLen - 1)
 		let baseGas = process.env.VUE_APP_IRIS_BASE_GAS
@@ -480,26 +473,26 @@ async function signAndBroadcastTx(accountInfo, msgs, memo = ' ') {
 		let signDoc = tx_o.getSignDoc(bTx.account_number, chainId);
 		console.log(2);
 		// 构建 keplr 离线签名结构
-		
+
 
 		// keplr 签名
 		let s;
 		// let s = await window.keplr.signDirect(keplr_signDoc_obj.chainId, accountInfo.bech32Address,
 		// 		keplr_signDoc_obj);
-	
-		
-			let keplr_signDoc_obj = {
+
+
+		let keplr_signDoc_obj = {
 			bodyBytes: signDoc.getBodyBytes(),
 			authInfoBytes: signDoc.getAuthInfoBytes(),
 			chainId: chainId,
 			accountNumber: new long(signDoc.getAccountNumber())
 		};
-			s = await window.keplr.signDirect(keplr_signDoc_obj.chainId, accountInfo.bech32Address,
-				keplr_signDoc_obj);
-	
-		
+		s = await window.keplr.signDirect(keplr_signDoc_obj.chainId, accountInfo.bech32Address,
+			keplr_signDoc_obj);
 
-		console.log("keplr_sign_____",JSON.stringify(s));
+
+
+		console.log("keplr_sign_____", JSON.stringify(s));
 		console.log(4);
 
 		// 将 keplr 签名整合到 sdk 离线签名结构
@@ -529,6 +522,29 @@ async function signAndBroadcastTx(accountInfo, msgs, memo = ' ') {
 	}
 }
 
+async function waitForTxConfirmation(txHash) {
+	let flag = true;
+	while (flag) {
+		console.log("wwwwww");
+		await sleep(5000);
+		let res = await quiryTx(txHash);
+		console.log("wxl -----  quiryTx");
+		console.log(res);
+		if (res.code == 0) {
+			flag = false;
+			return;
+		} else if (res.code == -1) {
+			flag = false;
+			throw new Error(res.log);
+		} else {
+			flag = true;
+		}
+	}
+}
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export async function quiryTx(tx) {
 
@@ -613,8 +629,6 @@ export async function getIirsAccoutInfo(params) {
 		const accountKeplr = await window.keplr.getKey(chainId);
 		console.log("xxl accountKeplr 000------");
 		console.log(accountKeplr);
-
-	debugger
 	return {name:accountKeplr.name,address:accountKeplr.bech32Address}
 }
 

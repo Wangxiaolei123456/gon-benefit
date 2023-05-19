@@ -5,7 +5,6 @@ const long = require('long');
 
 import {
     SigningStargateClient,
-    StargateClient
 } from '@uptsmart/stargate'
 
 import {
@@ -137,6 +136,36 @@ export async function uptick2Iris(typeUrl, port, channel, classId, tokenIdsList,
 
 }
 
+export async function uptickTransfer(id, denomId, name, recipient) {
+    try {
+        let account = await getAccountInfo();
+        console.log("uptick2Iris 02 ", account.bech32Address);
+
+        let msg = {
+            typeUrl: "/uptick.collection.v1.MsgTransferNFT",
+            value: [
+                id,
+                denomId,
+                name,
+                '',
+                '',
+                account.bech32Address,
+                recipient
+            ]
+        }
+debugger
+        const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
+        if (result.code == 0) {
+            alert("successful ! ");
+        }
+        return result;
+    } catch (error) {
+        console.log(error)
+        throw new Error(error)
+    }
+
+}
+
 
 export async function getAccountInfo(pChainId = "uptick_7000-1") {
 
@@ -188,11 +217,17 @@ async function sendMsgsTx(address, msgs, amount, data, isIris = false) {
         )
 
     }
-debugger
-    console.log("###xxl sendMsgsTx", [address, msgs, fee, data]);
-    const result = await client.sendMsgsTx(address, msgs, fee, data);
-    console.log("###xxl result", result);
-    return result;
+    debugger
+    try {
+        console.log("###xxl sendMsgsTx", [address, msgs, fee, data]);
+        const result = await client.sendMsgsTx(address, msgs, fee, data);
+        console.log("###xxl result", result);
+        return result;
+    } catch (error) {
+        console.log(error)
+        throw new Error(error)
+    }
+
 
 
 
@@ -224,10 +259,12 @@ export async function issueUptickDenomAndMint(
         value
     }
     msgs.push(msg);
-// debugger
+
+    let nftIds = []
     for (var i = 0; i < amount; i++) {
 
         let nftID = getNftId();
+        nftIds.push(nftID)
         msg = {
             typeUrl: "/uptick.collection.v1.MsgMintNFT",
             value: [
@@ -246,51 +283,18 @@ export async function issueUptickDenomAndMint(
     console.log("xxl --- msgs");
     console.log(msgs);
     const result = await sendMsgsTx(accountInfo.bech32Address, msgs, 1000000, "0x1234");
+
+    //code 0代表成功 不用查询
     if (result.code == 0) {
-        alert("successful ! ");
+        console.log("xxl --- successful");
+        return {
+            tokenId: id,
+            nftIds: nftIds.join(','),
+            hash: result.transactionHash
+        }
     }
     console.log(result)
-    return result;
-
-    // console.log("https://gon.ping.pub/iris/tx/" + txInfo.hash)
-    // return {
-    // 	txInfo,
-    // 	denomInfo: msgs
-    // }
-}
-
-export async function quiryUptickTx(tx) {
-
-	console.log("xxl ....");
-	try {
-        const offlineSigner = await window.getOfflineSigner(chainId);
-
-        let client = await StargateClient.connectWithSigner(
-            uptickUrl,
-            offlineSigner
-        )
-		let result = await client.searchTx(tx);
-		console.log(result);
-		if (result.tx_result != null && result.tx_result.code == 0) {
-			return {
-				code: "0",
-				log: ""
-			}
-		} else if (result.tx_result != null && result.tx_result.code != 0) {
-			return {
-				code: "-1",
-				log: result.tx_result.log
-			}
-		} else {
-			return {
-				code: "-2",
-				log: "cannot get log"
-			}
-		}
-	} catch (e) {
-		return [-3, e.toString()];
-	}
-
+    throw new Error(result.log);
 }
 
 function getDenomName(name, address) {
