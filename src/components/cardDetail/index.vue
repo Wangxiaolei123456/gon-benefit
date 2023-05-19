@@ -55,7 +55,7 @@ export default {
    
   async  cardDetail(){
       let params = {
-        chainType:"uptick_7000-1",
+        chainType:this.$store.state.chainType,
         nftAddress:this.$route.query.nftAddress,
         nftId:this.$route.query.nftId,
         owner:this.$route.query.owner

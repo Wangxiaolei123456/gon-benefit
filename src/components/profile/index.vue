@@ -110,8 +110,8 @@ export default {
                 const value = await uploadImage(file);
                 console.log(value.data.data);
                 this.uploadedProfileHash = value.data.data
-                 this.Src = getNftImg(this.uploadedProfileHash)
-                 console.log("sssss", this.Src);
+                this.Src = getNftImg(this.uploadedProfileHash)
+                console.log("sssss", this.Src);
             } catch (error) {
                 console.error(error);
             }

@@ -203,7 +203,7 @@ export default {
         let params = {
             //this.$store.state.uptickAddress,this.$store.state.IrisAddress
             owner:chainName == 'Uptick Network' ?this.$store.state.UptickAddress:this.$store.state.IrisAddress,
-            chainType:chainName == 'Uptick Network' ?'uptick_7000-1':'gon-irishub-1',
+            chainType:this.selectChain,
             // type:this.filterList[this.filterIndex].id
         }
         
