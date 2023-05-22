@@ -1,5 +1,5 @@
 <template>
-<v-card style="background-color:#00043a">
+<div style="background-color:#00043a">
       <div class="work d-flex  flex-column">
     <img
      class="mainImg"
@@ -12,7 +12,7 @@
         <div class="name">{{name}}</div>
 
     </div>
-</v-card>
+</div>
 
 </template>
 
