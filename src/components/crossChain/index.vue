@@ -1,13 +1,13 @@
 <template>
   <div class="home d-flex flex-column">
     <div class="top">
-      <v-img class="img" src="https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small"
+      <v-img class="img" :src="imgUrl"
         alt="">
         <img class="back mt-5 ml-6" src="@/assets/return.png" @click="backPage" alt="" />
       </v-img>
     </div>
     <div class="content">
-      <div class="name">Macaron membership card｜- Macaronhome</div>
+      <div class="name">{{ name }}</div>
       <div class="d-flex flex-row justify-space-between align-center">
         <div class="title">Cross-chain transfer</div>
         <img class="histroy" src="@/assets/icon_history.png" alt="">
@@ -45,10 +45,17 @@ export default {
   name: "cardDetail",
   components: {},
   data() {
-    return {};
+    return {
+      imgUrl: "",
+      name: ""
+    };
   },
   mounted() {
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+
+    this.imgUrl = this.$route.params.imgUrl
+    this.name = this.$route.params.name
+
 
   },
   methods: {

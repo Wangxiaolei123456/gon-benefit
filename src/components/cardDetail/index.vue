@@ -65,6 +65,7 @@ export default {
       this.name = res.data.obj.name;
       this.desValue = res.data.obj.description;
       this.Src = res.data.obj.imgUrl;
+      this.resResult = res.data.obj;
     },
     backPage() {
       this.$router.go(-1);

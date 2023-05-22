@@ -3,7 +3,7 @@
     <div class="top">
       <v-img
         class="img"
-        src="https://d3i65oqeoaoxhj.cloudfront.net/QmX7hdHu2wAEjpTPbYvRDccfizJFKCHV1hz4mf6TiGeeeQ/small"
+        :src="imgUrl"
         alt=""
       >
         <img
@@ -15,7 +15,7 @@
       </v-img>
     </div>
     <div class="content">
-      <div class="name">Macaron membership card｜- Macaronhome</div>
+      <div class="name">{{ name }}</div>
       <div class="title">Transfer</div>
 
      
@@ -40,7 +40,10 @@ export default {
   components: {},
   data() {
     return {
-        inputNameText:''
+        inputNameText:'',
+        imgUrl:"",
+        name: ""
+
     };
   },
   watch: {
@@ -53,7 +56,8 @@ export default {
       window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
       console.log('33333',this.$store.state.IrisAddress,this.$store.state.UptickAddress);
       console.log(this.$route.params)
-
+      this.imgUrl = this.$route.params.imgUrl
+      this.name = this.$route.params.name
   },
   methods: {
     keplrKeystoreChange() {
@@ -162,6 +166,7 @@ export default {
 }
 .content {
   margin: 24px 25px 0 26px;
+  width: 326px;
   .name {
     font-family: "AmpleSoft-Bold";
     font-size: 17px;

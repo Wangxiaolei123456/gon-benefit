@@ -145,6 +145,7 @@ export default {
     },
   },
   async mounted() {
+
     let chainName = localStorage.getItem("setChain");
     if (!chainName) {
       localStorage.setItem("setChain", this.chainList[0].chianId);
@@ -198,7 +199,7 @@ export default {
     }
 
     // 获取列表
-    await this.getMyList(this.chainList[0].text);
+    await this.getMyList(this.selectChain);
   },
   methods: {
     getChainNameFromId(id) {
@@ -217,12 +218,13 @@ export default {
     keplrKeystoreChange() {
       keplrKeystoreChange();
     },
-    async getMyList(chainName) {
+    async getMyList(selectChain) {
+      console.log(selectChain)
       this.isShowLoading = true;
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-          chainName == "Uptick Network"
+        selectChain == "uptick_7000-1"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
         chainType: this.selectChain,
@@ -283,13 +285,13 @@ export default {
       this.chainIndex = index;
       this.isShowChainList = false;
       this.list = [];
-      this.getMyList(this.chainList[index].text);
+      this.getMyList(this.chainList[index].chianId);
     },
     clickFilter(index) {
       this.list = [];
       this.filterIndex = index;
       this.isShowFilterList = false;
-      this.getMyList(this.chainList[this.chainIndex].text);
+      this.getMyList(this.chainList[this.chainIndex].chianId);
     },
     showChain() {
       this.isShowChainList = !this.isShowChainList;

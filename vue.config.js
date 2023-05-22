@@ -43,7 +43,7 @@ module.exports = defineConfig({
         }
       },
       '/gonapi': {
-        target: 'http://192.168.111.81:3000',
+        target: 'http://192.168.111.223:3000',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
