@@ -36,7 +36,7 @@ export default {
       this.address = this.$store.state.IrisAddress
     }
 
-    if (this.chainType == "uptick_7000-1") {
+    if (this.chainType == "origin_1170-1") {
       this.generateQRCode(this.$store.state.UptickAddress);
       this.address = this.$store.state.UptickAddress
     }
@@ -52,7 +52,7 @@ export default {
         input.value = this.$store.state.IrisAddress
       }
 
-      if (this.chainType == "uptick_7000-1") {
+      if (this.chainType == "origin_1170-1") {
         input.value = this.$store.state.UptickAddress
       }
       document.body.appendChild(input);

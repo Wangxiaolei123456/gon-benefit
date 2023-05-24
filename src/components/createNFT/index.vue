@@ -82,10 +82,10 @@ export default {
       this.sender = this.$store.state.UptickAddress
     }
 
-    // const randomInt = new Date().getTime() % 100000 + 1;
-    // this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
-    // this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
-    // this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
+    const randomInt = new Date().getTime() % 100000 + 1;
+    this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
+    this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
+    this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
 
     console.log(this.nameValue)
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
@@ -189,6 +189,7 @@ export default {
           );
         }
 
+        debugger
         await this.requestCreateSuccess(txResult)
 
         let title = "Create Success"
@@ -207,34 +208,6 @@ export default {
         });
       }
     },
-
-    // async waitForTxConfirmation(txHash) {
-    //   this.flag = true;
-    //   while (this.flag) {
-
-    //     if (!this.isShowLoading) {
-    //       this.isShowLoading = true
-    //     }
-    //     console.log("wwwwww");
-    //     await this.sleep(5000);
-    //     let res = await quiryTx(txHash);
-    //     console.log("wxl -----  quiryTx");
-    //     console.log(res);
-    //     if (res.code == 0) {
-    //       this.flag = false;
-    //       return;
-    //     } else if (res.code == -1) {
-    //       this.flag = false;
-    //       throw new Error(res.log);
-    //     } else {
-    //       this.flag = true;
-    //     }
-    //   }
-    // },
-
-    // sleep(ms) {
-    //   return new Promise(resolve => setTimeout(resolve, ms));
-    // },
     chooseFile() {
       this.$refs.fileInput.click()
     },

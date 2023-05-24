@@ -151,12 +151,14 @@ export default {
     },
   },
   async mounted() {
-
+debugger
     let chainName = localStorage.getItem("setChain");
     if (!chainName) {
       localStorage.setItem("setChain", this.chainList[0].chianId);
+      this.$store.commit("SET_CHAIN", this.chainList[0].chianId);
     } else {
       this.selectChain = chainName;
+      this.$store.commit("SET_CHAIN", chainName);
     }
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
     console.log("sssssssss", window.keplr, this.$store.state.chainType);
@@ -236,7 +238,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-          selectChain == "uptick_7000-1"
+          selectChain == "origin_1170-1"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
         chainType: this.selectChain,
@@ -256,12 +258,12 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-        this.selectChain == "uptick_7000-1"
+        this.selectChain == "origin_1170-1"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
       };
       let result = await updateUser(params)
-      console(result)
+      console.log(result)
       debugger
     },
     scrolling() {
@@ -305,7 +307,7 @@ export default {
       localStorage.setItem("setChain", this.chainList[index].chianId);
       this.selectChain = this.chainList[index].chianId;
 
-      if (this.selectChain == "uptick_7000-1") {
+      if (this.selectChain == "origin_1170-1") {
         this.userAddress = this.$store.state.UptickAddress
       }
 

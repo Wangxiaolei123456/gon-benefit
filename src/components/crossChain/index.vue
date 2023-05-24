@@ -60,7 +60,7 @@ export default {
     this.imgUrl = this.$route.params.imgUrl
     this.name = this.$route.params.name
     
-    if (this.$route.params.chainType == "uptick_7000-1") {
+    if (this.$route.params.chainType == "origin_1170-1") {
       this.fromChain = "Uptick Network"
       this.fromChainIcon = require('@/assets/uptick network_icon.png')
 
