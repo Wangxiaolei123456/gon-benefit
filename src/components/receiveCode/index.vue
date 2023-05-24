@@ -7,7 +7,7 @@
     <div class="qrcode">
       <canvas id="qrcode" ref="qrcode" width="165" height="165"></canvas>
     </div>
-    <div class="address">{{ this.$store.state.IrisAddress }}</div>
+    <div class="address">{{ address }}</div>
     <div style="width: 100%">
       <button class="subBtn" @click="copyAddress">Copy</button>
     </div>
@@ -21,12 +21,25 @@ import { keplrKeystoreChange } from "../../keplr/index";
 export default {
   name: "receiveCode",
   data() {
-    return {};
+    return {
+      chainType: "gon-irishub-1",
+      address: ""
+    };
   },
   watch: {},
   mounted() {
-    let link = `{"address":"${this.$store.state.IrisAddress}"}`;
-    this.generateQRCode(link);
+
+    this.chainType = this.$store.state.chainType
+
+    if (this.chainType == "gon-irishub-1") {
+      this.generateQRCode(this.$store.state.IrisAddress);
+      this.address = this.$store.state.IrisAddress
+    }
+
+    if (this.chainType == "uptick_7000-1") {
+      this.generateQRCode(this.$store.state.UptickAddress);
+      this.address = this.$store.state.UptickAddress
+    }
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
   },
   methods: {
@@ -35,7 +48,13 @@ export default {
     },
     copyAddress() {
       var input = document.createElement("input");
-      input.value = this.$store.state.IrisAddress;
+      if (this.chainType == "gon-irishub-1") {
+        input.value = this.$store.state.IrisAddress
+      }
+
+      if (this.chainType == "uptick_7000-1") {
+        input.value = this.$store.state.UptickAddress
+      }
       document.body.appendChild(input);
       input.select();
       document.execCommand("copy");
@@ -78,6 +97,7 @@ export default {
 .qrcode {
   margin-top: 50px;
 }
+
 .address {
   margin-top: 70px;
   font-family: "AmpleSoft";
@@ -88,6 +108,7 @@ export default {
   letter-spacing: 0px;
   color: #fb599b;
 }
+
 /* 样式代码 */
 .container {
   width: 100%;

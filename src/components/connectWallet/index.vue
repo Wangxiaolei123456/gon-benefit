@@ -1,7 +1,7 @@
 <template>
   <div class="work d-flex flex-column align-center">
     <div class="top">
-      <div class="title pt-7">Equity NFT</div>
+      <div class="title pt-7">UniCard</div>
     </div>
     <div class="icon">
       <img src="@/assets/icon_wallet.png" alt="icon" />

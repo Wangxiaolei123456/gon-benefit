@@ -1,8 +1,7 @@
 <template>
   <div class="home d-flex flex-column">
     <div class="top">
-      <v-img class="img" :src="imgUrl"
-        alt="">
+      <v-img class="img" :src="imgUrl" alt="">
         <img class="back mt-5 ml-6" src="@/assets/return.png" @click="backPage" alt="" />
       </v-img>
     </div>
@@ -15,14 +14,14 @@
       <div class="crosslist mt-9 d-flex flex-row align-center">
         <div class="left d-flex flex-column align-center">
           <div class="From mt-3">From</div>
-          <div class="chainName mt-5">Uptick Network</div>
-          <img src="@/assets/uptick network_icon.png" alt="">
+          <div class="chainName mt-5">{{ fromChain }}</div>
+          <img :src="fromChainIcon" alt="">
         </div>
         <img class="rightImg ml-3 mr-3" src="@/assets/icon_r.png" alt="">
         <div class="left d-flex flex-column align-center">
           <div class="From mt-3">To</div>
-          <div class="chainName mt-5">IRISnet</div>
-          <img src="@/assets/irisnet_icon.png" alt="">
+          <div class="chainName mt-5">{{ toChain }}</div>
+          <img :src="toChainIcon" alt="">
         </div>
       </div>
 
@@ -47,7 +46,12 @@ export default {
   data() {
     return {
       imgUrl: "",
-      name: ""
+      name: "",
+      fromChain: "Uptick Network",
+      fromChainIcon: require('@/assets/uptick network_icon.png'),
+      toChain: "IRISnet",
+      toChainIcon: require('@/assets/irisnet_icon.png')
+
     };
   },
   mounted() {
@@ -55,7 +59,22 @@ export default {
 
     this.imgUrl = this.$route.params.imgUrl
     this.name = this.$route.params.name
+    
+    if (this.$route.params.chainType == "uptick_7000-1") {
+      this.fromChain = "Uptick Network"
+      this.fromChainIcon = require('@/assets/uptick network_icon.png')
 
+      this.toChain = "IRISnet"
+      this.toChainIcon = require('@/assets/irisnet_icon.png')
+    }
+
+    if (this.$route.params.chainType == "gon-irishub-1") {
+      this.fromChain = "IRISnet"
+      this.fromChainIcon = require('@/assets/irisnet_icon.png')
+
+      this.toChain = "Uptick Network"
+      this.toChainIcon = require('@/assets/uptick network_icon.png')
+    }
 
   },
   methods: {
@@ -107,6 +126,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
   }
 
   .back {
@@ -128,6 +148,7 @@ export default {
     letter-spacing: 0px;
     color: #ffffff;
   }
+
   .title {
     font-family: "AmpleSoft-Bold";
     font-size: 25px;

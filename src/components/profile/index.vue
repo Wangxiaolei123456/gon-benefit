@@ -13,7 +13,7 @@
           style="display: none"
           @change="uploadFile"
         />
-        <img class="addButton" :src="Src" @click="chooseFile" />
+        <img class="addButton" :src="photo" @click="chooseFile" />
       </div>
     </div>
     <div class="name" style="padding-top: 35px">
@@ -46,7 +46,7 @@ export default {
       inputNameText: "", // 初始化输入框的值为空
       uploadedProfileHash: "Qme2yTuaJXxKgXrjnwU8SgjGq5Vxpf1PPBVKLxVxAAETkH", //头像的默认hash
       isInputEmpty: true,
-      Src: "",
+      photo: "",
     };
   },
   watch: {
@@ -66,12 +66,13 @@ export default {
     };
 
     let infoResult = await getUserInfo(InfoParams);
+    console.log(infoResult)
     if (infoResult.data.code == 0) {
       this.inputNameText = infoResult.data.obj.name;
       if (infoResult.data.obj.photo) {
-        this.Src = infoResult.data.obj.photo;
+        this.photo = infoResult.data.obj.photo;
       } else {
-        this.Src = this.loadeProfileImageUrl();
+        this.photo = this.loadeProfileImageUrl();
       }
     }
   },
@@ -90,12 +91,16 @@ export default {
     },
     async submitButton() {
       // 在这里处理输入框的提交操作 this.$store.state.UptickAddress:this.$store.state.IrisAddress,
+      // if (this.uploadedProfileHash != "") {
+      //   this.photo = this.loadeProfileImageUrl();
+      // }
       let infoParams = {
         name: this.inputNameText,
         address: this.$store.state.IrisAddress,
         uptickAddress: this.$store.state.UptickAddress,
-        photo: getNftImg(this.uploadedProfileHash),
+        photo: this.photo,
       };
+      debugger
       let res = await editUserInfo(infoParams);
       if (res.data.code == 0) {
         this.$toast("success", "Edit success").then(() => {
@@ -118,7 +123,7 @@ export default {
         const value = await uploadImage(file);
         console.log(value.data.data);
         this.uploadedProfileHash = value.data.data;
-        this.Src = getNftImg(this.uploadedProfileHash);
+        this.photo = getNftImg(this.uploadedProfileHash);
         console.log("sssss", this.Src);
       } catch (error) {
         console.error(error);
@@ -128,7 +133,17 @@ export default {
       return getNftImg(this.uploadedProfileHash);
     },
     checkInput() {
+
+      let value = this.inputNameText
+      console.log(value)
+      var regex = /[^a-zA-Z0-9]/gi; // 只允许输入字母和数字
+      const pattern = 
+
+      value = value.replace(regex, '')
+      this.inputNameText = value
+
       this.isInputEmpty = this.inputNameText.trim() === "";
+
     },
   },
 };
@@ -283,6 +298,8 @@ export default {
   line-height: 20px;
   letter-spacing: 0px;
   color: #ff3333;
+  cursor: pointer;
+
 }
 </style>
     

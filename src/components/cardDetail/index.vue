@@ -2,12 +2,7 @@
   <div class="home d-flex flex-column align-center">
     <div class="top">
       <v-img class="img" :src="Src" alt="">
-        <img
-          class="back mt-5 ml-6"
-          src="@/assets/return.png"
-          @click="backPage"
-          alt=""
-        />
+        <img class="back mt-5 ml-6" src="@/assets/return.png" @click="backPage" alt="" />
       </v-img>
     </div>
     <div class="content">
@@ -19,7 +14,7 @@
     <button class="Transfer mt-8" @click="toTransfer">Transfer</button>
     <button class="CrossChain mt-8" @click="toCross">
       Cross-chain transfer
-      <img class="icon" src="@/assets/uptick network_icon.png" alt="" />
+      <img class="icon" :src="chainIcon" alt="" />
     </button>
   </div>
 </template>
@@ -33,11 +28,11 @@ export default {
   data() {
     return {
 
-      desValue:'',
-      name:'',
-      Src:'',
+      desValue: '',
+      name: '',
+      Src: '',
       resResult: {},
-
+      chainIcon: require('@/assets/uptick network_icon.png')
     };
   },
   mounted() {
@@ -49,6 +44,14 @@ export default {
     );
     this.cardDetail();
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+
+    if (this.$store.state.chainType == "uptick_7000-1") {
+      this.chainIcon = require('@/assets/uptick network_icon.png')
+    }
+
+    if (this.$store.state.chainType == "gon-irishub-1") {
+      this.chainIcon = require('@/assets/irisnet_icon.png')
+    }
   },
   methods: {
     // 获取卡详情
@@ -70,13 +73,13 @@ export default {
     backPage() {
       this.$router.go(-1);
     },
-    toCross(){
+    toCross() {
       // this.$router.push({name:'crossChain'})
       this.$router.push({ name: 'crossChain', params: this.resResult });
 
     },
 
-    toTransfer(){
+    toTransfer() {
       // this.$router.push({name:'transfer'})
       this.$router.push({ name: 'transfer', params: this.resResult });
 
@@ -91,38 +94,50 @@ export default {
 .top {
   width: 100%;
   height: 254px;
+
   .img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px 10px 0px 0px;
   }
+
   .back {
     width: 35px;
     height: 35px;
     cursor: pointer;
   }
 }
+
 .content {
   margin: 24px 25px 0 26px;
+  overflow: auto;
+  height: 350px;
+
   .name {
+    width: 326px;
     font-family: "AmpleSoft-Bold";
     font-size: 17px;
     font-weight: normal;
     font-stretch: normal;
-    line-height: 70px;
     letter-spacing: 0px;
     color: #ffffff;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
   .des {
+    width: 326px;
     font-family: " AmpleSoft";
     font-size: 14px;
     font-weight: normal;
-    font-stretch: normal;
-    line-height: 20px;
     letter-spacing: 0px;
     color: #ffffff;
+    word-wrap: break-word;
   }
 }
+
 .Transfer {
   width: 326px;
   height: 40px;
@@ -136,6 +151,7 @@ export default {
   letter-spacing: 0px;
   color: #fb599b;
 }
+
 .CrossChain {
   position: relative;
   width: 326px;
@@ -149,6 +165,7 @@ export default {
   line-height: 15px;
   letter-spacing: 0px;
   color: #ffffff;
+
   .icon {
     position: absolute;
     right: 14px;
@@ -157,4 +174,7 @@ export default {
     height: 26px;
   }
 }
-</style>
+
+::-webkit-scrollbar {
+  display: none;
+}</style>

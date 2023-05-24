@@ -82,10 +82,10 @@ export default {
       this.sender = this.$store.state.UptickAddress
     }
 
-    const randomInt = new Date().getTime() % 100000 + 1;
-    this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
-    this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
-    this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
+    // const randomInt = new Date().getTime() % 100000 + 1;
+    // this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
+    // this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
+    // this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
 
     console.log(this.nameValue)
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
@@ -244,12 +244,15 @@ export default {
       console.log(file)
       const formData = new FormData()
       formData.append('file', file)
+      this.isShowLoading = true
       try {
         const value = await uploadImage(file);
+        this.isShowLoading = false
         console.log(value.data.data);
         this.uploadedImageHash = value.data.data
       } catch (error) {
         console.error(error);
+        this.isShowLoading = false
       }
     },
     loadeImageUrl(hash) {
@@ -272,6 +275,10 @@ export default {
       // 将大于50的数字替换为50
       if (value > 50) {
         value = '50'
+      }
+
+      if (value == 0) {
+        value = ''
       }
       this.amountValue = value
     },
@@ -368,6 +375,8 @@ export default {
   .textInput {
     width: 100%;
     height: 44px;
+    padding-left: 10px;
+    padding-right: 10px;
     background-image: linear-gradient(#e8daff,
         #e8daff),
       linear-gradient(#a17ae0,
@@ -385,6 +394,8 @@ export default {
 
   .descriptionText {
     resize: none;
+    padding-left: 10px;
+    padding-right: 10px;
 
     /* width: 325px; */
     width: 100%;

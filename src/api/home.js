@@ -57,7 +57,10 @@ export function cardDetail(params) {
    
     return service.post('/gonapi/nft/nftInfo',transObjToParamStr(params))
 }
-
+// http://192.168.111.223:3000/api/nft/updateUser?owner=uptick1sww4j9gjcqka8fp8caw5skt0z5u34xkqqkguxn
+export function updateUser(params) {
+    return service.get('/gonapi/nft/updateUser?'+transObjToParamStr(params))
+}
 
 function transObjToParamStr(object) {
    

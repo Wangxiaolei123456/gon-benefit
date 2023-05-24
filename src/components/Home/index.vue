@@ -1,7 +1,7 @@
 <template>
   <div class="Home">
     <div class="top">
-      <div class="title pt-7">Equity NFT</div>
+      <div class="title pt-7">UniCard</div>
       <div class="infos d-flex flex-row align-center ml-6">
         <div class="avata">
           <!-- <v-avatar  size="75">
@@ -20,24 +20,27 @@
         </div>
       </div>
     </div>
-    <div class="select d-flex flex-row mt-5 ml-6">
+    <div class="select d-flex  mt-5 ml-5">
       <button class="chain" @click="showChain">
         {{ getChainNameFromId(selectChain) }}
       </button>
-      <button class="Filter ml-3" @click="showFilter">
+      <!-- <button class="Filter ml-3" @click="showFilter">
         {{ filterList[filterIndex].text }}
-      </button>
+      </button> -->
       <button class="create ml-8" @click="Create">Create</button>
+      <!-- <button class="ml-8" @click="Reload">Reload</button> -->
+      <img src="@/assets/refresh.png" style="width: 30px; height;: 30px;" alt="" @click="Reload" />
+
       <div class="chainList" v-if="isShowChainList">
         <div class="list" v-for="(item, index) in chainList" :key="index">
           <div class="name" @click="clickChain(index)">{{ item.text }}</div>
         </div>
       </div>
-      <div class="FilterList" v-if="isShowFilterList">
+      <!-- <div class="FilterList" v-if="isShowFilterList">
         <div class="list" v-for="(item, index) in filterList" :key="index">
           <div class="name" @click="clickFilter(index)">{{ item.text }}</div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="Cardlist mt-5 ml-6 mr-6" v-if="list.length > 0">
       <div class="listitem mb-5" v-for="(item, index) in list" :key="index">
@@ -53,7 +56,8 @@
 import Card from "../workCard/card";
 import { uploadImage } from "../../api/image";
 import { getIirsAccoutInfo } from "/src/keplr/iris/wallet";
-import { getMyCardList, createInfo, getUserInfo } from "@/api/home";
+import { getAccountInfo } from "/src/keplr/uptick/wallet";
+import { getMyCardList, createInfo, getUserInfo ,updateUser} from "@/api/home";
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "../../keplr/index";
 import { getNftImg } from "/src/api/image";
@@ -131,6 +135,8 @@ export default {
       src: "",
       userName: "",
       userAddress: "",
+      irisAddress: "",
+      uptickAddress: "",
       list: [],
       selectChain: "uptick_7000-1",
     };
@@ -156,18 +162,24 @@ export default {
     console.log("sssssssss", window.keplr, this.$store.state.chainType);
     window.addEventListener("scroll", this.scrolling);
 
+    let uptickAccountInfo = await getAccountInfo();
+    let irisAccountInfo = await getIirsAccoutInfo();
+
+    this.irisAddress = irisAccountInfo.address
+    this.uptickAddress = uptickAccountInfo.bech32Address
+
+    debugger
     let info = localStorage.getItem("userInfo");
     if (info) {
       this.userName = JSON.parse(info).name;
-      this.userAddress = JSON.parse(info).address;
+      this.userAddress = JSON.parse(info).bech32Address;
     } else {
       //获取用户信息
-      let accountInfo = await getIirsAccoutInfo();
-      console.log("sssss", accountInfo);
+      console.log("sssss", uptickAccountInfo);
       debugger;
-      this.userName = accountInfo.name;
-      this.userAddress = accountInfo.address;
-      localStorage.setItem("userInfo", JSON.stringify(accountInfo));
+      this.userName = uptickAccountInfo.name;
+      this.userAddress = uptickAccountInfo.bech32Address;
+      localStorage.setItem("userInfo", JSON.stringify(uptickAccountInfo));
     }
 
     // 查询用户信息
@@ -183,8 +195,8 @@ export default {
       // 注册账户
       let createParams = {
         name: this.userName,
-        address: this.userAddress,
-        uptickAddress: "",
+        address: this.irisAddress,
+        uptickAddress: this.uptickAddress,
         photo: "",
       };
       let result = await createInfo(createParams);
@@ -224,7 +236,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-        selectChain == "uptick_7000-1"
+          selectChain == "uptick_7000-1"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
         chainType: this.selectChain,
@@ -240,7 +252,18 @@ export default {
       this.isShowLoading = false;
       console.log("ssss", this.list);
     },
-
+    async Reload() {
+      let params = {
+        //this.$store.state.uptickAddress,this.$store.state.IrisAddress
+        owner:
+        this.selectChain == "uptick_7000-1"
+            ? this.$store.state.UptickAddress
+            : this.$store.state.IrisAddress,
+      };
+      let result = await updateUser(params)
+      console(result)
+      debugger
+    },
     scrolling() {
       // 滚动条距文档顶部的距离
       let scrollTop =
@@ -281,6 +304,15 @@ export default {
     clickChain(index) {
       localStorage.setItem("setChain", this.chainList[index].chianId);
       this.selectChain = this.chainList[index].chianId;
+
+      if (this.selectChain == "uptick_7000-1") {
+        this.userAddress = this.$store.state.UptickAddress
+      }
+
+      if (this.selectChain == "gon-irishub-1") {
+        this.userAddress = this.$store.state.IrisAddress
+      }
+
       this.$store.commit("SET_CHAIN", this.chainList[index].chianId);
       this.chainIndex = index;
       this.isShowChainList = false;
@@ -308,7 +340,7 @@ export default {
   width: 100%;
   height: 200px;
   background-color: #fb599b;
-  border-radius: 0px 0px 0px 45px;
+  border-radius: 10px 10px 0px 45px;
 
   .title {
     text-align: center;
@@ -338,16 +370,16 @@ export default {
     }
 
 
-  .profileBorder {
-    // margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 85px;
-    height: 85px;
-    background: linear-gradient(141deg, #ff37b6 0%, #9e00ff 100%);
-    border-radius: 50%;
-  }
+    .profileBorder {
+      // margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 85px;
+      height: 85px;
+      background: linear-gradient(141deg, #ff37b6 0%, #9e00ff 100%);
+      border-radius: 50%;
+    }
 
 
     .name {
@@ -359,6 +391,12 @@ export default {
       line-height: 25px;
       letter-spacing: 0px;
       color: #ffffff;
+      padding-right: 10px;
+      // background-color: #611ecd;
+      width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .address {
@@ -377,7 +415,7 @@ export default {
         width: 20px;
         height: 20px;
         margin-top: 20px;
-        margin-left: 50px;
+        margin-left: 30px;
       }
     }
   }
@@ -385,6 +423,13 @@ export default {
 
 .select {
   position: relative;
+  // width: 100%;
+  // background-color: #611ecd;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding-right: 20px;
 
   .chain {
     width: 135px;
@@ -496,4 +541,9 @@ export default {
   justify-content: center;
   font-family: "AmpleSoft" !important;
   color: #ffffff;
-}</style>
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+</style>
