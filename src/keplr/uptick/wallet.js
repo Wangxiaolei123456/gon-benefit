@@ -17,7 +17,6 @@ const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick
 const irisUrl = window.location.protocol+"//"+ window.location.host + "/iris";
 
 
-
 export async function convertCosmosNFT2ERC(typeUrl, classId, nftId, sender, receiver, contractAddress, tokenId) {
 
     //

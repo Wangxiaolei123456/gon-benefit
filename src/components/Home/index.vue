@@ -57,7 +57,7 @@ import Card from "../workCard/card";
 import { uploadImage } from "../../api/image";
 import { getIirsAccoutInfo } from "/src/keplr/iris/wallet";
 import { getAccountInfo } from "/src/keplr/uptick/wallet";
-import { getMyCardList, createInfo, getUserInfo ,updateUser} from "@/api/home";
+import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "../../keplr/index";
 import { getNftImg } from "/src/api/image";
@@ -151,37 +151,32 @@ export default {
     },
   },
   async mounted() {
-debugger
-    let chainName = localStorage.getItem("setChain");
-    if (!chainName) {
-      localStorage.setItem("setChain", this.chainList[0].chianId);
-      this.$store.commit("SET_CHAIN", this.chainList[0].chianId);
-    } else {
-      this.selectChain = chainName;
-      this.$store.commit("SET_CHAIN", chainName);
-    }
+
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
     console.log("sssssssss", window.keplr, this.$store.state.chainType);
     window.addEventListener("scroll", this.scrolling);
 
-    let uptickAccountInfo = await getAccountInfo();
-    let irisAccountInfo = await getIirsAccoutInfo();
-
-    this.irisAddress = irisAccountInfo.address
-    this.uptickAddress = uptickAccountInfo.bech32Address
-
-    debugger
-    let info = localStorage.getItem("userInfo");
-    if (info) {
-      this.userName = JSON.parse(info).name;
-      this.userAddress = JSON.parse(info).bech32Address;
+    if (!this.$store.state.chainType) {
+      this.$store.commit("SET_CHAIN", this.chainList[0].chianId);
     } else {
-      //获取用户信息
-      console.log("sssss", uptickAccountInfo);
-      debugger;
-      this.userName = uptickAccountInfo.name;
-      this.userAddress = uptickAccountInfo.bech32Address;
-      localStorage.setItem("userInfo", JSON.stringify(uptickAccountInfo));
+      if (this.$store.state.chainType == "origin_1170-1") {
+        this.selectChain = "origin_1170-1";
+        let uptickAccountInfo = await getAccountInfo();
+        this.userName = uptickAccountInfo.name;
+        this.userAddress = uptickAccountInfo.bech32Address;
+        this.uptickAddress = uptickAccountInfo.bech32Address
+        localStorage.setItem("userInfo", JSON.stringify(uptickAccountInfo));
+      }
+
+      if (this.$store.state.chainType == "gon-irishub-1") {
+        this.selectChain = "gon-irishub-1";
+        let irisAccountInfo = await getIirsAccoutInfo();
+        this.userName = irisAccountInfo.name;
+        this.userAddress = irisAccountInfo.address;
+        this.irisAddress = irisAccountInfo.address
+        localStorage.setItem("userInfo", JSON.stringify(irisAccountInfo));
+      }
+
     }
 
     // 查询用户信息
@@ -249,8 +244,7 @@ debugger
         params,
         this.filterList[this.filterIndex].id
       );
-      let list = listInfo.data.list;
-      this.list = this.list.concat(list);
+      this.list = listInfo.data.list;
       this.isShowLoading = false;
       console.log("ssss", this.list);
     },
@@ -258,12 +252,13 @@ debugger
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-        this.selectChain == "origin_1170-1"
+          this.selectChain == "origin_1170-1"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
       };
       let result = await updateUser(params)
       console.log(result)
+      await this.getMyList(this.selectChain);
       debugger
     },
     scrolling() {
