@@ -88,9 +88,9 @@ if (!window.getOfflineSigner || !window.keplr) {
             "chainId": "origin_1170-1",
             "chainName": "Uptick Origin",
             "rpc": "https://rpc.origin.uptick.network",
-            "rest": "​https://rest.origin.uptick.network",
+            "rest": "https://rest.origin.uptick.network",
             "stakeCurrency": {
-              "coinDenom": "uptick",
+              "coinDenom": "UOC",
               "coinMinimalDenom": "auoc",
               "coinDecimals": 18,
               "coinGeckoId": "unknown"
@@ -108,16 +108,16 @@ if (!window.getOfflineSigner || !window.keplr) {
             },
             "currencies": [
               {
-                "coinDenom": "UPTICK",
-                "coinMinimalDenom": "auptick",
+                "coinDenom": "UOC",
+                "coinMinimalDenom": "auoc",
                 "coinDecimals": 18,
                 "coinGeckoId": "unknown"
               }
             ],
             "feeCurrencies": [
               {
-                "coinDenom": "UPTICK",
-                "coinMinimalDenom": "auptick",
+                "coinDenom": "UOC",
+                "coinMinimalDenom": "auoc",
                 "coinDecimals": 18,
                 "coinGeckoId": "unknown",
                 "gasPriceStep": {
@@ -184,7 +184,7 @@ export const getkeplrUptickAddress = async () => {
 		// Modern dapp browsers
 		try {
 
-			const chainId = "uptick_7000-1";
+			const chainId = "origin_1170-1";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 

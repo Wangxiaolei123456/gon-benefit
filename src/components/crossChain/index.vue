@@ -91,7 +91,7 @@ export default {
       console.log(this.$route.params)
       try {
 
-        if (this.$store.state.chainType == "uptick_7000-1") {
+        if (this.$store.state.chainType == "origin_1170-1") {
           await uptick2Iris(denomId, nftId)
         }
 

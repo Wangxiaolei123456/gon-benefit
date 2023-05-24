@@ -73,14 +73,13 @@ export default {
       let name = this.$route.params.name
       let recipient = this.inputNameText
       console.log(this.$route.params)
-
-      if (this.$store.state.chainType == "uptick_7000-1") {
+      if (this.$store.state.chainType == "origin_1170-1") {
         if (!recipient.startsWith("uptick")) {
           this.$toast("error", 'Address Format Error')
           return
         }
         this.requestUptickTransfer(nftId, denomId, name, recipient)
-      }
+}
 
       if (this.$store.state.chainType == "gon-irishub-1") {
         if (!recipient.startsWith("iaa")) {

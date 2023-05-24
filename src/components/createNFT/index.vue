@@ -78,7 +78,7 @@ export default {
       this.sender = this.$store.state.IrisAddress
     }
 
-    if (this.chainType == "uptick_7000-1") {
+    if (this.chainType == "origin_1170-1") {
       this.sender = this.$store.state.UptickAddress
     }
 
@@ -178,7 +178,7 @@ export default {
           );
           console.log(txResult)
         }
-        if (this.chainType == "uptick_7000-1") {
+        if (this.chainType == "origin_1170-1") {
           txResult = await issueUptickDenomAndMint(
             name,
             sender,

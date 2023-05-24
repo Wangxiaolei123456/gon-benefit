@@ -106,7 +106,7 @@ export default {
         {
           text: "Uptick Network",
           id: 0,
-          chianId: "uptick_7000-1",
+          chianId: "origin_1170-1",
         },
         {
           text: "IRISnet",
@@ -138,7 +138,7 @@ export default {
       irisAddress: "",
       uptickAddress: "",
       list: [],
-      selectChain: "uptick_7000-1",
+      selectChain: "origin_1170-1",
     };
   },
   filters: {
