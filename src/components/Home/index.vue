@@ -450,7 +450,8 @@ debugger
 
   .chainList {
     position: absolute;
-    top: 28px;
+    top: 30px;
+    left: 10px;
     width: 140px;
     height: 115px;
     background-color: #611ecd;

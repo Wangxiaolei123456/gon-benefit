@@ -22,7 +22,6 @@
         class="textInput"
         type="text"
         v-model="inputNameText"
-        @input="checkInput"
       />
     </div>
     <div style="width: 100%">
@@ -50,8 +49,10 @@ export default {
     };
   },
   watch: {
-    inputNameText() {
-      this.checkInput();
+    inputNameText(value) {
+      if(value){
+        this.isInputEmpty =false
+      }
     },
   },
   async mounted() {
@@ -95,7 +96,7 @@ export default {
       //   this.photo = this.loadeProfileImageUrl();
       // }
       let infoParams = {
-        name: this.inputNameText,
+        name: encodeURIComponent(this.inputNameText),
         address: this.$store.state.IrisAddress,
         uptickAddress: this.$store.state.UptickAddress,
         photo: this.photo,
@@ -132,19 +133,19 @@ export default {
     loadeProfileImageUrl() {
       return getNftImg(this.uploadedProfileHash);
     },
-    checkInput() {
+    // checkInput() {
 
-      let value = this.inputNameText
-      console.log(value)
-      var regex = /[^a-zA-Z0-9]/gi; // 只允许输入字母和数字
-      const pattern = 
+    //   let value = this.inputNameText
+    //   console.log(value)
+    //   var regex = /[^a-zA-Z0-9]/gi; // 只允许输入字母和数字
+    //   const pattern = 
 
-      value = value.replace(regex, '')
-      this.inputNameText = value
+    //   value = value.replace(regex, '')
+    //   this.inputNameText = value
 
-      this.isInputEmpty = this.inputNameText.trim() === "";
+    //   this.isInputEmpty = this.inputNameText.trim() === "";
 
-    },
+    // },
   },
 };
 </script>

@@ -119,8 +119,8 @@ export default {
       params.nftId = txResult.nftIds
       params.hash = txResult.hash
       params.chainType = this.chainType
-      params.name = this.nameValue
-      params.description = this.descriptionValue
+      params.name = encodeURIComponent(this.nameValue)
+      params.description = encodeURIComponent(this.descriptionValue)
       params.creator = this.sender
       params.owner = this.sender
       params.imgUrl = this.loadeImageUrl(this.uploadedImageHash)
