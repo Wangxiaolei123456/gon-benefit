@@ -16,6 +16,7 @@
 
     <button class="Submit mt-8" @click="submitButton"> Submit</button>
     <uComponents ref="ucom"></uComponents>
+    <loading :isShowLoading="isShowLoading"></loading>
 
   </div>
 </template>
@@ -25,15 +26,17 @@ import { keplrKeystoreChange } from "../../keplr/index";
 import { uptickTransfer } from "/src/keplr/uptick/wallet"
 import { transferNft } from "/src/keplr/iris/wallet"
 import { requestTranserNFT } from "/src/api/home"
+import Loading from "@/components/loading.vue";
 
 export default {
   name: "cardDetail",
-  components: {},
+  components: { Loading },
   data() {
     return {
       inputNameText: '',
       imgUrl: "",
-      name: ""
+      name: "",
+      isShowLoading: false,
 
     };
   },
@@ -79,7 +82,7 @@ export default {
           return
         }
         this.requestUptickTransfer(nftId, denomId, name, recipient)
-}
+      }
 
       if (this.$store.state.chainType == "gon-irishub-1") {
         if (!recipient.startsWith("iaa")) {
@@ -93,6 +96,7 @@ export default {
     async requestUptickTransfer(nftId, denomId, name, recipient) {
 
       try {
+        this.isShowLoading = true
         await uptickTransfer(nftId, denomId, name, recipient)
 
         //链上转送完成，调用接口
@@ -105,16 +109,17 @@ export default {
         console.log(transferResult)
         this.$toast("success", "Transfer Success")
         this.$router.push('/home')
-
+        this.isShowLoading = false
       } catch (error) {
         console.log(error)
+        this.isShowLoading = false
         this.$toast("error", error.message)
       }
     },
     async requestIrisTransfer(nftId, denomId, name, recipient) {
 
       try {
-
+        this.isShowLoading = true
         let sender = this.$store.state.IrisAddress;
         let recipient = this.inputNameText;
         let tokenId = nftId;
@@ -139,9 +144,10 @@ export default {
         //链上转送完成，调用接口
         console.log(transferResult)
         this.$router.push('/home')
-
+        this.isShowLoading = false
       } catch (error) {
         console.log(error)
+        this.isShowLoading = false
         this.$toast("error", error.message)
       }
     }

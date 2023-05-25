@@ -158,26 +158,27 @@ export default {
     console.log("sssssssss", window.keplr, this.$store.state.chainType);
     window.addEventListener("scroll", this.scrolling);
 
+    let uptickAccountInfo = await getAccountInfo();
+    let irisAccountInfo = await getIirsAccoutInfo();
+
     if (!this.$store.state.chainType) {
       this.$store.commit("SET_CHAIN", this.chainList[0].chianId);
     } else {
       if (this.$store.state.chainType == "origin_1170-1") {
         this.selectChain = "origin_1170-1";
-        let uptickAccountInfo = await getAccountInfo();
         this.userName = uptickAccountInfo.name;
         this.userAddress = uptickAccountInfo.bech32Address;
-        this.uptickAddress = uptickAccountInfo.bech32Address
         localStorage.setItem("userInfo", JSON.stringify(uptickAccountInfo));
       }
 
       if (this.$store.state.chainType == "gon-irishub-1") {
         this.selectChain = "gon-irishub-1";
-        let irisAccountInfo = await getIirsAccoutInfo();
         this.userName = irisAccountInfo.name;
         this.userAddress = irisAccountInfo.address;
-        this.irisAddress = irisAccountInfo.address
         localStorage.setItem("userInfo", JSON.stringify(irisAccountInfo));
       }
+      this.uptickAddress = uptickAccountInfo.bech32Address
+      this.irisAddress = irisAccountInfo.address
 
     }
 

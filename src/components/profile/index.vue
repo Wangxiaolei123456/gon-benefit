@@ -65,7 +65,6 @@ export default {
     let InfoParams = {
       address: this.$store.state.IrisAddress,
     };
-
     let infoResult = await getUserInfo(InfoParams);
     console.log(infoResult)
     if (infoResult.data.code == 0) {
@@ -75,7 +74,7 @@ export default {
       } else {
         this.photo = this.loadeProfileImageUrl();
       }
-    }
+    } 
   },
   methods: {
     keplrKeystoreChange() {
