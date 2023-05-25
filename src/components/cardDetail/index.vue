@@ -7,8 +7,8 @@
     </div>
     <div class="content">
       <div class="name">{{ name }}</div>
-      <div class="des">
-        {{ desValue }}
+      <div class="des" v-html="desValue">
+      
       </div>
     </div>
     <button class="Transfer mt-8" @click="toTransfer">Transfer</button>
@@ -67,6 +67,10 @@ export default {
       let res = await cardDetail(params);
       this.name = res.data.obj.name;
       this.desValue = res.data.obj.description;
+        this.desValue =  this.desValue.replace(
+        /\n/g,
+        "<br/>"
+      ); 
       this.Src = res.data.obj.imgUrl;
       this.resResult = res.data.obj;
     },

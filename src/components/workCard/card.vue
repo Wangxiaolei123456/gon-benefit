@@ -5,7 +5,7 @@
         style="cursor: pointer;border-radius: 5px;height:180px">
     </div>
     <div class="content">
-      <div class="name">{{ name }}</div>
+      <div class="name" v-html="name"></div>
 
     </div>
   </div>
