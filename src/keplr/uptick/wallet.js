@@ -114,6 +114,8 @@ export async function iris2Uptick(denomId, nftId) {
         if (result.code == 0) {
             // alert("successful ! ");
             return result;
+        } else {
+            throw new Error(result.rawLog)
         }
     } catch (error) {
         console.log(error)

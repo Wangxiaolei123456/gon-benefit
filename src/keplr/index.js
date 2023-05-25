@@ -161,22 +161,19 @@ export const getkeplrIrisAddress = async () => {
 
 			//xxl TODO tochange the keystore
 			window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
-			
+      let account = await web3.getAccounts();
+      console.log(account)
+   	  return account[0].address
+
 		} catch (error) {
 			console.log('denied');
+      // this.$Message.error(error);
+      throw new Error(error)
 		}
 	} else {
-		this.$Message.error('请连接kepla钱包！');
+		// this.$Message.error('请连接kepla钱包！');
+    throw new Error("Please link kepla wallet！")
 	}
-	 let account = await web3.getAccounts();
-	 console.log(account)
-	 
-	//  var balance = web3.eth.getBalance("iaa1xhhf3a80n7zamu32dyku77lactynx9sgs0vvz4");
-
-	//  console.log("accountBalance -----")
-	//  console.log(balance)
-
-	 return account[0].address
 };
 export const getkeplrUptickAddress = async () => {
 	var web3;
@@ -190,22 +187,24 @@ export const getkeplrUptickAddress = async () => {
 
 			//xxl TODO tochange the keystore
 			window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
-			
+      let account = await web3.getAccounts();
+      console.log(account)
+      return account[0].address
+
 		} catch (error) {
 			console.log('denied');
+      throw new Error(error)
 		}
 	} else {
-		this.$Message.error('请连接kepla钱包！');
+		// this.$Message.error('请连接kepla钱包！');
+    throw new Error("Please link kepla wallet！")
+
 	}
-	 let account = await web3.getAccounts();
-	 console.log(account)
-	 
 	//  var balance = web3.eth.getBalance("iaa1xhhf3a80n7zamu32dyku77lactynx9sgs0vvz4");
 
 	//  console.log("accountBalance -----")
 	//  console.log(balance)
 
-	 return account[0].address
 };
 export const keplrKeystoreChange = async () => {
   console.log('keplrKeystoreChange');

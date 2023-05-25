@@ -7,6 +7,8 @@
       <img src="@/assets/icon_wallet.png" alt="icon" />
     </div>
     <button class="btn" @click="connectWallet">Connect Wallet</button>
+    <uComponents ref="ucom"></uComponents>
+
   </div>
 </template>
 <script>
@@ -40,14 +42,19 @@ export default {
     async connectWallet() {
       // Iris Address
       debugger;
-      let account = await getkeplrIrisAddress();
-      this.$store.commit("SET_DID", account.toLowerCase());
+      try {
+        let account = await getkeplrIrisAddress();
+        this.$store.commit("SET_DID", account.toLowerCase());
 
-      // uptick Address
-      let uptickAccount = await getkeplrUptickAddress();
-      this.$store.commit("SET_UPTICK_DID", uptickAccount.toLowerCase());
-      if (account && uptickAccount) {
-        this.$router.push({ name: "Home" });
+        // uptick Address
+        let uptickAccount = await getkeplrUptickAddress();
+        this.$store.commit("SET_UPTICK_DID", uptickAccount.toLowerCase());
+        if (account && uptickAccount) {
+          this.$router.push({ name: "Home" });
+        }
+
+      } catch (error) {
+        this.$toast("error", error)
       }
     },
   },
@@ -60,6 +67,7 @@ export default {
     height: 200px;
     background-color: #fb599b;
     border-radius: 0px 0px 0px 45px;
+
     .title {
       text-align: center;
       font-family: "AmpleSoft-Bold" !important;
@@ -71,13 +79,16 @@ export default {
       color: #ffffff;
     }
   }
+
   .icon {
     margin-top: 50px;
+
     img {
       width: 135px;
       height: 135px;
     }
   }
+
   .btn {
     margin-top: 40px;
     width: 325px;
@@ -92,5 +103,4 @@ export default {
     letter-spacing: 0px;
     color: #ffffff;
   }
-}
-</style>
+}</style>
