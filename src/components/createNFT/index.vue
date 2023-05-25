@@ -102,8 +102,8 @@ export default {
     },
     async getMetaDataJson() {
       var metaParams = {}
-      metaParams.name = this.nameValue
-      metaParams.description = this.descriptionValue
+      metaParams.name = encodeURIComponent(this.nameValue)
+      metaParams.description =encodeURIComponent(this.descriptionValue) 
       metaParams.image = this.loadeImageUrl(this.uploadedImageHash)
       metaParams.minter = this.sender
 
