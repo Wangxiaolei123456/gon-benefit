@@ -13,7 +13,8 @@ import {
 
 const chainId = "origin_1170-1";
 const irisChainId = "gon-irishub-1";
-const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
+// const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
+const uptickUrl = "https://rpc.origin.uptick.network";
 const irisUrl = window.location.protocol+"//"+ window.location.host + "/iris";
 
 
