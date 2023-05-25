@@ -28,9 +28,8 @@
         {{ filterList[filterIndex].text }}
       </button> -->
       <button class="create ml-8" @click="Create">Create</button>
-      <!-- <button class="ml-8" @click="Reload">Reload</button> -->
-      <img src="@/assets/refresh.png" style="width: 30px; height;: 30px;" alt="" @click="Reload" />
-
+      <img src="@/assets/refresh.png" v-if="canClick" style="width: 30px; height: 30px;" alt="" @click="Reload" />
+      <div class="second" v-if="!canClick">{{ second }}</div>
       <div class="chainList" v-if="isShowChainList">
         <div class="list" v-for="(item, index) in chainList" :key="index">
           <div class="name" @click="clickChain(index)">{{ item.text }}</div>
@@ -139,6 +138,9 @@ export default {
       uptickAddress: "",
       list: [],
       selectChain: "origin_1170-1",
+      canClick: true,
+      second: 10,
+      timer: null,
     };
   },
   filters: {
@@ -249,6 +251,19 @@ export default {
       console.log("ssss", this.list);
     },
     async Reload() {
+      if (!this.canClick) {
+        return;
+      }
+      this.canClick = false;
+      this.timer = setInterval(() => {
+        this.second--;
+        if (this.second === 0) {
+          clearInterval(this.timer);
+          this.canClick = true;
+          this.second = 10;
+        }
+      }, 1000);
+
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
@@ -541,7 +556,19 @@ export default {
   color: #ffffff;
 }
 
+.second {
+  padding-top: 5px;
+  background-color: #611ecd;
+  color: #fb599b;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  text-align: center;
+  font-family: "AmpleSoft" !important;
+   font-size: 15px !important;
+
+}
+
 ::-webkit-scrollbar {
   display: none;
-}
-</style>
+}</style>
