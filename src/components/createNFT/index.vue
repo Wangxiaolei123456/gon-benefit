@@ -82,10 +82,10 @@ export default {
       this.sender = this.$store.state.UptickAddress
     }
 
-    const randomInt = new Date().getTime() % 100000 + 1;
-    this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
-    this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
-    this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
+    // const randomInt = new Date().getTime() % 100000 + 1;
+    // this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
+    // this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
+    // this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
 
     console.log(this.nameValue)
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);

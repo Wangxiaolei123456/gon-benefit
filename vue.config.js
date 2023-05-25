@@ -52,7 +52,7 @@ module.exports = defineConfig({
       },
 
       '/uptick': {
-        target: '​https://rpc.origin.uptick.network/',
+        target: 'https://rpc.origin.uptick.network/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

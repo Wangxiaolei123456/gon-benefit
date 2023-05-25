@@ -27,6 +27,7 @@
 
       <button class="CrossChain mt-8" @click="submitButton"> Submit </button>
       <uComponents ref="ucom"></uComponents>
+      <loading :isShowLoading="isShowLoading"></loading>
 
     </div>
 
@@ -39,10 +40,11 @@
 import { keplrKeystoreChange } from "../../keplr/index";
 import { uptick2Iris, iris2Uptick } from "/src/keplr/uptick/wallet"
 import { requestTranserNFT } from "/src/api/home"
+import Loading from "@/components/loading.vue";
 
 export default {
   name: "cardDetail",
-  components: {},
+  components: { Loading },
   data() {
     return {
       imgUrl: "",
@@ -50,7 +52,8 @@ export default {
       fromChain: "Uptick Network",
       fromChainIcon: require('@/assets/uptick network_icon.png'),
       toChain: "IRISnet",
-      toChainIcon: require('@/assets/irisnet_icon.png')
+      toChainIcon: require('@/assets/irisnet_icon.png'),
+      isShowLoading: false,
 
     };
   },
@@ -89,6 +92,8 @@ export default {
       let nftId = this.$route.params.nftId
       let denomId = this.$route.params.nftAddress
       console.log(this.$route.params)
+      this.isShowLoading = true
+
       try {
 
         if (this.$store.state.chainType == "origin_1170-1") {
@@ -105,12 +110,16 @@ export default {
         params.nftId = nftId
         params.status = 1
         let transferResult = await requestTranserNFT(params)
+
+        this.isShowLoading = false
+
         //链上转送完成，调用接口
         console.log(transferResult)
         this.$toast("success", "Cross Success")
         this.$router.push('/home')
       } catch (error) {
         console.log(error)
+        this.isShowLoading = false
         this.$toast("error", error.message)
       }
     }
