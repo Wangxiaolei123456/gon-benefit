@@ -256,12 +256,13 @@ export default {
         return;
       }
       this.canClick = false;
-      this.timer = setInterval(() => {
+      this.timer = setInterval(async () => {
         this.second--;
         if (this.second === 0) {
           clearInterval(this.timer);
           this.canClick = true;
           this.second = 10;
+          await this.getMyList(this.selectChain);
         }
       }, 1000);
 
@@ -274,7 +275,6 @@ export default {
       };
       let result = await updateUser(params)
       console.log(result)
-      await this.getMyList(this.selectChain);
       debugger
     },
     scrolling() {

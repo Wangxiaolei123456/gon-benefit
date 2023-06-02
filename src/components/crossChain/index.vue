@@ -9,7 +9,7 @@
       <div class="name">{{ name }}</div>
       <div class="d-flex flex-row justify-space-between align-center">
         <div class="title">Cross-chain transfer</div>
-        <img class="histroy" src="@/assets/icon_history.png" alt="">
+        <img class="histroy" src="@/assets/icon_history.png" alt="" @click="showCrossHistory" style="cursor: pointer;">
       </div>
       <div class="crosslist mt-9 d-flex flex-row align-center">
         <div class="left d-flex flex-column align-center">
@@ -62,7 +62,7 @@ export default {
 
     this.imgUrl = this.$route.params.imgUrl
     this.name = this.$route.params.name
-    
+
     if (this.$route.params.chainType == "origin_1170-1") {
       this.fromChain = "Uptick Network"
       this.fromChainIcon = require('@/assets/uptick network_icon.png')
@@ -81,6 +81,11 @@ export default {
 
   },
   methods: {
+    showCrossHistory() {
+      let nftId = this.$route.params.nftId
+      let url = "http://nftland.org/?NFTID=" + nftId
+      window.open(url, '_blank')
+    },
     keplrKeystoreChange() {
       keplrKeystoreChange();
     },

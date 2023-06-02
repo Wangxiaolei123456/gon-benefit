@@ -66,14 +66,11 @@ export default {
     }
   },
   created() {
-
-
     console.log(this.$store.state.IrisAddress)//IrisAddress
     console.log(this.$store.state.UptickAddress)//UptickAddress
     console.log(this.$store.state.chainType)//chainType
-
     this.chainType = this.$store.state.chainType
-  
+
     if (this.chainType == "gon-irishub-1") {
       this.sender = this.$store.state.IrisAddress
     }
