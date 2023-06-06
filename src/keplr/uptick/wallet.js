@@ -36,7 +36,7 @@ export async function convertCosmosNFT2ERC(typeUrl, classId, nftId, sender, rece
         value: [
             classId, nftId, receiver, sender, contractAddress, tokenId]
     }
-    const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
+    const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "");
     if (result.code == 0) {
         alert("successful ! ");
         const logInfo = JSON.parse(result.rawLog)
@@ -67,7 +67,7 @@ export async function convertERC2CosmosNFT(typeUrl, classId, nftId, sender, rece
             tokenId, receiver, sender, classId, nftId]
     }
 
-    const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
+    const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "");
     if (result.code == 0) {
         alert("successful ! ");
         const logInfo = JSON.parse(result.rawLog)
@@ -110,7 +110,7 @@ export async function iris2Uptick(denomId, nftId) {
 
         console.log(msg);
 
-        const result = await sendMsgsTx(irisAccount.bech32Address, [msg], 1000000, "0x1234", true);
+        const result = await sendMsgsTx(irisAccount.bech32Address, [msg], 1000000, "", true);
         console.log(result)
         if (result.code == 0) {
             // alert("successful ! ");
@@ -158,7 +158,7 @@ export async function uptick2Iris(denomId, nftId) {
                 "uptick to iris"
             ]
         }
-        const result = await sendMsgsTx(uptickAccount.bech32Address, [msg], 1000000, "0x1234");
+        const result = await sendMsgsTx(uptickAccount.bech32Address, [msg], 1000000, "");
         console.log(result)
         if (result.code == 0) {
             // alert("successful ! ");
@@ -188,7 +188,7 @@ export async function uptickTransfer(id, denomId, name, recipient) {
             ]
         }
         debugger
-        const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
+        const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "");
         console.log(result)
         if (result.code == 0) {
             // alert("successful ! ");
@@ -317,7 +317,7 @@ export async function issueUptickDenomAndMint(
 
     console.log("xxl --- msgs");
     console.log(msgs);
-    const result = await sendMsgsTx(accountInfo.bech32Address, msgs, 1000000, "0x1234");
+    const result = await sendMsgsTx(accountInfo.bech32Address, msgs, 1000000, "");
 
     //code 0代表成功 不用查询
     if (result.code == 0) {
