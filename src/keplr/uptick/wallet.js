@@ -12,7 +12,7 @@ import {
 } from "../../utils/helper";
 
 const chainId = "origin_1170-1";
-const irisChainId = "gon-irishub-1";
+const irisChainId = "nyancat-9";
 // const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
 const uptickUrl = "https://rpc.origin.uptick.network";
 const irisUrl = window.location.protocol+"//"+ window.location.host + "/iris";
@@ -238,7 +238,7 @@ async function sendMsgsTx(address, msgs, amount, data, isIris = false) {
     } else {
         fee = {
             amount: [{
-                denom: 'uiris',
+                denom: 'unyan',
                 amount: amount,
             }],
             gas: '10000000',

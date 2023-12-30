@@ -22,7 +22,7 @@ export default {
   name: "receiveCode",
   data() {
     return {
-      chainType: "gon-irishub-1",
+      chainType: "nyancat-9",
       address: ""
     };
   },
@@ -31,7 +31,7 @@ export default {
 
     this.chainType = this.$store.state.chainType
 
-    if (this.chainType == "gon-irishub-1") {
+    if (this.chainType == "nyancat-9") {
       this.generateQRCode(this.$store.state.IrisAddress);
       this.address = this.$store.state.IrisAddress
     }
@@ -48,7 +48,7 @@ export default {
     },
     copyAddress() {
       var input = document.createElement("input");
-      if (this.chainType == "gon-irishub-1") {
+      if (this.chainType == "nyancat-9") {
         input.value = this.$store.state.IrisAddress
       }
 

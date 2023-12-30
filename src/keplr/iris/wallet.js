@@ -11,9 +11,9 @@ import {
 
 //构建 iris-sdk 配置
 let config = {
-	node: "https://rpc-gon-irishub.omniflix.io",
+	node: "https://rpc.nyancat.rainbow.one",
 	chainNetwork: "https://api-gon-irishub.omniflix.io",
-	chainId: "gon-irishub-1",
+	chainId: "nyancat-9",
 	//gas: process.env.VUE_APP_IRIS_BASE_GAS,
 	gas: '250000',
 	fee: {

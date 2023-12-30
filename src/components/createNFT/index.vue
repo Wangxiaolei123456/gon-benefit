@@ -71,7 +71,7 @@ export default {
     console.log(this.$store.state.chainType)//chainType
     this.chainType = this.$store.state.chainType
 
-    if (this.chainType == "gon-irishub-1") {
+    if (this.chainType == "nyancat-9") {
       this.sender = this.$store.state.IrisAddress
     }
 
@@ -164,7 +164,7 @@ export default {
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
         let txResult;
-        if (this.chainType == "gon-irishub-1") {
+        if (this.chainType == "nyancat-9") {
           txResult = await issueDenomAndMint(
             name,
             sender,

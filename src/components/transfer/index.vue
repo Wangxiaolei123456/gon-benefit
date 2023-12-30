@@ -84,7 +84,7 @@ export default {
         this.requestUptickTransfer(nftId, denomId, name, recipient)
       }
 
-      if (this.$store.state.chainType == "gon-irishub-1") {
+      if (this.$store.state.chainType == "nyancat-9") {
         if (!recipient.startsWith("iaa")) {
           this.$toast("error", 'Address Format Error')
           return

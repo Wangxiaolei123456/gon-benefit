@@ -71,7 +71,7 @@ export default {
       this.toChainIcon = require('@/assets/irisnet_icon.png')
     }
 
-    if (this.$route.params.chainType == "gon-irishub-1") {
+    if (this.$route.params.chainType == "nyancat-9") {
       this.fromChain = "IRISnet"
       this.fromChainIcon = require('@/assets/irisnet_icon.png')
 
@@ -105,7 +105,7 @@ export default {
           await uptick2Iris(denomId, nftId)
         }
 
-        if (this.$store.state.chainType == "gon-irishub-1") {
+        if (this.$store.state.chainType == "nyancat-9") {
           await iris2Uptick(denomId, nftId)
         }
 

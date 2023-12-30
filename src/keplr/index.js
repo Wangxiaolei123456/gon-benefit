@@ -14,9 +14,9 @@ import { getIirsAccoutInfo } from "./iris/wallet";
                 // If the user rejects it or the suggested chain information doesn't include the required fields, it will throw an error.
                 // If the same chain id is already registered, it will resolve and not require the user interactions.
                 await window.keplr.experimentalSuggestChain({
-                  "chainId": "gon-irishub-1",
+                  "chainId": "nyancat-9",
                   "chainName": "Irishub GON",
-                  "rpc": "https://rpc-gon-irishub.omniflix.io",
+                  "rpc": "https://rpc.nyancat.rainbow.one",
                   "rest": "https://api-gon-irishub.omniflix.io",
                   "stakeCurrency": {
                     "coinDenom": "IRIS",
@@ -155,7 +155,7 @@ export const getkeplrIrisAddress = async () => {
 	if (window.keplr) {
 		// Modern dapp browsers
 		try {
-			const chainId = "gon-irishub-1";
+			const chainId = "nyancat-9";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 

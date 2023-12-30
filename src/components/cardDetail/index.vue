@@ -49,7 +49,7 @@ export default {
       this.chainIcon = require('@/assets/uptick network_icon.png')
     }
 
-    if (this.$store.state.chainType == "gon-irishub-1") {
+    if (this.$store.state.chainType == "nyancat-9") {
       this.chainIcon = require('@/assets/irisnet_icon.png')
     }
   },

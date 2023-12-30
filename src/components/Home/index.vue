@@ -110,7 +110,7 @@ export default {
         {
           text: "IRISnet",
           id: 1,
-          chianId: "gon-irishub-1",
+          chianId: "nyancat-9",
         },
       ],
       filterList: [
@@ -171,8 +171,8 @@ export default {
         localStorage.setItem("userInfo", JSON.stringify(uptickAccountInfo));
       }
 
-      if (this.$store.state.chainType == "gon-irishub-1") {
-        this.selectChain = "gon-irishub-1";
+      if (this.$store.state.chainType == "nyancat-9") {
+        this.selectChain = "nyancat-9";
         this.userName = irisAccountInfo.name;
         this.userAddress = irisAccountInfo.address;
         localStorage.setItem("userInfo", JSON.stringify(irisAccountInfo));
@@ -322,7 +322,7 @@ export default {
         this.userAddress = this.$store.state.UptickAddress
       }
 
-      if (this.selectChain == "gon-irishub-1") {
+      if (this.selectChain == "nyancat-9") {
         this.userAddress = this.$store.state.IrisAddress
       }
 
