@@ -43,7 +43,7 @@ module.exports = defineConfig({
         }
       },
       '/gonapi': {
-        target: 'http://192.168.111.223:3000/api',
+        target: 'http://127.0.0.1:3000/api',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
@@ -52,7 +52,7 @@ module.exports = defineConfig({
       },
 
       '/uptick': {
-        target: 'https://rpc.origin.uptick.network/',
+        target: 'http://13.212.88.15:26657/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

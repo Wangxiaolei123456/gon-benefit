@@ -45,7 +45,7 @@ export default {
     this.cardDetail();
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
 
-    if (this.$store.state.chainType == "origin_1170-1") {
+    if (this.$store.state.chainType == "origin_1170-2") {
       this.chainIcon = require('@/assets/uptick network_icon.png')
     }
 

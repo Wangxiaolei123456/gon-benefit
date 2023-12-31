@@ -11,10 +11,10 @@ import {
     getRanHex
 } from "../../utils/helper";
 
-const chainId = "origin_1170-1";
+const chainId = "origin_1170-2";
 const irisChainId = "nyancat-9";
-// const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
-const uptickUrl = "https://rpc.origin.uptick.network";
+const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
+// const uptickUrl = "http://13.212.88.15:26657";
 const irisUrl = window.location.protocol+"//"+ window.location.host + "/iris";
 
 
@@ -202,7 +202,7 @@ export async function uptickTransfer(id, denomId, name, recipient) {
 }
 
 
-export async function getAccountInfo(pChainId = "origin_1170-1") {
+export async function getAccountInfo(pChainId = "origin_1170-2") {
 
     console.log("xxl getAccountInfo ", pChainId);
     try {

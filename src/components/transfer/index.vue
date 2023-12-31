@@ -76,7 +76,7 @@ export default {
       let name = this.$route.params.name
       let recipient = this.inputNameText
       console.log(this.$route.params)
-      if (this.$store.state.chainType == "origin_1170-1") {
+      if (this.$store.state.chainType == "origin_1170-2") {
         if (!recipient.startsWith("uptick")) {
           this.$toast("error", 'Address Format Error')
           return

@@ -84,61 +84,69 @@ if (!window.getOfflineSigner || !window.keplr) {
            // If the user approves, the chain will be added to the user's Keplr extension.
            // If the user rejects it or the suggested chain information doesn't include the required fields, it will throw an error.
            // If the same chain id is already registered, it will resolve and not require the user interactions.
-           await window.keplr.experimentalSuggestChain({
-            "chainId": "origin_1170-1",
-            "chainName": "Uptick Origin",
-            "rpc": "https://rpc.origin.uptick.network",
-            "rest": "https://rest.origin.uptick.network",
-            "stakeCurrency": {
-              "coinDenom": "UOC",
-              "coinMinimalDenom": "auoc",
-              "coinDecimals": 18,
-              "coinGeckoId": "unknown"
-            },
-            "bip44": {
-              "coinType": 60
-            },
-            "bech32Config": {
-              "bech32PrefixAccAddr": "uptick",
-              "bech32PrefixAccPub": "uptickpub",
-              "bech32PrefixValAddr": "uptickvaloper",
-              "bech32PrefixValPub": "uptickvaloperpub",
-              "bech32PrefixConsAddr": "uptickvalcons",
-              "bech32PrefixConsPub": "uptickvalconspub"
-            },
-            "currencies": [
-              {
-                "coinDenom": "UOC",
-                "coinMinimalDenom": "auoc",
-                "coinDecimals": 18,
-                "coinGeckoId": "unknown"
-              }
-            ],
-            "feeCurrencies": [
-              {
-                "coinDenom": "UOC",
-                "coinMinimalDenom": "auoc",
-                "coinDecimals": 18,
-                "coinGeckoId": "unknown",
-                "gasPriceStep": {
-                  "low": 20000000000,
-                  "average": 25000000000,
-                  "high": 40000000000
-                }
-              }
-            ],
-            "coinType": 60,
-            "features": [
-              "ibc-transfer",
-              "ibc-go",
-              "eth-address-gen",
-              "eth-key-sign"
-            ],
-            "beta": true
-     
- 
-   
-           });
+		   console.log("process.env.VUE_APP_UPTICK_CHAIN_ID",process.env.VUE_APP_UPTICK_CHAIN_ID,process.env.VUE_APP_UPTICK_CHAIN_NAME,process.env.VUE_APP_UPTICK_RPC,process.env.VUE_APP_UPTICK_REST)
+		   await window.keplr.experimentalSuggestChain({
+		       // Chain-id of the Osmosis chain.
+		       chainId: process.env.VUE_APP_UPTICK_CHAIN_ID,
+		       // # UPTICK环境
+		           
+		   
+		       // The name of the chain to be displayed to the user.
+		       chainName:  process.env.VUE_APP_UPTICK_CHAIN_NAME,
+		       // RPC endpoint of the chain. In this case we are using blockapsis, as it's accepts connections from any host currently. No Cors limitations.
+		       rpc: process.env.VUE_APP_UPTICK_RPC,
+		       // REST endpoint of the chain.
+		       rest: process.env.VUE_APP_UPTICK_REST,
+		       // Staking coin information
+		       stakeCurrency: {
+		           coinDenom: "UOC",
+		           coinMinimalDenom: "auoc",
+		           coinDecimals: 18,
+		   
+		       },
+		   
+		       bip44: {
+		       
+		           coinType: 60,
+		       },
+		      
+		       bech32Config: {
+		           bech32PrefixAccAddr: "uptick",
+		           bech32PrefixAccPub: "uptickpub",
+		           bech32PrefixValAddr: "uptickvaloper",
+		           bech32PrefixValPub: "uptickvaloperpub",
+		           bech32PrefixConsAddr: "uptickvalcons",
+		           bech32PrefixConsPub: "uptickvalconspub",
+		       },
+		       currencies: [
+		           {
+		               coinDenom: "UOC",
+		               coinMinimalDenom: "auoc",
+		               coinDecimals: 18,
+		           },
+		       ],
+		       // List of coin/tokens used as a fee token in this chain.
+		       feeCurrencies: [
+		           {
+		               coinDenom: "UOC",
+		               coinMinimalDenom: "auoc",
+		               coinDecimals: 18,
+		           },
+		       ],
+		     
+		       coinType: 60,
+		      
+		       gasPriceStep: {
+		         low: 1 * 100000000000,
+		         average: 2 * 100000000000,
+		         high: 4 * 100000000000,
+		       },
+		       
+		               
+		                 
+		       features:['ibc-transfer','ibc-go', 'eth-address-gen', 'eth-key-sign']
+		   });
+		   
 
            // location.reload();
        } catch {
@@ -181,7 +189,7 @@ export const getkeplrUptickAddress = async () => {
 		// Modern dapp browsers
 		try {
 
-			const chainId = "origin_1170-1";
+			const chainId = "origin_1170-2";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 
