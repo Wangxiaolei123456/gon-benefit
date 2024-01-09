@@ -97,7 +97,7 @@ export async function iris2Uptick(denomId, nftId) {
             typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
             value: [
                 "nft-transfer",
-                "channel-68",
+                "channel-106",
                 denomId,
                 [nftId],
                 irisAccount.bech32Address,
@@ -148,7 +148,7 @@ export async function uptick2Iris(denomId, nftId) {
             typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
             value: [
                 "nft-transfer",
-                "channel-0",
+                "channel-16",
                 denomId,
                 [nftId],
                 uptickAccount.bech32Address,
