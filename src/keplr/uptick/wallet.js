@@ -11,7 +11,7 @@ import {
     getRanHex
 } from "../../utils/helper";
 
-const chainId = "origin_1170-2";
+const chainId = "origin_1170-3";
 const irisChainId = "nyancat-9";
 const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
 // const uptickUrl = "http://13.212.88.15:26657";
@@ -97,7 +97,7 @@ export async function iris2Uptick(denomId, nftId) {
             typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
             value: [
                 "nft-transfer",
-                "channel-127",
+                "channel-134",
                 denomId,
                 [nftId],
                 irisAccount.bech32Address,
@@ -148,14 +148,14 @@ export async function uptick2Iris(denomId, nftId) {
             typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
             value: [
                 "nft-transfer",
-                "channel-2",
+                "channel-1",
                 denomId,
                 [nftId],
                 uptickAccount.bech32Address,
                 irisAccount.bech32Address,
                 [0, 0],
                 timespan,
-                "uptick to iris"
+                ""
             ]
         }
         const result = await sendMsgsTx(uptickAccount.bech32Address, [msg], 1000000, "");
@@ -202,7 +202,7 @@ export async function uptickTransfer(id, denomId, name, recipient) {
 }
 
 
-export async function getAccountInfo(pChainId = "origin_1170-2") {
+export async function getAccountInfo(pChainId = "origin_1170-3") {
 
     console.log("xxl getAccountInfo ", pChainId);
     try {
@@ -294,11 +294,12 @@ export async function issueUptickDenomAndMint(
         value
     }
     msgs.push(msg);
-
+console.log("zxx=====297")
     let nftIds = []
     for (var i = 0; i < amount; i++) {
 
         let nftID = getNftId();
+		console.log("nftID",nftID);
         nftIds.push(nftID)
         msg = {
             typeUrl: "/uptick.collection.v1.MsgMintNFT",

@@ -105,7 +105,7 @@ export default {
         {
           text: "Uptick Network",
           id: 0,
-          chianId: "origin_1170-2",
+          chianId: "origin_1170-3",
         },
         {
           text: "IRISnet",
@@ -137,7 +137,7 @@ export default {
       irisAddress: "",
       uptickAddress: "",
       list: [],
-      selectChain: "origin_1170-2",
+      selectChain: "origin_1170-3",
       canClick: true,
       second: 10,
       timer: null,
@@ -164,8 +164,8 @@ export default {
     if (!this.$store.state.chainType) {
       this.$store.commit("SET_CHAIN", this.chainList[0].chianId);
     } else {
-      if (this.$store.state.chainType == "origin_1170-2") {
-        this.selectChain = "origin_1170-2";
+      if (this.$store.state.chainType == "origin_1170-3") {
+        this.selectChain = "origin_1170-3";
         this.userName = uptickAccountInfo.name;
         this.userAddress = uptickAccountInfo.bech32Address;
         localStorage.setItem("userInfo", JSON.stringify(uptickAccountInfo));
@@ -236,7 +236,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-          selectChain == "origin_1170-2"
+          selectChain == "origin_1170-3"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
         chainType: this.selectChain,
@@ -269,7 +269,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-          this.selectChain == "origin_1170-2"
+          this.selectChain == "origin_1170-3"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
       };
@@ -318,7 +318,7 @@ export default {
       localStorage.setItem("setChain", this.chainList[index].chianId);
       this.selectChain = this.chainList[index].chianId;
 
-      if (this.selectChain == "origin_1170-2") {
+      if (this.selectChain == "origin_1170-3") {
         this.userAddress = this.$store.state.UptickAddress
       }
 

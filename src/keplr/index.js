@@ -189,7 +189,7 @@ export const getkeplrUptickAddress = async () => {
 		// Modern dapp browsers
 		try {
 
-			const chainId = "origin_1170-2";
+			const chainId = "origin_1170-3";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 

@@ -63,7 +63,7 @@ export default {
     this.imgUrl = this.$route.params.imgUrl
     this.name = this.$route.params.name
 
-    if (this.$route.params.chainType == "origin_1170-2") {
+    if (this.$route.params.chainType == "origin_1170-3") {
       this.fromChain = "Uptick Network"
       this.fromChainIcon = require('@/assets/uptick network_icon.png')
 
@@ -101,7 +101,7 @@ export default {
 
       try {
 
-        if (this.$store.state.chainType == "origin_1170-2") {
+        if (this.$store.state.chainType == "origin_1170-3") {
           await uptick2Iris(denomId, nftId)
         }
 
