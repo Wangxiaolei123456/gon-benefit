@@ -133,21 +133,6 @@ export default {
     },
     async submitButton() {
 
-      // let tokenIdsList =[]
-      // let typeUrl =  "/ibc.applications.nft_transfer.v1.MsgTransfer"
-      // let port =  'nft-transfer'
-      // let channel =  'channel-7'
-
-      // let classId =  'uptick932020a1e33fd792cb22e0a9a7c2315e'
-      // let nftId =  'uptick52bb4fce161e6c2e'
-      // let sender =  'uptick1e7v3fn2yxxlzpmlgy9232neykpe57gzupas6z6'
-      // let receiver =  'iaa1wxl44399uppwd5uc6rrgz07plzs9atv8fxt7qr'
-      // let memo =  'uptick to iris'
-      // tokenIdsList.push(nftId)
-
-      // await uptick2Iris(typeUrl,port,channel,classId,tokenIdsList,sender,receiver,memo);   
-      // console.log("xxl uptick2Iris 02");
-
 
       try {
         console.log(this.nameValue)

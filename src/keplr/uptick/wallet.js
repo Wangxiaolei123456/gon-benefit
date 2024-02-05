@@ -92,12 +92,12 @@ export async function iris2Uptick(denomId, nftId) {
         console.log("iris2Uptick uptickAddress ", uptickAccount.bech32Address);
         console.log("iris2Uptick irisAddress ", irisAccount.bech32Address);
 
-        let timespan = (Date.now() + 60000) * 1000000;
+        let timespan = (Date.now() + 600000) * 1000000;
         let msg = {
             typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
             value: [
                 "nft-transfer",
-                "channel-134",
+                "channel-139",
                 denomId,
                 [nftId],
                 irisAccount.bech32Address,
@@ -143,7 +143,7 @@ export async function uptick2Iris(denomId, nftId) {
         // timeoutHeight: (f = msg.getTimeoutHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f),
         // timeoutTimestamp: jspb.Message.getFieldWithDefault(msg, 8, 0),
         // memo: jspb.Message.getFieldWithDefault(msg, 9, ""
-        let timespan = (Date.now() + 60000) * 1000000;
+        let timespan = (Date.now() + 600000) * 1000000;
         let msg = {
             typeUrl: "/ibc.applications.nft_transfer.v1.MsgTransfer",
             value: [

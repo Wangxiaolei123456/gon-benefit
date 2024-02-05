@@ -12,7 +12,7 @@ import {
 //构建 iris-sdk 配置
 let config = {
 	node: "https://rpc.nyancat.rainbow.one",
-	chainNetwork: "https://api-gon-irishub.omniflix.io",
+	chainNetwork: "https://grpc.nyancat.rainbow.one",
 	chainId: "nyancat-9",
 	//gas: process.env.VUE_APP_IRIS_BASE_GAS,
 	gas: '250000',
@@ -109,7 +109,6 @@ export async function issueDenomAndMint(
 		msgs = addSendMsg(msgs, accountInfo.bech32Address, adminAddress, fee);
 	}
 	let txInfo = await signAndBroadcastTx(accountInfo, msgs);
-	console.log("https://gon.ping.pub/iris/tx/" + txInfo.hash)
 
 	await waitForTxConfirmation(txInfo.hash);
 

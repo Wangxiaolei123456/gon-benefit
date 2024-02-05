@@ -17,10 +17,10 @@ import { getIirsAccoutInfo } from "./iris/wallet";
                   "chainId": "nyancat-9",
                   "chainName": "Irishub GON",
                   "rpc": "https://rpc.nyancat.rainbow.one",
-                  "rest": "https://api-gon-irishub.omniflix.io",
+                  "rest": "https://grpc.nyancat.rainbow.one",
                   "stakeCurrency": {
-                    "coinDenom": "IRIS",
-                    "coinMinimalDenom": "uiris",
+                    "coinDenom": "NYAN",
+                    "coinMinimalDenom": "unyan",
                     "coinDecimals": 6
                   },
                   "bip44": {
@@ -36,15 +36,15 @@ import { getIirsAccoutInfo } from "./iris/wallet";
                   },
                   "currencies": [
                     {
-                      "coinDenom": "IRIS",
-                      "coinMinimalDenom": "uiris",
+                      "coinDenom": "NYAN",
+                      "coinMinimalDenom": "unyan",
                       "coinDecimals": 6
                     }
                   ],
                       "feeCurrencies": [
                         {
-                          "coinDenom": "IRIS",
-                            "coinMinimalDenom": "uiris",
+                          "coinDenom": "NYAN",
+                            "coinMinimalDenom": "unyan",
                             "coinDecimals": 6,
                             "gasPriceStep": {
                               "low": 0.01,
@@ -99,7 +99,7 @@ if (!window.getOfflineSigner || !window.keplr) {
 		       rest: process.env.VUE_APP_UPTICK_REST,
 		       // Staking coin information
 		       stakeCurrency: {
-		           coinDenom: "UOC",
+		           coinDenom: "UPTICK",
 		           coinMinimalDenom: "auoc",
 		           coinDecimals: 18,
 		   
@@ -120,7 +120,7 @@ if (!window.getOfflineSigner || !window.keplr) {
 		       },
 		       currencies: [
 		           {
-		               coinDenom: "UOC",
+		               coinDenom: "UPTICK",
 		               coinMinimalDenom: "auoc",
 		               coinDecimals: 18,
 		           },
@@ -128,7 +128,7 @@ if (!window.getOfflineSigner || !window.keplr) {
 		       // List of coin/tokens used as a fee token in this chain.
 		       feeCurrencies: [
 		           {
-		               coinDenom: "UOC",
+		               coinDenom: "UPTICK",
 		               coinMinimalDenom: "auoc",
 		               coinDecimals: 18,
 		           },
