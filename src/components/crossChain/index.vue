@@ -63,7 +63,7 @@ export default {
     this.imgUrl = this.$route.params.imgUrl
     this.name = this.$route.params.name
 
-    if (this.$route.params.chainType == "origin_1170-3") {
+    if (this.$route.params.chainType == "uptick_117-1") {
       this.fromChain = "Uptick Network"
       this.fromChainIcon = require('@/assets/uptick network_icon.png')
 
@@ -71,7 +71,7 @@ export default {
       this.toChainIcon = require('@/assets/irisnet_icon.png')
     }
 
-    if (this.$route.params.chainType == "nyancat-9") {
+    if (this.$route.params.chainType == "irishub-1") {
       this.fromChain = "IRISnet"
       this.fromChainIcon = require('@/assets/irisnet_icon.png')
 
@@ -101,11 +101,11 @@ export default {
 
       try {
 
-        if (this.$store.state.chainType == "origin_1170-3") {
+        if (this.$store.state.chainType == "uptick_117-1") {
           await uptick2Iris(denomId, nftId)
         }
 
-        if (this.$store.state.chainType == "nyancat-9") {
+        if (this.$store.state.chainType == "irishub-1") {
           await iris2Uptick(denomId, nftId)
         }
 

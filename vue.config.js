@@ -52,7 +52,7 @@ module.exports = defineConfig({
       },
 
       '/uptick': {
-        target: 'https://rpc.origin-3.uptick.network/',
+        target: 'https://rpc.uptick.network/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
@@ -60,7 +60,7 @@ module.exports = defineConfig({
         }
       },
       '/iris': {
-        target: 'https://rpc.nyancat.rainbow.one/',
+        target: 'https://node.irishub-1.upticknft.com/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

@@ -14,13 +14,13 @@ import { getIirsAccoutInfo } from "./iris/wallet";
                 // If the user rejects it or the suggested chain information doesn't include the required fields, it will throw an error.
                 // If the same chain id is already registered, it will resolve and not require the user interactions.
                 await window.keplr.experimentalSuggestChain({
-                  "chainId": "nyancat-9",
-                  "chainName": "Irishub GON",
-                  "rpc": "https://rpc.nyancat.rainbow.one",
-                  "rest": "https://grpc.nyancat.rainbow.one",
+                  "chainId": "irishub-1",
+                  "chainName": "IRISnet",
+                  "rpc": "https://node.irishub-1.upticknft.com",
+                  "rest": "https://rest.uptick.network",
                   "stakeCurrency": {
-                    "coinDenom": "NYAN",
-                    "coinMinimalDenom": "unyan",
+                    "coinDenom": "IRIS",
+                    "coinMinimalDenom": "uiris",
                     "coinDecimals": 6
                   },
                   "bip44": {
@@ -36,15 +36,15 @@ import { getIirsAccoutInfo } from "./iris/wallet";
                   },
                   "currencies": [
                     {
-                      "coinDenom": "NYAN",
-                      "coinMinimalDenom": "unyan",
+                      "coinDenom": "IRIS",
+                      "coinMinimalDenom": "uiris",
                       "coinDecimals": 6
                     }
                   ],
                       "feeCurrencies": [
                         {
-                          "coinDenom": "NYAN",
-                            "coinMinimalDenom": "unyan",
+                          "coinDenom": "IRIS",
+                            "coinMinimalDenom": "uiris",
                             "coinDecimals": 6,
                             "gasPriceStep": {
                               "low": 0.01,
@@ -163,7 +163,7 @@ export const getkeplrIrisAddress = async () => {
 	if (window.keplr) {
 		// Modern dapp browsers
 		try {
-			const chainId = "nyancat-9";
+			const chainId = "irishub-1";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 
@@ -189,7 +189,7 @@ export const getkeplrUptickAddress = async () => {
 		// Modern dapp browsers
 		try {
 
-			const chainId = "origin_1170-3";
+			const chainId = "uptick_117-1";
 			await window.keplr.enable(chainId);
 			web3 = await window.getOfflineSigner(chainId);
 

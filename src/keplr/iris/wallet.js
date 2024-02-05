@@ -11,9 +11,9 @@ import {
 
 //构建 iris-sdk 配置
 let config = {
-	node: "https://rpc.nyancat.rainbow.one",
-	chainNetwork: "https://grpc.nyancat.rainbow.one",
-	chainId: "nyancat-9",
+	node: "https://node.irishub-1.upticknft.com",
+	chainNetwork: "https://rest.uptick.network",
+	chainId: "irishub-1",
 	//gas: process.env.VUE_APP_IRIS_BASE_GAS,
 	gas: '250000',
 	fee: {

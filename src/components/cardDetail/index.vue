@@ -45,11 +45,11 @@ export default {
     this.cardDetail();
     window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
 
-    if (this.$store.state.chainType == "origin_1170-3") {
+    if (this.$store.state.chainType == "uptick_117-1") {
       this.chainIcon = require('@/assets/uptick network_icon.png')
     }
 
-    if (this.$store.state.chainType == "nyancat-9") {
+    if (this.$store.state.chainType == "irishub-1") {
       this.chainIcon = require('@/assets/irisnet_icon.png')
     }
   },

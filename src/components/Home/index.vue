@@ -105,12 +105,12 @@ export default {
         {
           text: "Uptick Network",
           id: 0,
-          chianId: "origin_1170-3",
+          chianId: "uptick_117-1",
         },
         {
           text: "IRISnet",
           id: 1,
-          chianId: "nyancat-9",
+          chianId: "irishub-1",
         },
       ],
       filterList: [
@@ -137,7 +137,7 @@ export default {
       irisAddress: "",
       uptickAddress: "",
       list: [],
-      selectChain: "origin_1170-3",
+      selectChain: "uptick_117-1",
       canClick: true,
       second: 10,
       timer: null,
@@ -164,15 +164,15 @@ export default {
     if (!this.$store.state.chainType) {
       this.$store.commit("SET_CHAIN", this.chainList[0].chianId);
     } else {
-      if (this.$store.state.chainType == "origin_1170-3") {
-        this.selectChain = "origin_1170-3";
+      if (this.$store.state.chainType == "uptick_117-1") {
+        this.selectChain = "uptick_117-1";
         this.userName = uptickAccountInfo.name;
         this.userAddress = uptickAccountInfo.bech32Address;
         localStorage.setItem("userInfo", JSON.stringify(uptickAccountInfo));
       }
 
-      if (this.$store.state.chainType == "nyancat-9") {
-        this.selectChain = "nyancat-9";
+      if (this.$store.state.chainType == "irishub-1") {
+        this.selectChain = "irishub-1";
         this.userName = irisAccountInfo.name;
         this.userAddress = irisAccountInfo.address;
         localStorage.setItem("userInfo", JSON.stringify(irisAccountInfo));
@@ -236,7 +236,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-          selectChain == "origin_1170-3"
+          selectChain == "uptick_117-1"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
         chainType: this.selectChain,
@@ -269,7 +269,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-          this.selectChain == "origin_1170-3"
+          this.selectChain == "uptick_117-1"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
       };
@@ -318,11 +318,11 @@ export default {
       localStorage.setItem("setChain", this.chainList[index].chianId);
       this.selectChain = this.chainList[index].chianId;
 
-      if (this.selectChain == "origin_1170-3") {
+      if (this.selectChain == "uptick_117-1") {
         this.userAddress = this.$store.state.UptickAddress
       }
 
-      if (this.selectChain == "nyancat-9") {
+      if (this.selectChain == "irishub-1") {
         this.userAddress = this.$store.state.IrisAddress
       }
 

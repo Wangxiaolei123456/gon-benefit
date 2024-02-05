@@ -11,8 +11,8 @@ import {
     getRanHex
 } from "../../utils/helper";
 
-const chainId = "origin_1170-3";
-const irisChainId = "nyancat-9";
+const chainId = "uptick_117-1";
+const irisChainId = "irishub-1";
 const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
 // const uptickUrl = "http://13.212.88.15:26657";
 const irisUrl = window.location.protocol+"//"+ window.location.host + "/iris";
@@ -202,7 +202,7 @@ export async function uptickTransfer(id, denomId, name, recipient) {
 }
 
 
-export async function getAccountInfo(pChainId = "origin_1170-3") {
+export async function getAccountInfo(pChainId = "uptick_117-1") {
 
     console.log("xxl getAccountInfo ", pChainId);
     try {
@@ -238,7 +238,7 @@ async function sendMsgsTx(address, msgs, amount, data, isIris = false) {
     } else {
         fee = {
             amount: [{
-                denom: 'unyan',
+                denom: 'uiris',
                 amount: amount,
             }],
             gas: '10000000',

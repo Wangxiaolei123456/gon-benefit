@@ -22,7 +22,7 @@ export default {
   name: "receiveCode",
   data() {
     return {
-      chainType: "nyancat-9",
+      chainType: "irishub-1",
       address: ""
     };
   },
@@ -31,12 +31,12 @@ export default {
 
     this.chainType = this.$store.state.chainType
 
-    if (this.chainType == "nyancat-9") {
+    if (this.chainType == "irishub-1") {
       this.generateQRCode(this.$store.state.IrisAddress);
       this.address = this.$store.state.IrisAddress
     }
 
-    if (this.chainType == "origin_1170-3") {
+    if (this.chainType == "uptick_117-1") {
       this.generateQRCode(this.$store.state.UptickAddress);
       this.address = this.$store.state.UptickAddress
     }
@@ -48,11 +48,11 @@ export default {
     },
     copyAddress() {
       var input = document.createElement("input");
-      if (this.chainType == "nyancat-9") {
+      if (this.chainType == "irishub-1") {
         input.value = this.$store.state.IrisAddress
       }
 
-      if (this.chainType == "origin_1170-3") {
+      if (this.chainType == "uptick_117-1") {
         input.value = this.$store.state.UptickAddress
       }
       document.body.appendChild(input);

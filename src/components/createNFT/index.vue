@@ -71,11 +71,11 @@ export default {
     console.log(this.$store.state.chainType)//chainType
     this.chainType = this.$store.state.chainType
 
-    if (this.chainType == "nyancat-9") {
+    if (this.chainType == "irishub-1") {
       this.sender = this.$store.state.IrisAddress
     }
 
-    if (this.chainType == "origin_1170-3") {
+    if (this.chainType == "uptick_117-1") {
       this.sender = this.$store.state.UptickAddress
     }
 
@@ -149,7 +149,7 @@ export default {
         console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
         let txResult;
-        if (this.chainType == "nyancat-9") {
+        if (this.chainType == "irishub-1") {
           txResult = await issueDenomAndMint(
             name,
             sender,
@@ -160,7 +160,7 @@ export default {
           );
           console.log(txResult)
         }
-        if (this.chainType == "origin_1170-3") {
+        if (this.chainType == "uptick_117-1") {
           txResult = await issueUptickDenomAndMint(
             name,
             sender,
